@@ -1,0 +1,51 @@
+[
+  {
+    "title": "工作台",
+    "path": "/work",
+    "children": []
+  },{
+  "title": "借贷管理",
+  "path": "/debitManage",
+  "children": [
+    {
+      "title": "新增借款",
+      "path": "/",
+      "children": []
+    },{
+      "title": "信标维护",
+      "path": "/",
+      "children": []
+    },{
+      "title": "借款审核",
+      "path": "/debitCon",
+      "children": [
+        {
+          "title": "借款审核详情",
+          "path": "/debitConDetail",
+          "children": []
+        }
+      ]
+    },{
+      "title": "标的上架",
+      "path": "/",
+      "children": []
+    }
+  ]
+},{
+  "title": "还款管理",
+  "path": "/",
+  "children": []
+},{
+  "title": "资金管理",
+  "path": "/",
+  "children": []
+},{
+  "title": "会员管理",
+  "path": "/",
+  "children": []
+},{
+  "title": "内容管理",
+  "path": "/",
+  "children": []
+}
+]
