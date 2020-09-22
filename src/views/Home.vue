@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <el-container>
-      <el-aside width="200px">Aside</el-aside>
+      <el-aside width="200px">
+        <LeftMenu></LeftMenu>
+      </el-aside>
       <el-container>
         <el-header>
           <HeaderAction></HeaderAction>
@@ -22,11 +24,13 @@
 // @ is an alias to /src
 import HeaderAction from "@/components/home/HeaderAction";
 import HeaderTab from "@/components/home/HeaderTab";
+import LeftMenu from "@/components/home/LeftMenu";
 export default {
   name: "Home",
   components: {
     HeaderAction,
-    HeaderTab
+    HeaderTab,
+    LeftMenu
   }
 };
 </script>
@@ -34,18 +38,14 @@ export default {
 body {
   overflow-x: hidden;
 }
-.main{
+.main {
   min-width: 800px;
 }
 .el-header,
 .el-footer {
   background-color: aliceblue;
 }
-.el-main {
-  background-color: bisque;
-}
 .el-aside {
-  background-color: beige;
   min-height: 700px;
 }
 </style>

@@ -5,7 +5,7 @@
         ><router-link to="/"><i class="el-icon-back"></i></router-link
         >返回工作台</el-col
       >
-      <el-col :span="14"></el-col>
+      <el-col :span="15"></el-col>
       <el-col :span="2">
         <el-row>
           <el-col :span="8">1</el-col>
@@ -13,18 +13,16 @@
           <el-col :span="8">3</el-col>
         </el-row>
       </el-col>
-      <el-col :span="4">
-        <el-avatar icon="el-icon-user-solid"></el-avatar>
+      <el-col :span="3">
+        <el-avatar :size="28" icon="el-icon-user-solid"></el-avatar>
         <el-dropdown>
           <span class="el-dropdown-link">
-            下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+            {{ username }}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>黄金糕</el-dropdown-item>
-            <el-dropdown-item>狮子头</el-dropdown-item>
-            <el-dropdown-item>螺蛳粉</el-dropdown-item>
-            <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-            <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+            <el-dropdown-item>个人信息维护</el-dropdown-item>
+            <el-dropdown-item>帮助</el-dropdown-item>
+            <el-dropdown-item>注销</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -36,7 +34,12 @@
 export default {
   name: "LeftMenu",
   computed: {},
-  methods: {}
+  methods: {},
+  data() {
+    return {
+      username: "用户名"
+    };
+  }
 };
 </script>
 
@@ -45,6 +48,12 @@ export default {
   line-height: 60px;
   height: 60px;
   text-align: left;
+}
+.el-avatar {
+  margin-right: 10px;
+}
+.el-dropdown {
+  cursor: pointer;
 }
 .backBtn i {
   font-size: 24px !important;
