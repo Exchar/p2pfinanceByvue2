@@ -34,7 +34,11 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
+.headerTab {
+  overflow: hidden;
+  padding-left: 10px;
+}
 body {
   overflow-x: hidden;
 }

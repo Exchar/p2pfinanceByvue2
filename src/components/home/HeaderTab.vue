@@ -25,7 +25,9 @@ export default {
 </script>
 <style scoped>
 .headerTab {
-  padding: 10px 10px;
+  padding: 10px 0 0 0;
+  background-color: aliceblue;
+  overflow: hidden;
 }
 .el-col span {
   display: inline-block;
@@ -42,5 +44,9 @@ export default {
 }
 .el-button {
   padding: 8px 15px !important;
+  border: none;
+}
+.el-col .el-button {
+  background-color: #ffffff;
 }
 </style>

@@ -6,13 +6,7 @@
         >返回工作台</el-col
       >
       <el-col :span="15"></el-col>
-      <el-col :span="2">
-        <el-row>
-          <el-col :span="8">1</el-col>
-          <el-col :span="8">2</el-col>
-          <el-col :span="8">3</el-col>
-        </el-row>
-      </el-col>
+      <el-col :span="2"> </el-col>
       <el-col :span="3">
         <el-avatar :size="28" icon="el-icon-user-solid"></el-avatar>
         <el-dropdown>

@@ -5,9 +5,22 @@ import vuexPresient from "vuex-persistedstate";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {},
+  state: {
+    home: {
+      leftMenu: []
+    }
+  },
+  mutations: {
+    saveLeftMenu(state, load) {
+      console.log(this);
+      state.home.leftMenu = load.menuData;
+    }
+  },
+  actions: {
+    commMenu({ commit }) {
+      commit("saveLeftMenu");
+    }
+  },
   modules: {},
   plugins: [vuexPresient()]
 });
