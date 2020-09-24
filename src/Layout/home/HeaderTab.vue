@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="headerTab">
     <el-tabs
       v-model="editableTabsValue"
       type="card"
@@ -70,4 +70,5 @@ export default {
   height: 60px;
   line-height: 60px;
 }
+
 </style>

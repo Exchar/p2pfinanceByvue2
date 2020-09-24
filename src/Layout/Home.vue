@@ -12,7 +12,6 @@
           <div class="headerTab">
             <HeaderTab></HeaderTab>
           </div>
-          <div class="main"></div>
           <router-view></router-view>
         </el-main>
       </el-container>
