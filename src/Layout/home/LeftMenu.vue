@@ -5,7 +5,6 @@
       :collapse="false"
       :router="true"
       :unique-opened="true"
-      :default-active="['0']"
     >
       <ActMenu :list="menuData"></ActMenu>
     </el-menu>
@@ -27,7 +26,7 @@ export default {
     console.log(this.$route);
     //根据用户权限获取路由,当前是管理员
     this.$axios
-      .get("http://localhost:5900/getLeftMenu")
+      .get("http://172.16.5.207:5900/getLeftMenu")
       .then(res => {
         this.menuData = [...res.data];
         console.log(this.menuData);
