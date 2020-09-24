@@ -5,12 +5,14 @@
       type="card"
       closable
       @tab-remove="removeTab"
+      @tab-click="tabClick"
+      :active-name="getNowAct"
     >
       <el-tab-pane
-        v-for="item in editableTabs"
-        :key="item.name"
+        v-for="item in getHeaderTabs"
+        :key="item.path"
         :label="item.title"
-        :name="item.name"
+        :name="item.path"
       >
       </el-tab-pane>
     </el-tabs>
@@ -18,48 +20,36 @@
 </template>
 <script>
 import "../../assets/layout/buttonNoBorder.css";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      editableTabsValue: "2",
-      editableTabs: [
-        {
-          title: "借贷管理",
-          name: "1"
-        },
-        {
-          title: "内容管理",
-          name: "2"
-        }
-      ],
+      editableTabsValue: "/",
       tabIndex: 2
     };
   },
-  methods: {
-    addTab() {
-      let newTabName = ++this.tabIndex + "";
-      this.editableTabs.push({
-        title: "tab" + this.tabIndex,
-        name: newTabName
+  computed: {
+    ...mapGetters(["getHeaderTabs", "getNowAct"]),
+    active() {
+      let nowPath = this.$route.path;
+      let cls = "";
+      this.getHeaderTabs.forEach(v => {
+        if (nowPath === v.path) {
+          cls = "active";
+        }
       });
-      this.editableTabsValue = newTabName;
+      return cls;
+    }
+  },
+  methods: {
+    ...mapMutations(["delTabItem"]),
+    tabClick(ment) {
+      if (this.$route.path !== ment.name) {
+        this.$router.push(ment.name);
+      }
     },
     removeTab(targetName) {
-      let tabs = this.editableTabs;
-      let activeName = this.editableTabsValue;
-      if (activeName === targetName) {
-        tabs.forEach((tab, index) => {
-          if (tab.name === targetName) {
-            let nextTab = tabs[index + 1] || tabs[index - 1];
-            if (nextTab) {
-              activeName = nextTab.name;
-            }
-          }
-        });
-      }
-
-      this.editableTabsValue = activeName;
-      this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+      this.delTabItem(targetName);
     }
   }
 };
@@ -67,8 +57,10 @@ export default {
 <style scoped>
 .el-tabs {
   margin-top: 2px;
-  height: 60px;
-  line-height: 60px;
+  height: 40px;
+  line-height: 40px;
 }
-
+.headerTab {
+  padding: 4px 0 1px 10px;
+}
 </style>

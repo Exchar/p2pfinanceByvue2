@@ -129,10 +129,10 @@ export default {
   color: rgb(231, 78, 79);
   font-weight: 700;
 }
-.el-badge__content.is-fixed{
+.el-badge__content.is-fixed {
   top: 11px !important;
 }
-.el-breadcrumb .el-breadcrumb__separator{
+.el-breadcrumb .el-breadcrumb__separator {
   font-size: 20px;
   font-weight: 100;
 }

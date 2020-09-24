@@ -9,7 +9,20 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-    children: []
+    children: [
+      {
+        path: "/",
+        name: "pageNotFound",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../views/NotFound")
+      },
+      {
+        path: "/debitManage/addDebitItem",
+        name: "addDebitItem",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../views/NotFound")
+      }
+    ]
   },
   {
     path: "/about",
@@ -18,8 +31,8 @@ const routes = [
   },
   {
     path: "*",
-    name: "404",
-    component: () => import(/* webpackChunkName: "about" */ "../views/404")
+    name: "pageNotFound",
+    component: () => import(/* webpackChunkName: "about" */ "../views/NotFound")
   }
 ];
 

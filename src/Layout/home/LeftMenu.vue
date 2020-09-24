@@ -5,6 +5,9 @@
       :collapse="false"
       :router="true"
       :unique-opened="true"
+      :default-active="$route.path"
+      active-text-color="#ffffff"
+      @select="tabsAction"
     >
       <ActMenu :list="menuData"></ActMenu>
     </el-menu>
@@ -14,21 +17,25 @@
 <script>
 import ActMenu from "@/Layout/home/menu/ActMenu";
 import "../../assets/layout/colorWhite.css";
+import { mapMutations, mapGetters } from "vuex";
 export default {
   name: "LeftMenu",
   components: { ActMenu },
+  computed: {
+    ...mapGetters(["getMenuData", "getHeaderTabs"])
+  },
   data() {
     return {
-      menuData: []
+      menuData: this.getMenuData
     };
   },
   created() {
-    console.log(this.$route);
     //根据用户权限获取路由,当前是管理员
     this.$axios
       .get("http://172.16.5.207:5900/getLeftMenu")
       .then(res => {
         this.menuData = [...res.data];
+        this.saveLeftMenu([...res.data]);
         console.log(this.menuData);
       })
       .catch(err => {
@@ -38,8 +45,6 @@ export default {
           message: "请求失败了"
         });
       });
-  },
-  mounted() {
     this.$axios
       .post("/api/finance/borrowing/allLoan/investmentRecord")
       .then(res => {
@@ -52,6 +57,20 @@ export default {
           message: "请求失败了"
         });
       });
+  },
+  methods: {
+    tabsAction(ment) {
+      this.changeNowAct(ment);
+      let addItem = true;
+      let tabItems = this.getHeaderTabs;
+      tabItems.forEach(v => {
+        if (v.path === ment) {
+          addItem = false;
+        }
+      });
+      addItem ? this.saveTabItem(ment) : "";
+    },
+    ...mapMutations(["saveLeftMenu", "saveTabItem", "changeNowAct"])
   }
 };
 </script>
@@ -73,7 +92,9 @@ export default {
 .leftMenu,
 .leftMenu > ul {
   position: relative;
-  padding-top: 10px;
   background-color: rgb(203, 36, 43);
+  box-sizing: border-box !important;
+  overflow: hidden;
+  padding-top: 3px;
 }
 </style>

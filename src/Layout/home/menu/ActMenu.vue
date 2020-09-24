@@ -3,7 +3,7 @@
     <!-- 根据实际情况做修改 -->
     <div v-for="(item, index) in list" :key="index">
       <el-menu-item
-        v-if="item.children && item.children.length == 0"
+        v-if="item.children && item.children.length === 0"
         :index="item.path"
       >
         <i :class="item.icon"></i>
@@ -35,7 +35,8 @@ export default {
 .el-menu--inline li {
   background-color: rgb(163, 36, 43);
 }
-.el-menu--inline li:hover {
-  background-color: rgb(236, 66, 76);
+.el-menu--inline li:hover,
+.el-submenu__title:hover {
+  background-color: rgb(236, 66, 76) !important;
 }
 </style>
