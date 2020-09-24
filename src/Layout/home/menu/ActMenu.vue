@@ -3,34 +3,39 @@
     <!-- 根据实际情况做修改 -->
     <div v-for="(item, index) in list" :key="index">
       <el-menu-item
-        :key="index"
-        v-if="item.children.length == 0"
+        v-if="item.children && item.children.length == 0"
         :index="item.path"
       >
-        <i class="el-icon-aim"></i>
+        <i :class="item.icon"></i>
         <span>{{ item.title }}</span>
       </el-menu-item>
       <el-submenu
-        :key="index"
         v-if="item.children.length > 0"
         :index="item.path"
+        class="secondMenu"
       >
         <template slot="title">
-          <i class="el-icon-aim"></i>
+          <i :class="item.icon"></i>
           <span>{{ item.title }}</span>
         </template>
-        <Menu :list="item.children"></Menu>
+        <ActMenu :list="item.children"></ActMenu>
       </el-submenu>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: "Menu",
-  props: ["list"],
-  beforeUpdate() {
-    console.log(this.list);
+  name: "ActMenu",
+  props: {
+    list: Array
   }
 };
 </script>
-<style scoped></style>
+<style scoped>
+.el-menu--inline li {
+  background-color: rgb(163, 36, 43);
+}
+.el-menu--inline li:hover {
+  background-color: rgb(236, 66, 76);
+}
+</style>

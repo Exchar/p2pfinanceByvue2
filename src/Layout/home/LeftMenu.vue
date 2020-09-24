@@ -5,34 +5,46 @@
       :collapse="false"
       :router="true"
       :unique-opened="true"
+      :default-active="['0']"
     >
-      <div class="logo">
-        <img src="../../assets/logo.png" alt="logo" />
-      </div>
-      <Menu :list="menuData"></Menu>
+      <ActMenu :list="menuData"></ActMenu>
     </el-menu>
   </div>
 </template>
 
 <script>
-import Menu from "@/components/home/menu/Menu.vue";
+import ActMenu from "@/Layout/home/menu/ActMenu";
+import "../../assets/layout/colorWhite.css";
 export default {
   name: "LeftMenu",
-  comments: {
-    Menu
-  },
+  components: { ActMenu },
   data() {
     return {
       menuData: []
     };
   },
   created() {
+    console.log(this.$route);
     //根据用户权限获取路由,当前是管理员
     this.$axios
       .get("http://localhost:5900/getLeftMenu")
       .then(res => {
-        this.menuData = res.data;
+        this.menuData = [...res.data];
         console.log(this.menuData);
+      })
+      .catch(err => {
+        console.log(err);
+        this.$message({
+          type: "error",
+          message: "请求失败了"
+        });
+      });
+  },
+  mounted() {
+    this.$axios
+      .post("/api/finance/borrowing/allLoan/investmentRecord")
+      .then(res => {
+        console.log(res);
       })
       .catch(err => {
         console.log(err);
@@ -59,8 +71,10 @@ export default {
   left: 0;
   right: 0;
 }
-.leftMenu {
+.leftMenu,
+.leftMenu > ul {
   position: relative;
   padding-top: 10px;
+  background-color: rgb(203, 36, 43);
 }
 </style>

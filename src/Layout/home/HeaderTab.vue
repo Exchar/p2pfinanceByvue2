@@ -1,52 +1,73 @@
 <template>
-  <el-row class="headerTab" :gutter="20">
-    <el-col :span="1.5"
-      ><el-button type="primary" plain size="small"
-        ><span>标签1</span><i class="el-icon-close"></i></el-button
-    ></el-col>
-    <el-col :span="1.5"
-      ><el-button type="primary" plain size="small"
-        ><span>标签2</span><i class="el-icon-close"></i></el-button
-    ></el-col>
-    <el-col :span="1.5"
-      ><el-button type="primary" plain size="small"
-        ><span>标签3</span><i class="el-icon-close"></i></el-button
-    ></el-col>
-    <el-col :span="1.5"
-      ><el-button type="primary" plain size="small"
-        ><span>这个是标签4</span><i class="el-icon-close"></i></el-button
-    ></el-col>
-  </el-row>
+  <div>
+    <el-tabs
+      v-model="editableTabsValue"
+      type="card"
+      closable
+      @tab-remove="removeTab"
+    >
+      <el-tab-pane
+        v-for="item in editableTabs"
+        :key="item.name"
+        :label="item.title"
+        :name="item.name"
+      >
+      </el-tab-pane>
+    </el-tabs>
+  </div>
 </template>
 <script>
+import "../../assets/layout/buttonNoBorder.css";
 export default {
-  name: "HeaderTab"
+  data() {
+    return {
+      editableTabsValue: "2",
+      editableTabs: [
+        {
+          title: "借贷管理",
+          name: "1"
+        },
+        {
+          title: "内容管理",
+          name: "2"
+        }
+      ],
+      tabIndex: 2
+    };
+  },
+  methods: {
+    addTab() {
+      let newTabName = ++this.tabIndex + "";
+      this.editableTabs.push({
+        title: "tab" + this.tabIndex,
+        name: newTabName
+      });
+      this.editableTabsValue = newTabName;
+    },
+    removeTab(targetName) {
+      let tabs = this.editableTabs;
+      let activeName = this.editableTabsValue;
+      if (activeName === targetName) {
+        tabs.forEach((tab, index) => {
+          if (tab.name === targetName) {
+            let nextTab = tabs[index + 1] || tabs[index - 1];
+            if (nextTab) {
+              activeName = nextTab.name;
+            }
+          }
+        });
+      }
+
+      this.editableTabsValue = activeName;
+      this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+    }
+  }
 };
 </script>
 <style scoped>
-.headerTab {
-  padding: 10px 0 0 0;
-  background-color: aliceblue;
-  overflow: hidden;
-}
-.el-col span {
-  display: inline-block;
-  width: 90%;
-}
-.el-col button span {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  vertical-align: middle;
-}
-.el-col button i {
-  vertical-align: middle;
-  font-size: 14px;
-}
-.el-button {
-  padding: 8px 15px !important;
-  border: none;
-}
-.el-col .el-button {
-  background-color: #ffffff;
+.el-tabs {
+  margin-top: 2px;
+  height: 60px;
+  line-height: 60px;
 }
 </style>

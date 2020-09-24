@@ -1,17 +1,18 @@
 <template>
   <div class="main">
     <el-container>
-      <el-aside width="200px">
-        <LeftMenu></LeftMenu>
-      </el-aside>
+      <el-header>
+        <HeaderAction></HeaderAction>
+      </el-header>
       <el-container>
-        <el-header>
-          <HeaderAction></HeaderAction>
-        </el-header>
-        <div class="headerTab">
-          <HeaderTab></HeaderTab>
-        </div>
+        <el-aside width="200px">
+          <LeftMenu></LeftMenu>
+        </el-aside>
         <el-main>
+          <div class="headerTab">
+            <HeaderTab></HeaderTab>
+          </div>
+          <div class="main"></div>
           <router-view></router-view>
         </el-main>
       </el-container>
@@ -22,9 +23,9 @@
 
 <script>
 // @ is an alias to /src
-import HeaderAction from "@/components/home/HeaderAction";
-import HeaderTab from "@/components/home/HeaderTab";
-import LeftMenu from "@/components/home/LeftMenu";
+import HeaderTab from "@/Layout/home/HeaderTab";
+import HeaderAction from "@/Layout/home/HeaderAction";
+import LeftMenu from "@/Layout/home/LeftMenu";
 export default {
   name: "Home",
   components: {
@@ -35,21 +36,27 @@ export default {
 };
 </script>
 <style scoped>
-.headerTab {
+.main {
+  background-color: rgb(240, 240, 242);
+}
+.el-main {
+  padding: 0;
   overflow: hidden;
+}
+.headerTab {
   padding-left: 10px;
 }
 body {
-  overflow-x: hidden;
+  overflow: hidden;
 }
 .main {
-  min-width: 800px;
+  min-width: 1350px;
 }
-.el-header,
-.el-footer {
-  background-color: aliceblue;
+.el-header {
+  box-sizing: border-box;
 }
 .el-aside {
   min-height: 700px;
+  background-color: rgb(203, 36, 43);
 }
 </style>

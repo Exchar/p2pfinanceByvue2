@@ -8,6 +8,7 @@ import Axios from "axios";
 Vue.config.productionTip = false;
 Vue.use(ElementUi);
 Vue.prototype.$axios = Axios;
+Axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
 new Vue({
   router,
   store,
