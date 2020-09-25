@@ -4,7 +4,7 @@
       <el-header>
         <HeaderAction></HeaderAction>
       </el-header>
-      <el-container>
+      <el-container class="mainBody">
         <el-aside width="200px">
           <LeftMenu></LeftMenu>
         </el-aside>
@@ -12,9 +12,13 @@
           <div class="headerTab">
             <HeaderTab></HeaderTab>
           </div>
-          <el-scrollbar class="viewMain">
-            <router-view></router-view>
-          </el-scrollbar>
+          <div class="viewPort">
+            <el-scrollbar class="viewMain">
+              <transition name="fade" mode="out-in" appear>
+                <router-view></router-view>
+              </transition>
+            </el-scrollbar>
+          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -44,16 +48,19 @@ export default {
 };
 </script>
 <style scoped>
+.viewMain {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  background-color: #ffffff;
+}
 .main {
   background-color: rgb(240, 240, 242);
+}
+.mainBody {
+  padding-top: 4px;
 }
 .el-main {
   padding: 0;
   overflow: hidden;
-}
-.headerTab {
-  padding-left: 5px !important;
-  padding-left: 10px;
 }
 body {
   overflow: hidden;
@@ -69,10 +76,17 @@ body {
   box-sizing: border-box;
 }
 .el-aside {
-  min-height: 800px;
-  background-color: rgb(203, 36, 43);
+  background-color: rgba(33, 38, 60, 0) !important;
   overflow: hidden;
   min-height: 700px;
-  background-color: rgb(203, 36, 43);
+  padding-top: 2px;
+}
+.viewPort {
+  padding: 10px;
+}
+.el-header {
+  border-bottom: 2px solid rgb(237, 108, 112);
+  box-sizing: content-box;
+  box-shadow: 4px 2px 4px rgba(237, 108, 112, 0.4), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 </style>

@@ -7,15 +7,15 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     home: {
-      leftMenu: localStorage.getItem("leftMenu")
-        ? JSON.parse(localStorage.getItem("leftMenu"))
+      leftMenu: sessionStorage.getItem("leftMenu")
+        ? JSON.parse(sessionStorage.getItem("leftMenu"))
         : [],
       nowActiveTab:
-        localStorage.getItem("nowActiveTab") !== "/"
-          ? JSON.parse(localStorage.getItem("nowActiveTab"))
+        sessionStorage.getItem("nowActiveTab") !== "/"
+          ? JSON.parse(sessionStorage.getItem("nowActiveTab"))
           : "/home",
-      tabItems: localStorage.getItem("tabItems")
-        ? JSON.parse(localStorage.getItem("tabItems"))
+      tabItems: sessionStorage.getItem("tabItems")
+        ? JSON.parse(sessionStorage.getItem("tabItems"))
         : [{ path: "/home", title: "工作台", index: 0 }]
     }
   },

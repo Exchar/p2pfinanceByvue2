@@ -108,9 +108,9 @@ export default {
   margin-left: 10px;
 }
 .main {
-  padding: 20px 0;
+  padding: 19px 0;
   box-sizing: border-box;
-  border-bottom: 2px solid rgb(237, 108, 112);
+
 }
 .el-breadcrumb__item {
   height: 40px;

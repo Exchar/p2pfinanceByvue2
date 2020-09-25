@@ -24,19 +24,48 @@
       <div class="rightCard">
         <el-card class="box-card">
           <div slot="header" class="clearfix" style="text-align: center">
-            <span>尊敬的用户，请登录</span>
+            <span>{{ transData.title }}</span>
           </div>
           <el-form label-position="right" label-width="80px" :model="formData">
-            <el-form-item label="用户名:">
-              <el-input v-model="formData.userName"></el-input>
+            <el-form-item
+              label="用户名:"
+              :rules="[{ required: true, message: '用户名不能为空' }]"
+            >
+              <el-input
+                v-model="formData.phone"
+                v-show="!login"
+                placeholder="请输入绑定的手机号"
+              ></el-input>
+              <el-input
+                v-model="formData.userName"
+                v-show="login"
+                placeholder="请输入用户名"
+              ></el-input>
             </el-form-item>
-            <el-form-item label="密码:">
+            <el-form-item label="密码:" v-show="login">
               <el-input v-model="formData.userPwd"></el-input>
             </el-form-item>
           </el-form>
           <div class="subBtns">
-            <el-button>登录</el-button>
-            <el-button>找回密码</el-button>
+            <el-button
+              type="primary"
+              class="loginBtn"
+              v-show="login"
+              @click="loginReq"
+              @keydown.enter="loginReq"
+              >登录</el-button
+            >
+            <el-button type="primary" class="loginBtn" v-show="!login"
+              >提交</el-button
+            >
+            <el-button
+              type=""
+              class="forgetPwdBtn"
+              v-show="login"
+              @click="changeState"
+              >找回密码</el-button
+            >
+            <el-button v-show="!login" @click="changeState">返回登录</el-button>
           </div>
         </el-card>
       </div>
@@ -49,9 +78,11 @@ export default {
   name: "login",
   data() {
     return {
+      login: true,
       formData: {
         userName: "",
-        userPwd: ""
+        userPwd: "",
+        phone: ""
       },
       imgData: [
         { url: require("../assets/login/loginBackImg.jpg") },
@@ -60,9 +91,64 @@ export default {
       ]
     };
   },
+  computed: {
+    transData() {
+      if (this.login) {
+        return {
+          login: true,
+          title: "请登录",
+          firstInp: "用户名",
+          firstVal: "",
+          secondInp: "密码",
+          secondVal: ""
+        };
+      } else {
+        return {
+          login: true,
+          title: "找回密码",
+          firstInp: "手机号或邮箱",
+          firstVal: ""
+        };
+      }
+    }
+  },
   methods: {
     gotoHome() {
       this.$router.push("/home");
+    },
+    changeState() {
+      this.login = !this.login;
+      this.formData = {
+        userName: "",
+        userPwd: "",
+        phone: ""
+      };
+    },
+    loginReq() {
+      let msgObj = { userName: "用户名", userPwd: "密码" };
+      let isLogin = true;
+      Object.keys(msgObj).forEach(v => {
+        console.log(v);
+        if (this.formData[v].length === 0) {
+          this.$message.error(msgObj[v] + "不能为空");
+          isLogin = false;
+        }
+      });
+      isLogin
+        ? this.$axios
+            .post("http://172.16.5.207:5900/userLogin", {
+              userName: this.formData.userName,
+              userPwd: this.formData.userPwd
+            })
+            .then(res => {
+              if (res.data.code === 500) {
+                this.$message.error("用户名或者密码错误");
+              } else if (res.data.code === 200) {
+                this.$message.success("登录成功");
+                this.$router.push("/home");
+              }
+            })
+        : "";
     }
   }
 };
@@ -151,5 +237,8 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: 50px;
+}
+.loginBtn {
+  width: 20%;
 }
 </style>

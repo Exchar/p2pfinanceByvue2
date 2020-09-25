@@ -48,11 +48,11 @@ export default {
 </script>
 <style scoped>
 .el-tabs {
-  margin-top: 2px;
   height: 40px;
   line-height: 40px;
 }
 .headerTab {
-  padding: 4px 0 1px 10px;
+  padding: 4px 0 1px 2px;
+  box-shadow: 4px 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 }
 </style>

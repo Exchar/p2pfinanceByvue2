@@ -33,10 +33,10 @@ export default {
 </script>
 <style scoped>
 .el-menu--inline li {
-  background-color: rgb(163, 36, 43);
+  background-color: rgb(20, 22, 34);
 }
 .el-menu--inline li:hover,
 .el-submenu__title:hover {
-  background-color: rgb(236, 66, 76) !important;
+  background-color: rgb(57, 62, 83) !important;
 }
 </style>

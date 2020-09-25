@@ -92,9 +92,21 @@ export default {
 .leftMenu,
 .leftMenu > ul {
   position: relative;
-  background-color: rgb(203, 36, 43);
   box-sizing: border-box !important;
   overflow: hidden;
   padding-top: 3px;
+}
+.leftMenu{
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+.leftMenu ul{
+  box-shadow: 4px 0 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+  min-height: 790px;
+  background-color: rgb(33,38,60);
+}
+.el-menu>div{
+  width: 200px !important;
 }
 </style>

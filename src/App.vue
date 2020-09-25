@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <router-view />
+    <transition
+      name="el-fade-in"
+    >
+      <router-view />
+    </transition>
   </div>
 </template>
 
