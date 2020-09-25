@@ -11,6 +11,12 @@ const routes = [
     component: Home,
     children: [
       {
+        path: "/MarkOn",
+        name: "MarkOn",
+        component: () =>
+            import("../views/mark/MarkOn")
+      },
+      {
         path: "/",
         name: "pageNotFound",
         component: () =>
