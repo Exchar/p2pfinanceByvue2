@@ -1,0 +1,16 @@
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import ElementUi from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
+import Axios from "axios";
+Vue.config.productionTip = false;
+Vue.use(ElementUi);
+Vue.prototype.$axios = Axios;
+Axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount("#app");

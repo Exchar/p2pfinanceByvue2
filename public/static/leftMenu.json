@@ -1,0 +1,110 @@
+[
+  {
+    "title": "工作台",
+    "path": "/",
+    "children": []
+  },{
+  "title": "借贷管理",
+  "path": "",
+  "children": [
+    {
+      "title": "新增借款",
+      "path": "/debitManage/addDebitItem",
+      "children": []
+    },{
+      "title": "新标维护",
+      "path": "/debitManage/upholdNewBidItems",
+      "children": []
+    },{
+      "title": "借款审核",
+      "path": "/debitManage/firstLevelAuditItems",
+      "children": []
+    },{
+      "title": "标的上架",
+      "path": "/debitManage/secondBidsGroundItems",
+      "children": []
+    },{
+      "title": "满标复审",
+      "path": "/debitManage/reexAuditItems",
+      "children": []
+    },{
+      "title": "所有借款标",
+      "path": "/debitManage/debitItems",
+      "children": []
+    },{
+      "title": "投资记录",
+      "path": "/debitManage/investRecords",
+      "children": []
+    },{
+      "title": "借款标类别",
+      "path": "/debitManage/debitCategory",
+      "children": []
+    }
+  ]
+},{
+  "title": "还款管理",
+  "path": "",
+  "children": [
+    {
+      "title": "管理还款项",
+      "path": "/repaymentItems",
+      "children": []
+    },
+    {
+      "title": "还款记录",
+      "path": "/repaymentRecords",
+      "children": []
+    }
+  ]
+},{
+  "title": "资金管理",
+  "path": "",
+  "children": [
+    {
+      "title": "资金管理",
+      "path": "/capitalManage",
+      "children": []
+    }
+  ]
+},{
+  "title": "会员管理",
+  "path": "",
+  "children": [
+    {
+      "title": "新增借款用户",
+      "path": "/repaymentRecords",
+      "children": []
+    },
+    {
+      "title": "投资用户管理",
+      "path": "/investUserManage",
+      "children": []
+    },
+    {
+      "title": "借款用户管理",
+      "path": "/debitUserManage",
+      "children": []
+    }
+  ]
+},{
+  "title": "内容管理",
+  "path": "",
+  "children": [
+    {
+      "title": "轮播管理",
+      "path": "/sliderManage",
+      "children": []
+    },
+    {
+      "title": "文章管理",
+      "path": "/articleManage",
+      "children": []
+    },
+    {
+      "title": "意见反馈",
+      "path": "/suggests",
+      "children": []
+    }
+  ]
+}
+]
