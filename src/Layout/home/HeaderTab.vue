@@ -24,7 +24,7 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      nowActPath:""
+      nowActPath: ""
     };
   },
   computed: {

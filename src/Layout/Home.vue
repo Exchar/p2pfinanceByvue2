@@ -15,8 +15,6 @@
           <el-scrollbar class="viewMain">
             <router-view></router-view>
           </el-scrollbar>
-          <div class="main"></div>
-          <router-view></router-view>
         </el-main>
       </el-container>
     </el-container>

@@ -86,5 +86,5 @@ export default new Vuex.Store({
     }
   },
   modules: {},
-  plugins: [vuexPresient()]
+  plugins: [vuexPresient({ storage: window.sessionStorage })]
 });
