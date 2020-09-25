@@ -25,10 +25,10 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-.el-header{
+.el-header {
   height: 80px !important;
 }
-body{
+body {
   overflow: hidden;
 }
 </style>

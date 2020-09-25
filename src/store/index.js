@@ -10,10 +10,13 @@ export default new Vuex.Store({
       leftMenu: localStorage.getItem("leftMenu")
         ? JSON.parse(localStorage.getItem("leftMenu"))
         : [],
-      nowActiveTab: "/",
+      nowActiveTab:
+        localStorage.getItem("nowActiveTab") !== "/"
+          ? JSON.parse(localStorage.getItem("nowActiveTab"))
+          : "/home",
       tabItems: localStorage.getItem("tabItems")
         ? JSON.parse(localStorage.getItem("tabItems"))
-        : [{ path: "/", title: "工作台", index: 0 }]
+        : [{ path: "/home", title: "工作台", index: 0 }]
     }
   },
   mutations: {

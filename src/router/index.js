@@ -1,39 +1,38 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../Layout/Home.vue";
+import Login from "../views/Login";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
+    name: "Login",
+    component: Login,
+    children: []
+  },
+  {
+    path: "/home",
     name: "Home",
-    component: Home,
+    component: () => import("../Layout/Home"),
     children: [
-      {
-        path: "/MarkOn",
-        name: "MarkOn",
-        component: () =>
-            import("../views/mark/MarkOn")
-      },
       {
         path: "/",
         name: "pageNotFound",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/NotFound")
+        component: () => import("../views/NotFound")
       },
       {
         path: "/debitManage/addDebitItem",
         name: "addDebitItem",
         component: () =>
           import(/* webpackChunkName: "about" */ "../views/NotFound")
+      },
+      {
+        path: "/MarkOn",
+        name: "MarkOn",
+        component: () => import("../views/mark/MarkOn")
       }
     ]
-  },
-  {
-    path: "/about",
-    name: "About",
-    component: () => import("../Layout/Home.vue")
   },
   {
     path: "*",

@@ -27,12 +27,19 @@
 import HeaderTab from "@/Layout/home/HeaderTab";
 import HeaderAction from "@/Layout/home/HeaderAction";
 import LeftMenu from "@/Layout/home/LeftMenu";
+import { mapMutations } from "vuex";
 export default {
   name: "Home",
   components: {
     HeaderAction,
     HeaderTab,
     LeftMenu
+  },
+  methods: {
+    ...mapMutations(["changeNowAct"])
+  },
+  created() {
+    this.changeNowAct(this.$route.path);
   }
 };
 </script>

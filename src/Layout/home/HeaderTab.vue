@@ -1,7 +1,7 @@
 <template>
   <div class="headerTab">
     <el-tabs
-      v-model="editableTabsValue"
+      v-model="nowPath"
       type="card"
       closable
       @tab-remove="removeTab"
@@ -30,15 +30,8 @@ export default {
   },
   computed: {
     ...mapGetters(["getHeaderTabs", "getNowAct"]),
-    active() {
-      let nowPath = this.$route.path;
-      let cls = "";
-      this.getHeaderTabs.forEach(v => {
-        if (nowPath === v.path) {
-          cls = "active";
-        }
-      });
-      return cls;
+    nowPath() {
+      return this.$route.path;
     }
   },
   methods: {
