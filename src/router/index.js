@@ -31,6 +31,28 @@ const routes = [
         path: "/MarkOn",
         name: "MarkOn",
         component: () => import("../views/mark/MarkOn")
+      },
+      {
+        path: "/debitManage/debitItems",
+        name: "DebitItems",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../views//ptwop/Index.vue")
+      },
+      {
+        path: "/debitManage/investRecords",
+        name: "DebitItems",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../views//ptwop/InvestRecords.vue"
+          )
+      },
+      {
+        path: "/debitManage/debitCategory",
+        name: "DebitItems",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../views//ptwop/DebitCategory.vue"
+          )
       }
     ]
   },

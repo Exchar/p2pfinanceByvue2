@@ -1,7 +1,7 @@
 <template>
   <div class="headerTab">
     <el-tabs
-      v-model="nowPath"
+      v-model="nowActPath"
       type="card"
       closable
       @tab-remove="removeTab"
@@ -24,8 +24,7 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      editableTabsValue: "/",
-      tabIndex: 2
+      nowActPath:""
     };
   },
   computed: {

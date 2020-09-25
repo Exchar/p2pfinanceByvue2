@@ -25,6 +25,10 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.el-header {
+  height: 80px !important;
+}
 .el-header {
   height: 80px !important;
 }

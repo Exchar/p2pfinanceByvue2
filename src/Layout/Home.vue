@@ -15,6 +15,8 @@
           <el-scrollbar class="viewMain">
             <router-view></router-view>
           </el-scrollbar>
+          <div class="main"></div>
+          <router-view></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -53,6 +55,7 @@ export default {
 }
 .headerTab {
   padding-left: 5px !important;
+  padding-left: 10px;
 }
 body {
   overflow: hidden;
@@ -71,5 +74,7 @@ body {
   min-height: 800px;
   background-color: rgb(203, 36, 43);
   overflow: hidden;
+  min-height: 700px;
+  background-color: rgb(203, 36, 43);
 }
 </style>
