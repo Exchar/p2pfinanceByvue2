@@ -1,0 +1,12 @@
+.el-aside .leftMenu .el-submenu__title,.el-aside .leftMenu .el-menu-item,.el-aside .el-submenu__title i,.el-aside .el-menu-item i{
+    color: white !important;
+}
+.el-aside .el-menu--inline li:hover,.el-aside .el-menu-item:hover,.el-aside .el-menu--inline li:hover i,.el-aside .el-menu-item:hover i,.el-aside .el-submenu__title:hover,.el-aside .el-submenu__title:hover i{
+    color: rgb(0, 0, 0) !important;
+}
+.el-aside .el-menu-item.is-active{
+    background-color: #ffffff;
+}
+.el-aside .el-menu-item.is-active i,.el-aside .el-menu-item.is-active span{
+    color: #000000 !important;
+}
