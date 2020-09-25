@@ -28,9 +28,14 @@ const routes = [
           import(/* webpackChunkName: "about" */ "../views/NotFound")
       },
       {
-        path: "/MarkOn",
+        path: "/debitManage/secondBidsGroundItems",
         name: "MarkOn",
         component: () => import("../views/mark/MarkOn")
+      },
+      {
+        path: "/debitManage/reexAuditItems",
+        name: "Recheck",
+        component: () => import("../views/mark/Recheck")
       },
       {
         path: "/debitManage/debitItems",
