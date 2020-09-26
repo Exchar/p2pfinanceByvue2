@@ -43,7 +43,7 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="密码:" v-show="login">
-              <el-input v-model="formData.userPwd"></el-input>
+              <el-input v-model="formData.userPwd" type="password"></el-input>
             </el-form-item>
           </el-form>
           <div class="subBtns">
@@ -136,7 +136,7 @@ export default {
       });
       isLogin
         ? this.$axios
-            .post("http://172.16.5.207:5900/userLogin", {
+            .post("/api/userLogin", {
               userName: this.formData.userName,
               userPwd: this.formData.userPwd
             })
