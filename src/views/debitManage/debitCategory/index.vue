@@ -4,8 +4,7 @@
 
     <el-dialog title="添加分类" :visible.sync="dialogFormVisible">
       <el-form
-        :model="ruleForm"
-        :rules="rules"
+        :model="form"
         ref="ruleForm"
         label-width="100px"
         class="demo-ruleForm"
