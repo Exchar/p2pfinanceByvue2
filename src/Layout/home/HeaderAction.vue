@@ -110,7 +110,6 @@ export default {
 .main {
   padding: 19px 0;
   box-sizing: border-box;
-
 }
 .el-breadcrumb__item {
   height: 40px;
