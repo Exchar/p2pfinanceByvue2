@@ -36,14 +36,14 @@ const routes = [
         path: "/debitManage/debitItems",
         name: "DebitItems",
         component: () =>
-          import(/* webpackChunkName: "about" */ "../views//ptwop/Index.vue")
+          import(/* webpackChunkName: "about" */ "../views/debitManage/debitItems/index.vue")
       },
       {
         path: "/debitManage/investRecords",
         name: "DebitItems",
         component: () =>
           import(
-            /* webpackChunkName: "about" */ "../views//ptwop/InvestRecords.vue"
+            /* webpackChunkName: "about" */ "../views/debitManage/investRecords/index.vue"
           )
       },
       {
@@ -51,7 +51,7 @@ const routes = [
         name: "DebitItems",
         component: () =>
           import(
-            /* webpackChunkName: "about" */ "../views//ptwop/DebitCategory.vue"
+            /* webpackChunkName: "about" */ "../views/debitManage/debitCategory/index.vue"
           )
       }
     ]

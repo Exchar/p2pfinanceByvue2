@@ -28,102 +28,98 @@
       ><el-button type="primary" plain>自定义列</el-button></el-col
     >
     <el-col :span="3"><el-button type="primary" plain>导出</el-button></el-col>
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="debitltemsData" style="width: 100%">
       <el-table-column label="借款ID" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.num }}</span>
         </template>
       </el-table-column>
       <el-table-column label="借款方" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.borrower }}</span>
         </template>
       </el-table-column>
       <el-table-column label="借款人手机" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.phone }}</span>
         </template>
       </el-table-column>
       <el-table-column label="借款名称" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.borrowname }}</span>
         </template>
       </el-table-column>
       <el-table-column label="借款金额" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.money }}</span>
         </template>
       </el-table-column>
       <el-table-column label="年化利率" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.annual }}</span>
         </template>
       </el-table-column>
       <el-table-column label="还款方式" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.repayment }}</span>
         </template>
       </el-table-column>
       <el-table-column label="期限" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.deadline }}</span>
         </template>
       </el-table-column>
       <el-table-column label="借款管理费月率" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.monthly }}</span>
         </template>
       </el-table-column>
       <el-table-column label="借款管理费" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.managerfee }}</span>
         </template>
       </el-table-column>
       <el-table-column label="上架时间" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.putawaytime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="开售时间" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.saletime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="投资进度" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.investprocess }}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.state }}</span>
         </template> </el-table-column
       ><el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="姓名" width="180">
-        <template slot-scope="scope">
-          <el-popover trigger="hover" placement="top">
-            <p>姓名: {{ scope.row.name }}</p>
-            <p>住址: {{ scope.row.address }}</p>
-            <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
-            </div>
-          </el-popover>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-            >编辑</el-button
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            circle
+            @click="edit(scope.row)"
+            >详情</el-button
           >
           <el-button
-            size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-            >删除</el-button
+            icon="el-icon-edit"
+            circle
+            @click="del(scope.row)"
+            >投资记录</el-button
+          >
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            circle
+            @click="edit(scope.row)"
+            >还款记录</el-button
           >
         </template>
       </el-table-column>
@@ -190,33 +186,43 @@ export default {
         }
       ],
       value: "",
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ],
-
+      debitltemsData:[],
+      tableData: {
+        num: "",
+        borrower: "",
+        phone: "",
+        borrowname: "",
+        money: "",
+        annual: "",
+        repayment: "",
+        deadline: "",
+        monthly: "",
+        managerfee: "",
+        putawaytime: "",
+        saletime: "",
+        investprocess: "",
+        state: ""
+      },
       currentPage4: 4
     };
   },
+  mounted: function() {
+    this.getloanList();
+  },
   methods: {
+    getloanList: function() {
+      this.$axios
+        .get("http://localhost:5900/jieKuan")
+        .then(response => {
+          var result = response.data;
+          if (result.code === 200) {
+            this.debitltemsData = result.data;
+          } else {
+            this.$alert(result.message);
+          }
+        })
+        .catch(() => {});
+    },
     handleEdit(index, row) {
       console.log(index, row);
     },
