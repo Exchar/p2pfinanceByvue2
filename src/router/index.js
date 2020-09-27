@@ -6,7 +6,7 @@ import Login from "../views/Login";
 Vue.use(VueRouter);
 
 const routes = [
- /* {
+  /* {
     path: "/",
     name: "Maintenance",
     component: Maintenance,
@@ -85,11 +85,11 @@ const routes = [
           )
       },
       {
-        path: "/memberManage/debitUserManage",
-        name: "DebitItems",
+        path: "/repaymentManage/repaymentRecords",
+        name: "repaymentRecords",
         component: () =>
           import(
-            /* webpackChunkName: "about" */ "../views/memberManage/investUserManage/index"
+            /* webpackChunkName: "about" */ "../views/repaymentManage/repaymentRecords/index"
           )
       }
     ]
