@@ -48,39 +48,46 @@
 				</el-table-column>
 				<el-table-column
 								prop="markName"
-								label="标名">
+								label="借款名称">
 				</el-table-column>
 				<el-table-column
 								prop="guarantee"
-								label="担保机构"
-								width="180">
-				</el-table-column>
-				<el-table-column
-								prop="type"
-								label="类型">
-				</el-table-column>
-				<el-table-column
-								prop="money"
 								label="借款金额">
 				</el-table-column>
 				<el-table-column
-								prop="rate"
+								prop="type"
 								label="年利率化">
 				</el-table-column>
 				<el-table-column
-								prop="repayType"
+								prop="money"
 								label="还款方式">
 				</el-table-column>
 				<el-table-column
-								prop="term"
+								prop="rate"
 								label="期限">
 				</el-table-column>
 				<el-table-column
+								prop="repayType"
+								label="募集时长">
+				</el-table-column>
+				<el-table-column
+								prop="term"
+								label="募集资金">
+				</el-table-column>
+				<el-table-column
 								prop="checkTime"
-								label="审核时间">
+								label="投资进度">
 				</el-table-column>
 				<el-table-column
 								prop="state"
+								label="开售时间">
+				</el-table-column>
+				<el-table-column
+								prop="action"
+								label="结束时间">
+				</el-table-column>
+				<el-table-column
+								prop="action"
 								label="状态">
 				</el-table-column>
 				<el-table-column
@@ -118,39 +125,7 @@
       return {
         input1: '',
         input2: '',
-        currentPage: 1,
-        tableData: [
-          {
-            num: '201709092213',
-            borrower: '企业一号',
-            phoneNum: '13800009999',
-            markName: '新手一号',
-            guarantee: '上海这润典当',
-            type: '续贷',
-            money: '￥20000',
-            rate: '11.5%',
-            repayType: '按月付息',
-            term: '5天',
-            checkTime: '2017/09/10',
-            state: '待上架',
-            action: '上架'
-          },
-          {
-            num: '201709092213',
-            borrower: '企业一号',
-            phoneNum: '13800009999',
-            markName: '新手一号',
-            guarantee: '上海这润典当',
-            type: '续贷',
-            money: '￥20000',
-            rate: '11.5%',
-            repayType: '按月付息',
-            term: '5天',
-            checkTime: '2017/09/10',
-            state: '待上架',
-            action: '上架'
-          }
-        ]
+        currentPage: 1
       }
     },
     methods: {

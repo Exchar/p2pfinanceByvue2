@@ -120,42 +120,19 @@
       return {
         input1: '',
         input2: '',
-        currentPage: 1,
-        tableData: [
-          {
-            num: '201709092213',
-            borrower: '企业一号',
-            phoneNum: '13800009999',
-            markName: '新手一号',
-            guarantee: '上海这润典当',
-            type: '续贷',
-            money: '￥20000',
-            rate: '11.5%',
-            repayType: '按月付息',
-            term: '5天',
-            checkTime: '2017/09/10',
-            state: '待上架',
-            action: '上架'
-          },
-          {
-            num: '201709092213',
-            borrower: '企业一号',
-            phoneNum: '13800009999',
-            markName: '新手一号',
-            guarantee: '上海这润典当',
-            type: '续贷',
-            money: '￥20000',
-            rate: '11.5%',
-            repayType: '按月付息',
-            term: '5天',
-            checkTime: '2017/09/10',
-            state: '待上架',
-            action: '上架'
-          }
-        ]
+        currentPage: 1
       }
     },
-    methods: {
+  /*  methods: {
+      getData(){
+        this.$axios.get('http://172.16.5.177:8080')
+                .then(function (res) {
+                  console.log(res)
+                })
+                .catch(function (error) {
+                  console.log(error)
+                });
+      },*/
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
@@ -163,7 +140,6 @@
         console.log(`当前页: ${val}`);
       }
     }
-  }
 </script>
 <style scoped>
   .el-col-6{
