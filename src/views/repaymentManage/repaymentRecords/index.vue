@@ -131,14 +131,6 @@
           <p v-if="tableData[scope.$index].backtime === 0">否</p>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="130" align="center">
-        <el-button
-          type="primary"
-          style="border-radius: 2px"
-          :disabled="!hasChangeKey"
-          >平台垫付</el-button
-        >
-      </el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
@@ -194,7 +186,7 @@ export default {
     getRepaymentItems() {
       console.log(this.searchItems.states);
       this.$axios
-        .post("/api/getRepaymentItems", {
+        .post("/api/getRepaymentRecordsItems", {
           backName: this.searchItems.repayerName,
           backPhone: this.searchItems.repayerPhone,
           backStates: this.searchItems.states,
