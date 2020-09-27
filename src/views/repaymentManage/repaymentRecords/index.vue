@@ -38,7 +38,7 @@
     <el-table
       :border="false"
       :data="tableData"
-      height="480px"
+      height="420px"
       style="width: 100%;height: 100%"
       stripe
     >
@@ -60,7 +60,7 @@
       </el-table-column>
       <el-table-column
         prop="borrowname"
-        label="标名"
+        label="借款人姓名"
         width="130"
         align="center"
       >
@@ -132,7 +132,10 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" width="130" align="center">
-        <el-button type="primary" style="border-radius: 2px" :disabled="!hasChangeKey"
+        <el-button
+          type="primary"
+          style="border-radius: 2px"
+          :disabled="!hasChangeKey"
           >平台垫付</el-button
         >
       </el-table-column>

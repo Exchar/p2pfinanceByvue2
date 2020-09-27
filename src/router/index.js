@@ -63,6 +63,14 @@ const routes = [
           import(
             /* webpackChunkName: "about" */ "../views/repaymentManage/repaymentItems/index"
           )
+      },
+      {
+        path: "/repaymentManage/repaymentRecords",
+        name: "repaymentRecords",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../views/repaymentManage/repaymentRecords/index"
+          )
       }
     ]
   },
