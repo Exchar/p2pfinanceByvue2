@@ -22,7 +22,6 @@
         </el-main>
       </el-container>
     </el-container>
-    <el-footer>Footer</el-footer>
   </div>
 </template>
 
@@ -52,11 +51,14 @@ export default {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   background-color: #ffffff;
 }
+.viewPort{
+  height: 100%;
+}
 .main {
   background-color: rgb(240, 240, 242);
 }
 .mainBody {
-  padding-top: 4px;
+  height: 100%;
 }
 .el-main {
   padding: 0;
@@ -78,8 +80,7 @@ body {
 .el-aside {
   background-color: rgba(33, 38, 60, 0) !important;
   overflow: hidden;
-  min-height: 700px;
-  padding-top: 2px;
+  height: 100%;
 }
 .viewPort {
   padding: 10px;
@@ -88,5 +89,8 @@ body {
   border-bottom: 2px solid rgb(237, 108, 112);
   box-sizing: content-box;
   box-shadow: 4px 2px 4px rgba(237, 108, 112, 0.4), 0 0 6px rgba(0, 0, 0, 0.04);
+}
+.viewMain>div>div>div{
+  padding: 6px !important;
 }
 </style>

@@ -45,18 +45,6 @@ export default {
           message: "请求失败了"
         });
       });
-    this.$axios
-      .post("/api/finance/borrowing/allLoan/investmentRecord")
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-        this.$message({
-          type: "error",
-          message: "请求失败了"
-        });
-      });
   },
   methods: {
     tabsAction(ment) {
@@ -94,7 +82,6 @@ export default {
   position: relative;
   box-sizing: border-box !important;
   overflow: hidden;
-  padding-top: 3px;
 }
 .leftMenu {
   position: relative;
@@ -103,7 +90,7 @@ export default {
 }
 .leftMenu ul {
   box-shadow: 4px 0 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-  min-height: 790px;
+  min-height: 880px;
   background-color: rgb(33, 38, 60);
 }
 .el-menu > div {
