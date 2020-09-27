@@ -1,10 +1,17 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../views/Login";
+/*import Maintenance from "../views/mark/Maintenance";*/
 
 Vue.use(VueRouter);
 
 const routes = [
+ /* {
+    path: "/",
+    name: "Maintenance",
+    component: Maintenance,
+    children: []
+  },*/
   {
     path: "/",
     name: "Login",
@@ -28,9 +35,14 @@ const routes = [
           import(/* webpackChunkName: "about" */ "../views/NotFound")
       },
       {
-        path: "/MarkOn",
-        name: "MarkOn",
-        component: () => import("../views/mark/MarkOn")
+        path: "/debitManage/secondBidsGroundItems",
+        name: "index",
+        component: () => import("../views/mark/index")
+      },
+      {
+        path: "/debitManage/reexAuditItems",
+        name: "Recheck",
+        component: () => import("../views/mark/Recheck")
       },
       {
         path: "/debitManage/debitItems",
