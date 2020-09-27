@@ -45,6 +45,11 @@ const routes = [
         component: () => import("../views/mark/Recheck")
       },
       {
+        path: "/debitManage/runningBidsItems",
+        name: "MarkMange",
+        component: () => import("../views/mark/MarkMange")
+      },
+      {
         path: "/debitManage/debitItems",
         name: "DebitItems",
         component: () =>

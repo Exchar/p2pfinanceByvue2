@@ -1,5 +1,5 @@
 <template>
-  <div class="Recheck">
+  <div class="maintain">
     <div id="nav">
       <el-form>
         <el-form-item prop="region">
@@ -7,7 +7,7 @@
             <el-col :span="4"
               ><div class="grid-content">
                 <el-input
-                  placeholder="搜索借款方"
+                  placeholder="请输入借款方"
                   suffix-icon="el-icon-search"
                   v-model="input1"
                 >
@@ -16,7 +16,7 @@
             <el-col :span="4"
               ><div class="grid-content">
                 <el-input
-                  placeholder="搜索借款人手机"
+                  placeholder="请输入借款人手机"
                   suffix-icon="el-icon-search"
                   v-model="input2"
                 >
@@ -24,9 +24,10 @@
             ></el-col>
             <el-col :span="4"
               ><div class="grid-content">
-                <el-select placeholder="全部进度">
-                  <el-option label="满标" :value="1"></el-option>
-                  <el-option label="未满标" :value="0"></el-option>
+                <el-select placeholder="全部类型">
+                  <el-option label="车抵押" value="car"></el-option>
+                  <el-option label="房抵押" value="house"></el-option>
+                  <el-option label="民品抵押" value="thing"></el-option>
                 </el-select></div
             ></el-col>
             <el-col :span="12"
@@ -37,20 +38,20 @@
       </el-form>
     </div>
     <div id="table">
-      <el-table stripe style="width: 100%">
-        <el-table-column prop="num" label="编号"> </el-table-column>
+      <el-table stripe style="width: 100%" :data="tableData">
+        <el-table-column prop="num" label="借款编号"> </el-table-column>
         <el-table-column prop="borrower" label="借款方"> </el-table-column>
         <el-table-column prop="phoneNum" label="借款人手机"> </el-table-column>
-        <el-table-column prop="markName" label="借款名称"> </el-table-column>
+        <el-table-column prop="markName" label="标名"> </el-table-column>
         <el-table-column prop="guarantee" label="借款金额"> </el-table-column>
         <el-table-column prop="type" label="年利率化"> </el-table-column>
         <el-table-column prop="money" label="还款方式"> </el-table-column>
         <el-table-column prop="rate" label="期限"> </el-table-column>
-        <el-table-column prop="repayType" label="募集时长"> </el-table-column>
-        <el-table-column prop="term" label="募集资金"> </el-table-column>
-        <el-table-column prop="checkTime" label="投资进度"> </el-table-column>
-        <el-table-column prop="state" label="开售时间"> </el-table-column>
-        <el-table-column prop="action" label="结束时间"> </el-table-column>
+        <el-table-column prop="repayType" label="上架时间"> </el-table-column>
+        <el-table-column prop="term" label="开售时间"> </el-table-column>
+        <el-table-column prop="checkTime" label="已投金额"> </el-table-column>
+        <el-table-column prop="state" label="投资进度"> </el-table-column>
+        <el-table-column prop="action" label="操作"> </el-table-column>
         <el-table-column prop="action" label="状态"> </el-table-column>
         <el-table-column prop="action" label="操作"> </el-table-column>
       </el-table>
@@ -62,8 +63,6 @@
         <el-col :span="10"
           ><div>
             <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
               :current-page="currentPage"
               :page-sizes="[20, 40, 60, 80]"
               :page-size="20"
@@ -80,24 +79,42 @@
 
 <script>
 export default {
-  name: "Recheck",
+  name: "MarkMange",
   data() {
     return {
       input1: "",
       input2: "",
-      currentPage: 1
+      currentPage: 1,
+      tableData:[]
     };
   },
   methods: {
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+    getData: function() {
+      this.$axios
+              .post("/markApi/finance/sign/findPage", {
+                limit: 1,
+                page: 5
+              })
+              .then(response => {
+                console.log(response)
+                if (response.data.code==200){
+                  this.tableData = response.data.data
+                  console.log(response.data)
+                }else{
+                  this.$message(response.data.msg)
+                }
+              })
+              .catch(error => {
+                console.log(error);
+              });
     }
+  },
+  mounted() {
+    this.getData();
   }
 };
 </script>
+
 <style scoped>
 .el-col-6 {
   margin-top: 20px;
