@@ -50,9 +50,9 @@ const routes = [
         component: () => import("../views/money/index")
       },
       {
-        path: "/debitManage/xq",
-        name: "xq",
-        component: () => import("../views/money/xq")
+        path: "/debitManage/runningBidsItems",
+        name: "MarkMange",
+        component: () => import("../views/mark/MarkMange")
       },
       {
         path: "/debitManage/debitItems",
