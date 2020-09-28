@@ -1,8 +1,11 @@
 <template>
-  <el-row>
-    <el-button @click="dialogFormVisible = true">+添加分类</el-button>
+  <div>
+    <el-button @click="changeStateAdd">添加分类</el-button>
 
-    <el-dialog title="添加分类" :visible.sync="dialogFormVisible">
+    <el-dialog
+      :title="isadd ? '添加分类' : '修改分类'"
+      :visible.sync="dialogFormVisible"
+    >
       <el-form
         :model="form"
         ref="ruleForm"
@@ -10,33 +13,79 @@
         class="demo-ruleForm"
       >
         <el-form-item label="分类名称">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-input v-model="form.cname" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="排序">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-input v-model="form.sort" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="状态">
-          <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="启用" value="shanghai"></el-option>
-            <el-option label="禁用" value="beijing"></el-option>
+          <el-select v-model="form.cstate" placeholder="请选择活动区域">
+            <el-option label="有效" :value="true"></el-option>
+            <el-option label="禁用" :value="false"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogFormVisible = false"
+        <el-button type="primary" @click="adddebit" v-show="isadd"
           >保存</el-button
+        >
+        <el-button type="primary" @click="saveEdit(form)" v-show="!isadd"
+          >修改</el-button
         >
         <el-button @click="dialogFormVisible = false">取消</el-button>
       </div>
     </el-dialog>
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="date" label="分类名称" width="180">
+  <el-table
+      :data="tableData"
+      style="width: 100%"
+      align="center"
+      >
+      <el-table-column
+        prop="cname"
+        label="分类名称"
+        width="180"
+        align="center">
       </el-table-column>
-      <el-table-column prop="name" label="排序" width="180"> </el-table-column>
-      <el-table-column prop="address" label="状态"> </el-table-column>
-      <el-table-column prop="address" label="操作"> </el-table-column>
+      <el-table-column
+        prop="sort"
+        label="排序"
+        width="180"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="cstate"
+        label="状态"
+        width="180"
+        align="center">
+        <template slot-scope="scope">
+          <span :class="scope.row.cstate == 1 ? 'statusActive' : 'statusDel'">{{
+            scope.row.cstate == 1 ? "有效" : "禁用"
+          }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="caozuo"
+        label="操作"
+        width="180"
+        align="center"
+        >
+        <template slot-scope="scope">
+           <el-button
+          type="primary"
+          icon="el-icon-edit"
+          @click="changeStateEdit(scope.row)"
+        ></el-button>
+        <el-switch
+  v-model="scope.row.cstate"
+  active-text="有效"
+  inactive-text="禁用"
+  @change="changeCstate(scope.$index,scope.row)"
+  >
+</el-switch>
+        </template>
+      </el-table-column>
     </el-table>
-  </el-row>
+  </div>
 </template>
 <script>
 export default {
@@ -45,44 +94,152 @@ export default {
     return {
       dialogFormVisible: false,
       form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
+        id:"",
+        cname: "",
+        sort: "",
+        cstate: ""
       },
       formLabelWidth: "120px",
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ]
+      tableData: [],
+      isadd: 1,
+      value1: 1,
+      swState: 1
     };
+  },
+  mounted: function() {
+    this.gedebitList();
+  },
+  methods: {
+    changeAvi(index,row){
+      console.log(index,row,row.cstate);
+    },
+    changeAdd() {
+      this.isadd = 1;
+    },
+    changeEdit() {
+      this.isadd = 0;
+    },
+    changedialog() {
+      this.dialogFormVisible = 1;
+    },
+    changeStateAdd() {
+      this.changeAdd();
+      this.changedialog();
+    },
+    changeStateEdit(row) {
+      this.changeEdit();
+      this.changedialog();
+      this.editdebit(row);
+    },
+    //添加
+    adddebit: function() {
+      this.$axios
+        .post("/debitApi/finance/category/insert", {
+          cname: this.form.cname,
+          sort: this.form.sort,
+          cstate: this.form.cstate
+        })
+        .then(response => {
+          if (response.data.code == 200) {
+            this.$message(response.data.msg);
+            if (response.data.msg == "成功") {
+              this.gedebitList();
+            }
+            this.dialogFormVisible = false;
+          } else {
+            this.$message(response.data.msg);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.$alert("请求出错");
+        });
+    },
+    //修改
+    editdebit: function(obj) {
+      this.dialogFormVisible = true;
+      this.form.cname = obj.cname;
+      this.form.sort = obj.sort;
+      this.form.cstate = obj.cstate;
+      this.form.id = obj.id;
+    },
+    saveEdit (form) {
+      console.log(form)
+      this.$axios
+        .post("/debitApi/finance/category/update", {
+          id:this.form.id,
+          cname: this.form.cname,
+          sort: this.form.sort,
+          cstate: Number(this.form.cstate)
+        })
+        .then(response => {
+          const result = response.data;
+          if (result.code == 200) {
+            if (result.msg == "成功") {
+              console.log(result)
+              this.$message(result.msg);
+              this.gedebitList();
+              this.dialogFormVisible = false;
+            }
+          } else {
+            this.$msg(result.msg);
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          this.$alert("请求出错，请检查");
+        });
+    },
+    //改变状态
+    changeCstate: function(i,row){
+        this.$axios
+        .post("/debitApi/finance/category/forbidden",{id:row.id, cstate:Number(row.cstate)})
+        .then(response => {
+          if (response.data.code == 200) {
+             this.gedebitList();
+             this.$message({
+               type:"success",
+                message:response.data.msg,
+                duration:500
+             });
+          } else {
+            this.$message(response.data.msg);
+          }
+        })
+        .catch(() => {
+          this.$alert("请求出错");
+        });
+    },
+    gedebitList: function() {
+      this.$axios
+        .post("/debitApi/finance/category/findAll")
+        .then(response => {
+          if (response.data.code == 200) {
+             response.data.data.forEach(v=>{
+               v.cstate = Boolean(v.cstate);
+             })
+            this.tableData = response.data.data;
+          } else {
+            this.$message(response.data.msg);
+          }
+        })
+        .catch(() => {
+          this.$alert("请求出错");
+        });
+    }
   }
 };
 </script>
 <style scoped>
 .el-dialog__footer {
   text-align: center;
+}
+.statusActive {
+  padding: 5px 10px;
+  color: green;
+}
+.statusDel {
+  padding: 5px 10px;
+  color: gray;
 }
 </style>

@@ -32,23 +32,11 @@ export default {
   created() {
     //根据用户权限获取路由,当前是管理员
     this.$axios
-      .get("http://172.16.5.207:5900/getLeftMenu")
+      .get("/api/getLeftMenu")
       .then(res => {
         this.menuData = [...res.data];
         this.saveLeftMenu([...res.data]);
         console.log(this.menuData);
-      })
-      .catch(err => {
-        console.log(err);
-        this.$message({
-          type: "error",
-          message: "请求失败了"
-        });
-      });
-    this.$axios
-      .post("/api/finance/borrowing/allLoan/investmentRecord")
-      .then(res => {
-        console.log(res);
       })
       .catch(err => {
         console.log(err);
@@ -96,17 +84,17 @@ export default {
   overflow: hidden;
   padding-top: 3px;
 }
-.leftMenu{
+.leftMenu {
   position: relative;
   z-index: 10;
   width: 100%;
 }
-.leftMenu ul{
-  box-shadow: 4px 0 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+.leftMenu ul {
+  box-shadow: 4px 0 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   min-height: 790px;
-  background-color: rgb(33,38,60);
+  background-color: rgb(33, 38, 60);
 }
-.el-menu>div{
+.el-menu > div {
   width: 200px !important;
 }
 </style>

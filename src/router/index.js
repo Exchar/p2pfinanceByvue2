@@ -36,7 +36,9 @@ const routes = [
         path: "/debitManage/debitItems",
         name: "DebitItems",
         component: () =>
-          import(/* webpackChunkName: "about" */ "../views/debitManage/debitItems/index.vue")
+          import(
+            /* webpackChunkName: "about" */ "../views/debitManage/debitItems/index.vue"
+          )
       },
       {
         path: "/debitManage/investRecords",

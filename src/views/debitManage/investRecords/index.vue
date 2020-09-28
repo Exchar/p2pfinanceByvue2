@@ -1,134 +1,123 @@
 <template>
-  <el-row :gutter="20">
-    <el-col :span="3"
-      ><el-input
-        v-model="input"
-        placeholder="投资人手机"
-        suffix-icon="el-icon-search"
-      ></el-input
-    ></el-col>
-    <el-col :span="3"
-      ><el-input
-        v-model="input"
-        placeholder="借款名称"
-        suffix-icon="el-icon-search"
-      ></el-input
-    ></el-col>
-    <el-col :span="3">
-      <el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-    </el-col>
-    <el-col :span="3"
-      ><div class="block">
-        <el-date-picker
-          v-model="value2"
-          type="daterange"
-          align="right"
-          unlink-panels
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :picker-options="pickerOptions"
-        >
-        </el-date-picker></div
-    ></el-col>
-    <el-col :span="3" :offset="6"><el-button plain>自定义列</el-button></el-col>
-    <el-col :span="3"><el-button plain>导出</el-button></el-col>
-    <el-table :data="tableData" style="width: 100%">
+  <div>
+    <el-row :gutter="20">
+      <el-col :span="3"
+        ><el-input
+          v-model="input1"
+          placeholder="投资人手机"
+          suffix-icon="el-icon-search"
+          @change="investSearch"
+        ></el-input
+      ></el-col>
+      <el-col :span="3"
+        ><el-input
+          v-model="input2"
+          placeholder="标名"
+          suffix-icon="el-icon-search"
+          @change="investSearch"
+        ></el-input
+      ></el-col>
+      <el-col :span="3">
+        <el-select v-model="value" placeholder="全部状态"  @change="handleCurrentChange">
+          <el-option
+            v-for="item in options"
+            :key="item.id"
+            :label="item.sname"
+            :value="item.id"
+          
+          >
+          </el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="3"
+        ><div class="block">
+          <el-date-picker
+            v-model="value2"
+            type="daterange"
+            align="right"
+            unlink-panels
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :picker-options="pickerOptions"
+            @change="investSearch"
+          >
+          </el-date-picker></div
+      ></el-col>
+      <el-col :span="3" :offset="6"
+        ><el-button plain>自定义列</el-button></el-col
+      >
+      <el-col :span="3"><el-button plain>导出</el-button></el-col></el-row
+    >
+    <el-table :data="tableData" style="width: 100%" height="350px"  v-loading="loading">
       <el-table-column label="标的编号" width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.num }}</span>
         </template>
       </el-table-column>
       <el-table-column label="投资人" width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.investor }}</span>
         </template>
       </el-table-column>
       <el-table-column label="投资人手机" width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.phone }}</span>
         </template>
       </el-table-column>
       <el-table-column label="标名" width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.entitle }}</span>
         </template>
       </el-table-column>
       <el-table-column label="投资金额" width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.money }}</span>
         </template>
       </el-table-column>
       <el-table-column label="利息" width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.interest }}</span>
         </template>
       </el-table-column>
       <el-table-column label="利息管理费" width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.managerfee }}</span>
         </template>
       </el-table-column>
       <el-table-column label="收益方式" width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.income }}</span>
         </template>
       </el-table-column>
       <el-table-column label="已收金额" width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.amount }}</span>
         </template>
       </el-table-column>
       <el-table-column label="待收总额" width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.duein }}</span>
         </template>
       </el-table-column>
       <el-table-column label="投资渠道" width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.ditch }}</span>
         </template>
       </el-table-column>
       <el-table-column label="投资时间" width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ new Date(scope.row.investime).toLocaleDateString() }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="投资状态" width="150">
+      <el-table-column label="投资状态" width="150" prop="state">
         <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="姓名" width="180">
-        <template slot-scope="scope">
-          <el-popover trigger="hover" placement="top">
-            <p>姓名: {{ scope.row.name }}</p>
-            <p>住址: {{ scope.row.address }}</p>
-            <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
-            </div>
-          </el-popover>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-            >编辑</el-button
-          >
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-            >删除</el-button
-          >
+          <p v-if="tableData[scope.$index].state == 1">待回款</p>
+          <p v-if="tableData[scope.$index].state == 2">已结算</p>
+          <p v-if="tableData[scope.$index].state == 3">撤标</p>
+          <p v-if="tableData[scope.$index].state == 4">流标</p>
+          <p v-if="tableData[scope.$index].state == 5">投资中</p>
+          <p v-if="tableData[scope.$index].state == 6">投资失败</p>
         </template>
       </el-table-column>
     </el-table>
@@ -138,85 +127,34 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage4"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
+        :page-sizes="[5, 10, 20, 30]"
+        :page-size="pageSize"
         layout="sizes,total,  jumper ,prev, pager, next"
-        :total="400"
+        :total="8"
         prev-text="上一页"
         next-text="下一页"
       >
       </el-pagination>
     </div>
-  </el-row>
+  </div>
 </template>
 <script>
 export default {
   name: "debitItems",
   data() {
     return {
-      input: "",
+      input1: "",
+      input2: "",
       options: [
         {
-          value: "选项1",
-          label: "全部状态"
-        },
-        {
-          value: "选项2",
-          label: "新标待审核"
-        },
-        {
-          value: "选项3",
-          label: "初审不通过"
-        },
-        {
-          value: "选项4",
-          label: "新标待上架"
-        },
-        {
-          value: "选项5",
-          label: "满标待审"
-        },
-        {
-          value: "选项6",
-          label: "还款中"
-        },
-        {
-          value: "选项7",
-          label: "已完成"
-        },
-        {
-          value: "选项8",
-          label: "流标"
-        },
-        {
-          value: "选项9",
-          label: "撤标"
+          value: "",
+          label: ""
         }
       ],
       value: "",
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ],
-      currentPage4: 4,
+      tableData: [],
+      currentPage4: 1,
+      pageSize:5,
       pickerOptions: {
         shortcuts: [
           {
@@ -248,21 +186,82 @@ export default {
           }
         ]
       },
-      value2: ""
+      value2: "",
+      loading: true
     };
   },
+  mounted: function() {
+    this.getInvestList();
+    this.getInvestStateList();
+  },
   methods: {
+    getInvestList() {     
+         this.$axios
+        .post("/debitApi/finance/investment/findAllPage",{
+          limit:this.currentPage4,
+          page:this.pageSize
+        })
+        .then(response => {
+          var result = response.data;
+          this.tableData = result.data;
+          this.loading=false;
+          console.log(result.data);
+        })
+        .catch(() => {});
+    },
+    getInvestStateList() {
+      this.$axios
+        .post("/api/finance/investment/findAllPage")
+        .then(response => {
+          var result = response.data;
+          this.options = result.data;
+          console.log(result);
+        })
+        .catch(() => {});
+    },
     handleEdit(index, row) {
       console.log(index, row);
+    },
+    investSearch() {
+      console.log({
+          limit:this.currentPage4,
+          page:this.pageSize,
+          phone: this.input1,
+          entitle: this.input2,
+          investState: this.value,
+          startDate: new Date(this.value2[0]).getFullYear()+"-"+new Date(this.value2[0]).getMonth()+"-"+new Date(this.value2[0]).getDate(),
+          endDate:new Date(this.value2[1]).getFullYear()+"-"+new Date(this.value2[1]).getMonth()+"-"+new Date(this.value2[1]).getDate()
+        })
+      this.$axios
+        .post("/debitApi/finance/investment/findAllPage", {
+          limit:this.currentPage4,
+          page:this.pageSize,
+          phone: this.input1,
+          entitle: this.input2,
+          investState: this.value,
+          startDate: new Date(this.value2[0]).getFullYear()+"-"+new Date(this.value2[0]).getMonth()+"-"+new Date(this.value2[0]).getDate(),
+          endDate:new Date(this.value2[1]).getFullYear()+"-"+new Date(this.value2[1]).getMonth()+"-"+new Date(this.value2[1]).getDate()
+        })
+        .then(response => {
+          if (response.data.code == 200) {
+             this.tableData=response.data.data;
+             console.log(response.data.data)
+          } else {
+            this.$message(response.data.msg);
+          }
+        })
+        .catch(() => {
+          this.$alert("请求出错");
+        });
     },
     handleDelete(index, row) {
       console.log(index, row);
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+    handleSizeChange() {
+      this.investSearch();
     },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+    handleCurrentChange() {
+      this.investSearch();
     }
   }
 };
