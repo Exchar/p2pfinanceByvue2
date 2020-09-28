@@ -41,6 +41,7 @@
       height="480px"
       style="width: 100%;height: 100%"
       stripe
+      v-loading="loading"
     >
       <el-table-column prop="number" label="编号" width="130" align="center">
       </el-table-column>
@@ -132,7 +133,10 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" width="130" align="center">
-        <el-button type="primary" style="border-radius: 2px" :disabled="!hasChangeKey"
+        <el-button
+          type="primary"
+          style="border-radius: 2px"
+          :disabled="!hasChangeKey"
           >平台垫付</el-button
         >
       </el-table-column>
@@ -165,7 +169,8 @@ export default {
       nowPage: 1,
       perPage: 10,
       totalItems: 0,
-      hasChangeKey: false
+      hasChangeKey: false,
+      loading: false
     };
   },
   created() {
@@ -189,7 +194,7 @@ export default {
         });
     },
     getRepaymentItems() {
-      console.log(this.searchItems.states);
+      this.loading = true;
       this.$axios
         .post("/api/getRepaymentItems", {
           backName: this.searchItems.repayerName,
@@ -203,6 +208,7 @@ export default {
           if (res.data.data.code === 200) {
             this.tableData = res.data.data.data;
             this.totalItems = res.data.count;
+            this.loading = false;
             this.$message({
               type: "success",
               duration: 800,

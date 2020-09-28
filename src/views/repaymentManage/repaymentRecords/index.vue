@@ -41,6 +41,7 @@
       height="420px"
       style="width: 100%;height: 100%"
       stripe
+      v-loading="loading"
     >
       <el-table-column prop="number" label="编号" width="130" align="center">
       </el-table-column>
@@ -184,7 +185,7 @@ export default {
         });
     },
     getRepaymentItems() {
-      console.log(this.searchItems.states);
+      this.loading = true;
       this.$axios
         .post("/api/getRepaymentRecordsItems", {
           backName: this.searchItems.repayerName,
@@ -198,6 +199,7 @@ export default {
           if (res.data.data.code === 200) {
             this.tableData = res.data.data.data;
             this.totalItems = res.data.count;
+            this.loading = false;
             this.$message({
               type: "success",
               duration: 800,
