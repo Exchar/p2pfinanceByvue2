@@ -1,34 +1,43 @@
 <template>
-  <el-row :gutter="20">
-    <el-col :span="4"
-      ><el-input
-        v-model="input"
-        placeholder="搜索借款方"
-        suffix-icon="el-icon-search"
-      ></el-input
-    ></el-col>
-    <el-col :span="4"
-      ><el-input
-        v-model="input"
-        placeholder="搜索借款人手机"
-        suffix-icon="el-icon-search"
-      ></el-input
-    ></el-col>
-    <el-col :span="4">
-      <el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option> </el-select
-    ></el-col>
-    <el-col :span="3" :offset="6"
-      ><el-button type="primary" plain>自定义列</el-button></el-col
+  <div class="viewMain">
+    <el-row :gutter="20">
+      <el-col :span="4"
+        ><el-input
+          v-model="input"
+          placeholder="搜索借款方"
+          suffix-icon="el-icon-search"
+        ></el-input
+      ></el-col>
+      <el-col :span="4"
+        ><el-input
+          v-model="input"
+          placeholder="搜索借款人手机"
+          suffix-icon="el-icon-search"
+        ></el-input
+      ></el-col>
+      <el-col :span="4">
+        <el-select v-model="value" placeholder="全部状态">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option> </el-select
+      ></el-col>
+      <el-col :span="3" :offset="6"
+        ><el-button type="primary" plain>自定义列</el-button></el-col
+      >
+      <el-col :span="3"
+        ><el-button type="primary" plain>导出</el-button></el-col
+      >
+    </el-row>
+    <el-table
+      :data="debitltemsData"
+      style="width: 100%"
+      class="debitTable"
+      header-row-class-name="dtable"
     >
-    <el-col :span="3"><el-button type="primary" plain>导出</el-button></el-col>
-    <el-table :data="debitltemsData" style="width: 100%">
       <el-table-column label="借款ID" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.num }}</span>
@@ -46,7 +55,7 @@
       </el-table-column>
       <el-table-column label="借款名称" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.borrowname }}</span>
+          <span>{{ scope.row.entitle }}</span>
         </template>
       </el-table-column>
       <el-table-column label="借款金额" width="100">
@@ -111,7 +120,7 @@
             type="danger"
             icon="el-icon-edit"
             circle
-            @click="del(scope.row)"
+            @click="edit(scope.row)"
             >投资记录</el-button
           >
           <el-button
@@ -139,7 +148,7 @@
       >
       </el-pagination>
     </div>
-  </el-row>
+  </div>
 </template>
 <script>
 export default {
@@ -149,44 +158,12 @@ export default {
       input: "",
       options: [
         {
-          value: "选项1",
-          label: "全部状态"
-        },
-        {
-          value: "选项2",
-          label: "新标待审核"
-        },
-        {
-          value: "选项3",
-          label: "初审不通过"
-        },
-        {
-          value: "选项4",
-          label: "新标待上架"
-        },
-        {
-          value: "选项5",
-          label: "满标待审"
-        },
-        {
-          value: "选项6",
-          label: "还款中"
-        },
-        {
-          value: "选项7",
-          label: "已完成"
-        },
-        {
-          value: "选项8",
-          label: "流标"
-        },
-        {
-          value: "选项9",
-          label: "撤标"
+          value: "",
+          label: ""
         }
       ],
       value: "",
-      debitltemsData:[],
+      debitltemsData: [],
       tableData: {
         num: "",
         borrower: "",
@@ -203,19 +180,20 @@ export default {
         investprocess: "",
         state: ""
       },
-      currentPage4: 4
+      currentPage4: 1
     };
   },
   mounted: function() {
     this.getloanList();
   },
   methods: {
+    //得到数据
     getloanList: function() {
       this.$axios
-        .get("http://localhost:5900/jieKuan")
+        .post("http://localhost:5900/jieKuan")
         .then(response => {
           var result = response.data;
-          if (result.code === 200) {
+          if (result.code == 200) {
             this.debitltemsData = result.data;
           } else {
             this.$alert(result.message);
@@ -223,6 +201,9 @@ export default {
         })
         .catch(() => {});
     },
+    //详情
+    //还款记录
+    //投资记录
     handleEdit(index, row) {
       console.log(index, row);
     },
@@ -239,9 +220,6 @@ export default {
 };
 </script>
 <style scoped>
-.el-row {
-  margin-bottom: 20px;
-}
 .el-col {
   border-radius: 4px solid;
 }
@@ -250,5 +228,11 @@ input.el-input__inner {
 }
 .el-pagination__total {
   margin-left: 20px;
+}
+.el-table__header-wrapper {
+  background-color: gray !important;
+}
+.viewMain {
+  padding: 10px;
 }
 </style>
