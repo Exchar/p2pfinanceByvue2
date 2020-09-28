@@ -41,19 +41,26 @@
       <el-table stripe style="width: 100%" :data="tableData">
         <el-table-column prop="num" label="借款编号"> </el-table-column>
         <el-table-column prop="borrower" label="借款方"> </el-table-column>
-        <el-table-column prop="phoneNum" label="借款人手机"> </el-table-column>
-        <el-table-column prop="markName" label="标名"> </el-table-column>
-        <el-table-column prop="guarantee" label="借款金额"> </el-table-column>
-        <el-table-column prop="type" label="年利率化"> </el-table-column>
-        <el-table-column prop="money" label="还款方式"> </el-table-column>
-        <el-table-column prop="rate" label="期限"> </el-table-column>
-        <el-table-column prop="repayType" label="上架时间"> </el-table-column>
-        <el-table-column prop="term" label="开售时间"> </el-table-column>
+        <el-table-column prop="phone" label="借款人手机"> </el-table-column>
+        <el-table-column prop="entitle" label="标名"> </el-table-column>
+        <el-table-column prop="money" label="借款金额"> </el-table-column>
+        <el-table-column prop="annual" label="年利率化"> </el-table-column>
+        <el-table-column prop="repayment" label="还款方式"> </el-table-column>
+        <el-table-column prop="deadline" label="期限"> </el-table-column>
+        <el-table-column prop="putawaytime" label="上架时间"> </el-table-column>
+        <el-table-column prop="saletime" label="开售时间"> </el-table-column>
         <el-table-column prop="checkTime" label="已投金额"> </el-table-column>
-        <el-table-column prop="state" label="投资进度"> </el-table-column>
-        <el-table-column prop="action" label="操作"> </el-table-column>
-        <el-table-column prop="action" label="状态"> </el-table-column>
-        <el-table-column prop="action" label="操作"> </el-table-column>
+        <el-table-column prop="sname" label="投资进度"> </el-table-column>
+        <el-table-column prop="state" label="状态"> </el-table-column>
+        <el-table-column prop="action" label="操作" width="180px">
+          <el-link type="primary" :underline="false" @click="change"
+            >修改</el-link
+          >
+          |
+          <el-link type="primary" :underline="false" @click="markDown"
+            >下架</el-link
+          >
+        </el-table-column>
       </el-table>
     </div>
     <div id="page">
@@ -97,6 +104,7 @@ export default {
         })
         .then(response => {
           console.log(response);
+          console.log(response.data);
           if (response.data.code == 200) {
             this.tableData = response.data.data;
             console.log(response.data);
@@ -107,7 +115,9 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    }
+    },
+    change() {},
+    markDown() {}
   },
   mounted() {
     this.getData();

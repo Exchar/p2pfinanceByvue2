@@ -37,12 +37,23 @@ const routes = [
       {
         path: "/debitManage/secondBidsGroundItems",
         name: "index",
-        component: () => import("../views/mark/index")
+        component: () => import("../views/debitManage/secondBidsGroundItems/index"),
+
       },
       {
         path: "/debitManage/reexAuditItems",
         name: "Recheck",
-        component: () => import("../views/mark/Recheck")
+        component: () => import("../views/debitManage/reexAuditItems/index")
+      },
+      {
+        path: "/debitManage/RecheckAction",
+        name: "RecheckAction",
+        component: () => import("../views/debitManage/reexAuditItems/RecheckAction")
+      },
+      {
+        path: "/debitManage/Maintenance",
+        name: "Maintenance",
+        component: () => import("../views/debitManage/secondBidsGroundItems/Maintenance")
       },
       {
         path: "/debitManage/index",
@@ -52,7 +63,7 @@ const routes = [
       {
         path: "/debitManage/runningBidsItems",
         name: "MarkMange",
-        component: () => import("../views/mark/MarkMange")
+        component: () => import("../views/debitManage/runningBidsItems/index")
       },
       {
         path: "/debitManage/debitItems",

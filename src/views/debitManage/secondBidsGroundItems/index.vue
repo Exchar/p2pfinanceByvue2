@@ -18,6 +18,7 @@
                 <el-input
                   placeholder="搜索借款人手机"
                   v-model="peopleList.phone"
+                  clearable
                 >
                 </el-input></div
             ></el-col>
@@ -42,7 +43,11 @@
         <el-table-column prop="deadline" label="期限"> </el-table-column>
         <el-table-column label="审核时间"> </el-table-column>
         <el-table-column prop="state" label="状态"> </el-table-column>
-        <el-table-column prop="action" label="操作"> </el-table-column>
+        <el-table-column label="操作">
+          <el-link type="primary" :underline="false" @click="markOn"
+            >上架</el-link
+          >
+        </el-table-column>
       </el-table>
     </div>
     <div id="page">
@@ -52,9 +57,11 @@
         <el-col :span="10"
           ><div>
             <el-pagination
-              :current-page="peopleList.pageNum"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage4"
               :page-sizes="[2, 3, 5, 10]"
-              :page-size="peopleList.pageSize"
+              :page-size="pageSize"
               layout="total, sizes, prev, pager, next, jumper"
               :total="total"
             >
@@ -67,7 +74,6 @@
 </template>
 
 <script>
-/*const qs = require('qs');*/
 export default {
   name: "MarkOn",
   data() {
@@ -76,10 +82,12 @@ export default {
         pledge: "",
         borrower: "",
         phone: "",
-        limit: 1,
-        page: 10
+        limit: "",
+        page: ""
       },
-      total: 0,
+      currentPage4: 1,
+      pageSize: 5,
+      total: 5,
       phoneNum: "",
       tableData: []
     };
@@ -88,27 +96,77 @@ export default {
     this.getData();
   },
   methods: {
+    markOn() {
+      this.$router.push("/debitManage/Maintenance");
+      /*this.$axios
+              .post("/markApi/finance/sign/insert", {
+                num: "20171045102",
+                lable: "2",
+                genre: "1",
+                lowmoney: "100",
+                addmoney: "100",
+                largemoney: "100000",
+                manner: "4",
+                ditch: "1",
+                sift: "0",
+                noob: "1",
+                raisedata: "0",
+                timetype: "null",
+                timevalue: "null",
+                putawaytime: "2020-09-27",
+                saletime: "2020-09-28",
+                introduce: "接口测试",
+                step: "接口测试的防控措施"
+              })
+              .then(response => {
+                console.log(response);
+                if (response.data.code == 200) {
+                  this.tableData = response.data.data;
+                  console.log(response.data);
+                } else {
+                  this.$message(response.data.msg);
+                }
+              })
+              .catch(error => {
+                console.log(error);
+              });*/
+    },
+    handleSizeChange(value) {
+      this.pageSize = value;
+      this.getData();
+    },
+    handleCurrentChange(value) {
+      this.currentPage4 = value;
+      this.getData();
+    },
     getData: function() {
-      this.$axios
-        .post("/markApi/finance/sign/findPage", {
-          phone: "",
-          borrower: "",
-          pledge: "",
-          limit: 1,
-          page: 10
-        })
-        .then(response => {
-          console.log(response);
-          if (response.data.code == 200) {
-            this.tableData = response.data.data;
-            console.log(response.data);
-          } else {
-            this.$message(response.data.msg);
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      console.log({
+        phone: "" + this.peopleList.phone,
+        borrower: "" + this.peopleList.borrower,
+        pledge: "1",
+        limit: +this.currentPage4,
+        page: +this.pageSize
+      }),
+        this.$axios
+          .post("/markApi/finance/sign/findPage", {
+            phone: "" + this.peopleList.phone,
+            borrower: "" + this.peopleList.borrower,
+            pledge: "1",
+            limit: +this.currentPage4,
+            page: +this.pageSize
+          })
+          .then(response => {
+            console.log(response);
+            if (response.data.code == 200) {
+              this.tableData = response.data.data;
+              console.log(response.data);
+            } else {
+              this.$message(response.data.msg);
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
     }
     /* search(){
       console.log(this.peopleList)
