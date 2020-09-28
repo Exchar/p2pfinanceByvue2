@@ -60,6 +60,26 @@ const routes = [
     path: "*",
     name: "pageNotFound",
     component: () => import(/* webpackChunkName: "about" */ "../views/NotFound")
+  },
+  {
+    path: "/newLoans",
+    name: "newLoans",
+    component: () => import("../views/debitManage/newLoans/Index")
+  },
+  {
+    path: "/standard",
+    name: "Standard",
+    component: () => import("../views/debitManage/newStandard/Index")
+  },
+  {
+    path: "/loanReview",
+    name: "LoanReview",
+    component: () => import("../views/debitManage/loanReview/Index")
+  },
+  {
+    path: "/loanDetails",
+    name: "LoanDetails",
+    component: () => import("../views/debitManage/loanDetails/Index")
   }
 ];
 
