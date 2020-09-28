@@ -25,8 +25,8 @@ const routes = [
     children: [
       {
         path: "/",
-        name: "pageNotFound",
-        component: () => import("../views/NotFound")
+        name: "index",
+        component: () => import("../views/home/index")
       },
       {
         path: "/debitManage/addDebitItem",

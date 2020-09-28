@@ -35,7 +35,12 @@
         <el-button @click="dialogFormVisible = false">取消</el-button>
       </div>
     </el-dialog>
-    <el-table :data="tableData" style="width: 100%" align="center" v-loading="loading">
+    <el-table
+      :data="tableData"
+      style="width: 100%"
+      align="center"
+      v-loading="loading"
+    >
       <el-table-column prop="cname" label="分类名称" width="180" align="center">
       </el-table-column>
       <el-table-column prop="sort" label="排序" width="180" align="center">
