@@ -51,7 +51,7 @@ export default {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   background-color: #ffffff;
 }
-.viewPort{
+.viewPort {
   height: 100%;
 }
 .main {
@@ -90,7 +90,7 @@ body {
   box-sizing: content-box;
   box-shadow: 4px 2px 4px rgba(237, 108, 112, 0.4), 0 0 6px rgba(0, 0, 0, 0.04);
 }
-.viewMain>div>div>div{
+.viewMain > div > div > div {
   padding: 6px !important;
 }
 </style>

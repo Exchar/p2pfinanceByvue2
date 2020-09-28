@@ -1,6 +1,10 @@
 <template>
   <el-row>
-    <el-form :label-position="labelPosition" label-width="100px" :model="formLabelAlign">
+    <el-form
+      :label-position="labelPosition"
+      label-width="100px"
+      :model="formLabelAlign"
+    >
       <div>
         <p>基本信息</p>
       </div>
@@ -27,18 +31,20 @@
           <el-input v-model="formLabelAlign.Ytype"></el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="24"><p>操作</p>
+      <el-col :span="24"
+        ><p>操作</p>
         <el-form-item label="状态:">
           <el-radio v-model="formLabelAlign.radio" label="1">正常</el-radio>
           <el-radio v-model="formLabelAlign.radio" label="2">锁定</el-radio>
         </el-form-item>
-      <el-col :span="12">
+        <el-col :span="12">
           <el-form-item label="备注:">
             <el-input
               type="textarea"
               :rows="5"
               placeholder="请输入内容"
-              v-model="formLabelAlign.textarea">
+              v-model="formLabelAlign.textarea"
+            >
             </el-input>
           </el-form-item>
         </el-col>
@@ -55,29 +61,26 @@
 
 <script>
 export default {
-name: "Modify",
+  name: "Modify",
   data() {
     return {
-      labelPosition: 'right',
+      labelPosition: "right",
       formLabelAlign: {
         name: "",
         region: "",
         type: "",
-        Yname:'',
-        Yregion:'',
-        Ytype:'',
-        radio:'1',
-        textarea:''
+        Yname: "",
+        Yregion: "",
+        Ytype: "",
+        radio: "1",
+        textarea: ""
       }
     };
   },
   methods: {
-    onSubmit() {
-    }
+    onSubmit() {}
   }
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

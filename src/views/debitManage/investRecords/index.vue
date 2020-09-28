@@ -18,13 +18,16 @@
         ></el-input
       ></el-col>
       <el-col :span="3">
-        <el-select v-model="value" placeholder="全部状态"  @change="handleCurrentChange">
+        <el-select
+          v-model="value"
+          placeholder="全部状态"
+          @change="handleCurrentChange"
+        >
           <el-option
             v-for="item in options"
             :key="item.id"
             :label="item.sname"
             :value="item.id"
-          
           >
           </el-option>
         </el-select>
@@ -49,7 +52,12 @@
       >
       <el-col :span="3"><el-button plain>导出</el-button></el-col></el-row
     >
-    <el-table :data="tableData" style="width: 100%" height="350px"  v-loading="loading">
+    <el-table
+      :data="tableData"
+      style="width: 100%"
+      height="350px"
+      v-loading="loading"
+    >
       <el-table-column label="标的编号" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.num }}</span>
@@ -154,7 +162,7 @@ export default {
       value: "",
       tableData: [],
       currentPage4: 1,
-      pageSize:5,
+      pageSize: 5,
       pickerOptions: {
         shortcuts: [
           {
@@ -195,16 +203,16 @@ export default {
     this.getInvestStateList();
   },
   methods: {
-    getInvestList() {     
-         this.$axios
-        .post("/debitApi/finance/investment/findAllPage",{
-          limit:this.currentPage4,
-          page:this.pageSize
+    getInvestList() {
+      this.$axios
+        .post("/markApi/finance/investment/findAllPage", {
+          limit: this.currentPage4,
+          page: this.pageSize
         })
         .then(response => {
           var result = response.data;
           this.tableData = result.data;
-          this.loading=false;
+          this.loading = false;
           console.log(result.data);
         })
         .catch(() => {});
@@ -224,28 +232,48 @@ export default {
     },
     investSearch() {
       console.log({
-          limit:this.currentPage4,
-          page:this.pageSize,
-          phone: this.input1,
-          entitle: this.input2,
-          investState: this.value,
-          startDate: new Date(this.value2[0]).getFullYear()+"-"+new Date(this.value2[0]).getMonth()+"-"+new Date(this.value2[0]).getDate(),
-          endDate:new Date(this.value2[1]).getFullYear()+"-"+new Date(this.value2[1]).getMonth()+"-"+new Date(this.value2[1]).getDate()
-        })
+        limit: this.currentPage4,
+        page: this.pageSize,
+        phone: this.input1,
+        entitle: this.input2,
+        investState: this.value,
+        startDate:
+          new Date(this.value2[0]).getFullYear() +
+          "-" +
+          new Date(this.value2[0]).getMonth() +
+          "-" +
+          new Date(this.value2[0]).getDate(),
+        endDate:
+          new Date(this.value2[1]).getFullYear() +
+          "-" +
+          new Date(this.value2[1]).getMonth() +
+          "-" +
+          new Date(this.value2[1]).getDate()
+      });
       this.$axios
-        .post("/debitApi/finance/investment/findAllPage", {
-          limit:this.currentPage4,
-          page:this.pageSize,
+        .post("/markApi/finance/investment/findAllPage", {
+          limit: this.currentPage4,
+          page: this.pageSize,
           phone: this.input1,
           entitle: this.input2,
           investState: this.value,
-          startDate: new Date(this.value2[0]).getFullYear()+"-"+new Date(this.value2[0]).getMonth()+"-"+new Date(this.value2[0]).getDate(),
-          endDate:new Date(this.value2[1]).getFullYear()+"-"+new Date(this.value2[1]).getMonth()+"-"+new Date(this.value2[1]).getDate()
+          startDate:
+            new Date(this.value2[0]).getFullYear() +
+            "-" +
+            new Date(this.value2[0]).getMonth() +
+            "-" +
+            new Date(this.value2[0]).getDate(),
+          endDate:
+            new Date(this.value2[1]).getFullYear() +
+            "-" +
+            new Date(this.value2[1]).getMonth() +
+            "-" +
+            new Date(this.value2[1]).getDate()
         })
         .then(response => {
           if (response.data.code == 200) {
-             this.tableData=response.data.data;
-             console.log(response.data.data)
+            this.tableData = response.data.data;
+            console.log(response.data.data);
           } else {
             this.$message(response.data.msg);
           }

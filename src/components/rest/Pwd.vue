@@ -1,6 +1,10 @@
 <template>
   <el-row>
-    <el-form :label-position="labelPosition" label-width="100px" :model="formLabelAlign">
+    <el-form
+      :label-position="labelPosition"
+      label-width="100px"
+      :model="formLabelAlign"
+    >
       <div>
         <p>密码管理</p>
       </div>
@@ -16,7 +20,7 @@
       </el-col>
       <el-col :span="24">
         <el-col :span="6">
-         <el-form-item label="交易密码:">
+          <el-form-item label="交易密码:">
             <el-input v-model="formLabelAlign.pwd"></el-input>
           </el-form-item>
         </el-col>
@@ -32,21 +36,19 @@
 
 <script>
 export default {
-name: "Pwd",
+  name: "Pwd",
   data() {
     return {
-      labelPosition: 'center',
+      labelPosition: "center",
       formLabelAlign: {
         name: "",
         region: "",
-        pwd:"",
-        pwd1:""
+        pwd: "",
+        pwd1: ""
       }
     };
   }
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,6 +1,10 @@
 <template>
   <el-row>
-    <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
+    <el-form
+      :label-position="labelPosition"
+      label-width="80px"
+      :model="formLabelAlign"
+    >
       <div>
         <p>基本信息</p>
       </div>
@@ -18,7 +22,9 @@
       <el-col :span="12">
         <el-form-item label="用户类型:">
           <el-radio v-model="formLabelAlign.radio" label="1">企业用户</el-radio>
-          <el-radio v-model="formLabelAlign.radio" label="2"><router-link to="/personUse">个人用户</router-link></el-radio>
+          <el-radio v-model="formLabelAlign.radio" label="2"
+            ><router-link to="/personUse">个人用户</router-link></el-radio
+          >
         </el-form-item>
         <el-form-item label="税务登记:">
           <el-input v-model="formLabelAlign.one"></el-input>
@@ -36,7 +42,9 @@
           <el-input v-model="formLabelAlign.four"></el-input>
         </el-form-item>
         <el-form-item>
-          <router-link type="primary" @click="onSubmit" to="/Modify">确定新增</router-link>
+          <router-link type="primary" @click="onSubmit" to="/Modify"
+            >确定新增</router-link
+          >
           <el-button>取消</el-button>
         </el-form-item>
       </el-col>
@@ -49,15 +57,15 @@ export default {
   name: "Investment",
   data() {
     return {
-      labelPosition: 'right',
+      labelPosition: "right",
       formLabelAlign: {
         name: "",
         region: "",
         type: "",
-        one:"",
-        tow:"",
-        three:"",
-        four:"",
+        one: "",
+        tow: "",
+        three: "",
+        four: "",
         radio: "1"
       }
     };
@@ -65,26 +73,27 @@ export default {
   methods: {
     onSubmit() {
       this.$axios({
-        method:"post",
-        url:"/userApi/loanUser/save",
-        params:{
-          username:this.name,
-          phone:this.phone,
-          Company:this.Company,
-          password:this.password,
-          type:this.type,
-          email:this.email,
-          Loginaccount:this.Loginaccount
+        method: "post",
+        url: "/userApi/loanUser/save",
+        params: {
+          username: this.name,
+          phone: this.phone,
+          Company: this.Company,
+          password: this.password,
+          type: this.type,
+          email: this.email,
+          Loginaccount: this.Loginaccount
         }
-      }).then(response=>{
-          console.log(response)
-        }).catch(error=>{
-          console.log(error)
+      })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
         });
     }
   }
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

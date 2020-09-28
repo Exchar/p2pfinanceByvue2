@@ -35,53 +35,32 @@
         <el-button @click="dialogFormVisible = false">取消</el-button>
       </div>
     </el-dialog>
-  <el-table
-      :data="tableData"
-      style="width: 100%"
-      align="center"
-      >
-      <el-table-column
-        prop="cname"
-        label="分类名称"
-        width="180"
-        align="center">
+    <el-table :data="tableData" style="width: 100%" align="center" v-loading="loading">
+      <el-table-column prop="cname" label="分类名称" width="180" align="center">
       </el-table-column>
-      <el-table-column
-        prop="sort"
-        label="排序"
-        width="180"
-        align="center">
+      <el-table-column prop="sort" label="排序" width="180" align="center">
       </el-table-column>
-      <el-table-column
-        prop="cstate"
-        label="状态"
-        width="180"
-        align="center">
+      <el-table-column prop="cstate" label="状态" width="180" align="center">
         <template slot-scope="scope">
           <span :class="scope.row.cstate == 1 ? 'statusActive' : 'statusDel'">{{
             scope.row.cstate == 1 ? "有效" : "禁用"
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="caozuo"
-        label="操作"
-        width="180"
-        align="center"
-        >
+      <el-table-column prop="caozuo" label="操作" width="180" align="center">
         <template slot-scope="scope">
-           <el-button
-          type="primary"
-          icon="el-icon-edit"
-          @click="changeStateEdit(scope.row)"
-        ></el-button>
-        <el-switch
-  v-model="scope.row.cstate"
-  active-text="有效"
-  inactive-text="禁用"
-  @change="changeCstate(scope.$index,scope.row)"
-  >
-</el-switch>
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            @click="changeStateEdit(scope.row)"
+          ></el-button>
+          <el-switch
+            v-model="scope.row.cstate"
+            active-text="有效"
+            inactive-text="禁用"
+            @change="changeCstate(scope.$index, scope.row)"
+          >
+          </el-switch>
         </template>
       </el-table-column>
     </el-table>
@@ -94,11 +73,12 @@ export default {
     return {
       dialogFormVisible: false,
       form: {
-        id:"",
+        id: "",
         cname: "",
         sort: "",
         cstate: ""
       },
+      loading: true,
       formLabelWidth: "120px",
       tableData: [],
       isadd: 1,
@@ -110,8 +90,8 @@ export default {
     this.gedebitList();
   },
   methods: {
-    changeAvi(index,row){
-      console.log(index,row,row.cstate);
+    changeAvi(index, row) {
+      console.log(index, row, row.cstate);
     },
     changeAdd() {
       this.isadd = 1;
@@ -134,7 +114,7 @@ export default {
     //添加
     adddebit: function() {
       this.$axios
-        .post("/debitApi/finance/category/insert", {
+        .post("/markApi/finance/category/insert", {
           cname: this.form.cname,
           sort: this.form.sort,
           cstate: this.form.cstate
@@ -163,11 +143,11 @@ export default {
       this.form.cstate = obj.cstate;
       this.form.id = obj.id;
     },
-    saveEdit (form) {
-      console.log(form)
+    saveEdit(form) {
+      console.log(form);
       this.$axios
-        .post("/debitApi/finance/category/update", {
-          id:this.form.id,
+        .post("/markApi/finance/category/update", {
+          id: this.form.id,
           cname: this.form.cname,
           sort: this.form.sort,
           cstate: Number(this.form.cstate)
@@ -176,7 +156,7 @@ export default {
           const result = response.data;
           if (result.code == 200) {
             if (result.msg == "成功") {
-              console.log(result)
+              console.log(result);
               this.$message(result.msg);
               this.gedebitList();
               this.dialogFormVisible = false;
@@ -185,23 +165,26 @@ export default {
             this.$msg(result.msg);
           }
         })
-        .catch((err) => {
-          console.log(err)
+        .catch(err => {
+          console.log(err);
           this.$alert("请求出错，请检查");
         });
     },
     //改变状态
-    changeCstate: function(i,row){
-        this.$axios
-        .post("/debitApi/finance/category/forbidden",{id:row.id, cstate:Number(row.cstate)})
+    changeCstate: function(i, row) {
+      this.$axios
+        .post("/markApi/finance/category/forbidden", {
+          id: row.id,
+          cstate: Number(row.cstate)
+        })
         .then(response => {
           if (response.data.code == 200) {
-             this.gedebitList();
-             this.$message({
-               type:"success",
-                message:response.data.msg,
-                duration:500
-             });
+            this.gedebitList();
+            this.$message({
+              type: "success",
+              message: response.data.msg,
+              duration: 500
+            });
           } else {
             this.$message(response.data.msg);
           }
@@ -212,13 +195,14 @@ export default {
     },
     gedebitList: function() {
       this.$axios
-        .post("/debitApi/finance/category/findAll")
+        .post("/markApi/finance/category/findAll")
         .then(response => {
           if (response.data.code == 200) {
-             response.data.data.forEach(v=>{
-               v.cstate = Boolean(v.cstate);
-             })
+            response.data.data.forEach(v => {
+              v.cstate = Boolean(v.cstate);
+            });
             this.tableData = response.data.data;
+            this.loading = false;
           } else {
             this.$message(response.data.msg);
           }

@@ -112,66 +112,70 @@
 </template>
 <script>
 export default {
-     methods: {
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-      }
+  methods: {
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
     },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    }
+  },
   data() {
     return {
-        // currentPage4:"",
-        limit: 1,
-        page: 5,
-         pickerOptions: {
-          shortcuts: [{
-            text: '最近一周',
+      // currentPage4:"",
+      limit: 1,
+      page: 5,
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
-          }, {
-            text: '最近一个月',
+          },
+          {
+            text: "最近一个月",
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
-          }, {
-            text: '最近三个月',
+          },
+          {
+            text: "最近三个月",
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
-          }]
-        },
-        created() {
-    this.$axios
-      .post('/markApi/finance/rechargeRecord/selectAll',{
-        limit: 5,
-        page: 1
-      })
-      .then((req) => {
-        console.log(req.data);
-      })
-      .catch((req) => {
-        console.log(req);
-      });
-  },
-  methods: {}
+          }
+        ]
+      },
+      created() {
+        this.$axios
+          .post("/markApi/finance/rechargeRecord/selectAll", {
+            limit: 5,
+            page: 1
+          })
+          .then(req => {
+            console.log(req.data);
+          })
+          .catch(req => {
+            console.log(req);
+          });
+      },
+      methods: {}
     };
   }
 };
 </script>
 <style scoped>
-  .el-col {
+.el-col {
   padding: 5px 5px 5px 5px;
-  }
+}
 </style>

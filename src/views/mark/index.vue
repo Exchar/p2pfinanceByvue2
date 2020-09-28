@@ -6,13 +6,19 @@
           <el-row :gutter="20">
             <el-col :span="4"
               ><div>
-                <el-input placeholder="搜索借款方" v-model="peopleList.borrower" clearable>
+                <el-input
+                  placeholder="搜索借款方"
+                  v-model="peopleList.borrower"
+                  clearable
+                >
                 </el-input></div
             ></el-col>
             <el-col :span="4"
               ><div>
                 <el-input
-                  placeholder="搜索借款人手机" v-model="peopleList.phone">
+                  placeholder="搜索借款人手机"
+                  v-model="peopleList.phone"
+                >
                 </el-input></div
             ></el-col>
             <el-button type="primary" @click="getData">搜索</el-button>
@@ -74,8 +80,8 @@ export default {
         page: 10
       },
       total: 0,
-     phoneNum: "",
-     tableData: []
+      phoneNum: "",
+      tableData: []
     };
   },
   created() {
@@ -86,8 +92,8 @@ export default {
       this.$axios
         .post("/markApi/finance/sign/findPage", {
           phone: "",
-          borrower:"",
-          pledge:"",
+          borrower: "",
+          pledge: "",
           limit: 1,
           page: 10
         })
@@ -103,8 +109,8 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    },
-   /* search(){
+    }
+    /* search(){
       console.log(this.peopleList)
       this.$axios.post("/markApi/finance/sign/findPage",{
         phone: "",
@@ -116,8 +122,7 @@ export default {
         console.log(res)
       })
     }*/
-  },
-
+  }
 };
 </script>
 <style scoped>

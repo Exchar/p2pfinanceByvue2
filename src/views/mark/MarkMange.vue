@@ -85,28 +85,28 @@ export default {
       input1: "",
       input2: "",
       currentPage: 1,
-      tableData:[]
+      tableData: []
     };
   },
   methods: {
     getData: function() {
       this.$axios
-              .post("/markApi/finance/sign/findPage", {
-                limit: 1,
-                page: 5
-              })
-              .then(response => {
-                console.log(response)
-                if (response.data.code==200){
-                  this.tableData = response.data.data
-                  console.log(response.data)
-                }else{
-                  this.$message(response.data.msg)
-                }
-              })
-              .catch(error => {
-                console.log(error);
-              });
+        .post("/markApi/finance/sign/findPage", {
+          limit: 1,
+          page: 5
+        })
+        .then(response => {
+          console.log(response);
+          if (response.data.code == 200) {
+            this.tableData = response.data.data;
+            console.log(response.data);
+          } else {
+            this.$message(response.data.msg);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   mounted() {
