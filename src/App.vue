@@ -5,7 +5,7 @@
     </transition>
   </div>
 </template>
-
+<script></script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -14,11 +14,11 @@
   color: #2c3e50;
   overflow: hidden;
 }
-
-#nav {
-  padding: 30px;
+body,
+html {
+  padding: 0 !important;
+  margin: 0;
 }
-
 #nav a {
   font-weight: bold;
   color: #2c3e50;
