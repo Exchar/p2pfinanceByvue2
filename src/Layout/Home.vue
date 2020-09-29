@@ -1,31 +1,33 @@
 <template>
-  <div class="main">
+  <div class="main" ref="appView" id="appView">
     <el-container>
-      <el-header>
-        <HeaderAction></HeaderAction>
-      </el-header>
-      <el-container class="mainBody">
-        <!--        侧边栏-->
-        <el-aside width="200px">
-          <LeftMenu></LeftMenu>
-        </el-aside>
-        <el-main>
-          <!--          顶部标签栏-->
-          <transition name="slideTo">
-            <div class="headerTab" v-show="$route.path !== '/home'">
-              <HeaderTab></HeaderTab>
+      <div ref="view" id="view" style="width: 100%">
+        <el-header ref="header" id="header">
+          <HeaderAction></HeaderAction>
+        </el-header>
+        <el-container class="mainBody" ref="mainBody" id="mainBody" style="width: 100%">
+          <!--        侧边栏-->
+          <el-aside width="200px">
+            <LeftMenu></LeftMenu>
+          </el-aside>
+          <el-main>
+            <!--          顶部标签栏-->
+            <transition name="slideTo">
+              <div class="headerTab" v-show="$route.path !== '/home'">
+                <HeaderTab></HeaderTab>
+              </div>
+            </transition>
+            <div class="viewPort">
+              <!--            视图窗口-->
+              <el-scrollbar class="viewMain">
+                <transition name="viewIn">
+                  <router-view></router-view>
+                </transition>
+              </el-scrollbar>
             </div>
-          </transition>
-          <div class="viewPort">
-            <!--            视图窗口-->
-            <el-scrollbar class="viewMain">
-              <transition name="viewIn">
-                <router-view></router-view>
-              </transition>
-            </el-scrollbar>
-          </div>
-        </el-main>
-      </el-container>
+          </el-main>
+        </el-container>
+      </div>
     </el-container>
   </div>
 </template>
@@ -48,13 +50,25 @@ export default {
   },
   created() {
     this.changeNowAct(this.$route.path);
+  },
+  mounted() {
+    let appView = this.$refs.appView;
+    let view = this.$refs.view;
+    appView.style.height = window.outerHeight + "px";
+    view.style.height = window.outerHeight + "px";
+    let mainBody = this.$refs.mainBody.$el;
+    mainBody.style.height =
+      parseFloat(appView.style.height) -
+      parseFloat(this.$refs.header.$el.style.height)-100 +
+      "px";
   }
 };
 </script>
 <style scoped>
 .viewMain {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
-  height: 98% !important;
+  height: 90% !important;
+  background-color: rgb(240, 240, 242);
 }
 .viewMain > div {
   transition: all 10s;
@@ -64,9 +78,6 @@ export default {
 }
 .main {
   background-color: rgb(240, 240, 242);
-}
-.mainBody {
-  height: 100%;
 }
 .el-main {
   padding: 0;
@@ -99,13 +110,13 @@ body {
   box-shadow: 4px 6px 4px rgba(237, 108, 112, 0.4), 0 0 6px rgba(0, 0, 0, 0.1);
 }
 .viewMain > div > div > div {
-  padding: 6px !important;
+  padding: 6px 10px 6px 6px !important;
 }
 .slideTo-enter-active {
   animation: goIn 0.5s;
 }
 .slideTo-leave-active {
-  animation: goIn 0.5s reverse;
+  animation: goIn 0.1s reverse;
 }
 @keyframes goIn {
   0% {
@@ -120,12 +131,5 @@ body {
 }
 .viewIn-enter-active {
   transition: all 0.3s ease;
-}
-.viewIn-leave-active {
-  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
-}
-.viewIn-enter, .viewIn-leave-to
-  /* .slide-fade-leave-active for below version 2.1.8 */ {
-  opacity: 0;
 }
 </style>

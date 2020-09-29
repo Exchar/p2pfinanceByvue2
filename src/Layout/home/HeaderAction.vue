@@ -1,13 +1,12 @@
 <template>
   <div class="main">
     <el-row class="headerMain">
-      <el-col :span="8" class="headerInfo">
+      <el-col :span="15" class="headerInfo">
         <div>
           <img src="../../assets/logo.png" alt="惠众借贷" />
         </div>
         <span>后台管理系统</span>
       </el-col>
-      <el-col :span="7"></el-col>
       <el-col :span="9">
         <el-breadcrumb separator="|">
           <el-breadcrumb-item>

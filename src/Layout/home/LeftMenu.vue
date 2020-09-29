@@ -31,20 +31,7 @@ export default {
   },
   created() {
     //根据用户权限获取路由,当前是管理员
-    this.$axios
-      .get("/api/getLeftMenu")
-      .then(res => {
-        this.menuData = [...res.data];
-        this.saveLeftMenu([...res.data]);
-        console.log(this.menuData);
-      })
-      .catch(err => {
-        console.log(err);
-        this.$message({
-          type: "error",
-          message: "请求失败了"
-        });
-      });
+    this.menuData = this.getMenuData;
   },
   methods: {
     tabsAction(ment) {

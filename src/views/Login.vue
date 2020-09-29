@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "login",
   data() {
@@ -113,6 +114,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(["saveLeftMenu"]),
     gotoHome() {
       this.$router.push("/home");
     },
@@ -145,6 +147,7 @@ export default {
                 this.$message.error("用户名或者密码错误");
               } else if (res.data.code === 200) {
                 this.$message.success("登录成功");
+                this.saveLeftMenu(res.data.leftMenu);
                 this.$router.push("/home");
               }
             })

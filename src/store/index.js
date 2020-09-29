@@ -7,16 +7,64 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     home: {
-      leftMenu: sessionStorage.getItem("leftMenu")
-        ? JSON.parse(sessionStorage.getItem("leftMenu"))
+      leftMenu: localStorage.getItem("leftMenu")
+        ? JSON.parse(localStorage.getItem("leftMenu"))
         : [],
       nowActiveTab:
-        sessionStorage.getItem("nowActiveTab") !== "/"
-          ? JSON.parse(sessionStorage.getItem("nowActiveTab"))
+        localStorage.getItem("nowActiveTab") !== "/"
+          ? JSON.parse(localStorage.getItem("nowActiveTab"))
           : "/home",
-      tabItems: sessionStorage.getItem("tabItems")
-        ? JSON.parse(sessionStorage.getItem("tabItems"))
+      tabItems: localStorage.getItem("tabItems")
+        ? JSON.parse(localStorage.getItem("tabItems"))
         : [{ path: "/home", title: "工作台", index: 0 }]
+    },
+    index: {
+      shortcuts:
+        localStorage.getItem("shortcuts") !== null
+          ? JSON.parse(localStorage.getItem("shortcuts"))
+          : [
+              {
+                icon: "el-icon-user",
+                bgColor: "rgb(255,96,71)",
+                linkTo: "/userInfoManage",
+                title: "个人信息维护"
+              },
+              {
+                icon: "el-icon-plus",
+                bgColor: "rgb(89,179,231)",
+                linkTo: "/debitManage/addDebitItem",
+                title: "新增借款标"
+              },
+              {
+                icon: "el-icon-s-operation",
+                bgColor: "rgb(87,137,208)",
+                linkTo: "/userInfoManage",
+                title: "系统设置"
+              },
+              {
+                icon: "el-icon-s-finance",
+                bgColor: "rgb(251,178,37)",
+                linkTo: "/userInfoManage",
+                title: "资金日志"
+              },
+              {
+                icon: "el-icon-s-data",
+                bgColor: "rgb(45,194,219)",
+                linkTo: "/userInfoManage",
+                title: "平台资金"
+              },
+              {
+                icon: "el-icon-tickets",
+                bgColor: "rgb(86,138,208)",
+                linkTo: "/userInfoManage",
+                title: "用户资金"
+              }
+            ],
+      shortcutsAll:
+        sessionStorage.getItem("shortcutsAll") !== ""
+          ? JSON.parse(sessionStorage.getItem("shortcutsAll"))
+          : [],
+      token: ""
     }
   },
   mutations: {
@@ -61,6 +109,22 @@ export default new Vuex.Store({
     },
     changeNowAct(state, load) {
       state.home.nowActiveTab = load;
+    },
+    //主页里面的快捷功能
+    addshortcut(state, load) {
+      console.log(load);
+      state.index.shortcuts.push({
+        icon: load.icon,
+        bgColor: load.bgColor,
+        linkTo: load.linkTo
+      });
+    },
+    saveShortcutsAll(state, load) {
+      console.log(load);
+      state.index.shortcutsAll = load;
+    },
+    saveToken(state, load) {
+      state.index.token = load;
     }
   },
   actions: {
@@ -83,8 +147,18 @@ export default new Vuex.Store({
     },
     getMenuData(state) {
       return state.home.leftMenu;
+    },
+    getShortcuts(state) {
+      console.log("左边菜单", state.index.shortcuts);
+      return state.index.shortcuts;
+    },
+    getShortcutsAll(state) {
+      return state.index.shortcutsAll;
+    },
+    getToken(state) {
+      return state.index.token;
     }
   },
   modules: {},
-  plugins: [vuexPresient({ storage: window.sessionStorage })]
+  plugins: [vuexPresient()]
 });
