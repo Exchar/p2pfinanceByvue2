@@ -20,13 +20,17 @@
         </el-form-item>
         <el-form-item label="状态">
           <el-select v-model="form.cstate" placeholder="请选择活动区域">
-            <el-option label="有效" :value="true"></el-option>
-            <el-option label="禁用" :value="false"></el-option>
+            <el-option label="有效" :value="1"></el-option>
+            <el-option label="禁用" :value="0"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="adddebit" v-show="isadd"
+        <el-button
+          type="primary"
+          @click="adddebit"
+          v-show="isadd"
+          :disabled="!isDisable"
           >保存</el-button
         >
         <el-button type="primary" @click="saveEdit(form)" v-show="!isadd"
@@ -35,10 +39,21 @@
         <el-button @click="dialogFormVisible = false">取消</el-button>
       </div>
     </el-dialog>
-    <el-table :data="tableData" style="width: 100%" align="center" v-loading="loading">
+    <el-table
+      :data="tableData"
+      style="width: 100%"
+      align="center"
+      v-loading="loading"
+    >
       <el-table-column prop="cname" label="分类名称" width="180" align="center">
       </el-table-column>
-      <el-table-column prop="sort" label="排序" width="180" align="center">
+      <el-table-column
+        prop="sort"
+        label="排序"
+        width="180"
+        align="center"
+        sortable
+      >
       </el-table-column>
       <el-table-column prop="cstate" label="状态" width="180" align="center">
         <template slot-scope="scope">
@@ -78,13 +93,20 @@ export default {
         sort: "",
         cstate: ""
       },
-      loading: true,
+      loading: false,
       formLabelWidth: "120px",
       tableData: [],
-      isadd: 1,
-      value1: 1,
-      swState: 1
+      isadd: 1
     };
+  },
+  computed: {
+    isDisable() {
+      if (this.form.cname != "" && this.form.sort != "") {
+        return true;
+      } else {
+        return false;
+      }
+    }
   },
   mounted: function() {
     this.gedebitList();
@@ -100,10 +122,13 @@ export default {
       this.isadd = 0;
     },
     changedialog() {
-      this.dialogFormVisible = 1;
+      this.dialogFormVisible = true;
     },
     changeStateAdd() {
       this.changeAdd();
+      this.form.cname = "";
+      this.form.sort = "";
+      this.form.cstate = "";
       this.changedialog();
     },
     changeStateEdit(row) {
@@ -140,7 +165,7 @@ export default {
       this.dialogFormVisible = true;
       this.form.cname = obj.cname;
       this.form.sort = obj.sort;
-      this.form.cstate = obj.cstate;
+      this.form.cstate = Number(obj.cstate);
       this.form.id = obj.id;
     },
     saveEdit(form) {
@@ -194,6 +219,7 @@ export default {
         });
     },
     gedebitList: function() {
+      this.loading = true;
       this.$axios
         .post("/markApi/finance/category/findAll")
         .then(response => {
@@ -205,6 +231,7 @@ export default {
             this.loading = false;
           } else {
             this.$message(response.data.msg);
+            this.loading = false;
           }
         })
         .catch(() => {

@@ -21,8 +21,9 @@
         <el-select
           v-model="value"
           placeholder="全部状态"
-          @change="handleCurrentChange"
+          @change="investSearch"
         >
+          <el-option label="全部状态" value=""> </el-option>
           <el-option
             v-for="item in options"
             :key="item.id"
@@ -85,7 +86,7 @@
       </el-table-column>
       <el-table-column label="利息" width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.interest }}</span>
+          <span>{{ scope.row.interest * 100 + "%" }}</span>
         </template>
       </el-table-column>
       <el-table-column label="利息管理费" width="150">
@@ -138,7 +139,7 @@
         :page-sizes="[5, 10, 20, 30]"
         :page-size="pageSize"
         layout="sizes,total,  jumper ,prev, pager, next"
-        :total="8"
+        :total="total"
         prev-text="上一页"
         next-text="下一页"
       >
@@ -162,7 +163,8 @@ export default {
       value: "",
       tableData: [],
       currentPage4: 1,
-      pageSize: 5,
+      pageSize: 10,
+      total:8,
       pickerOptions: {
         shortcuts: [
           {
@@ -195,7 +197,7 @@ export default {
         ]
       },
       value2: "",
-      loading: true
+      loading: false
     };
   },
   mounted: function() {
@@ -204,26 +206,30 @@ export default {
   },
   methods: {
     getInvestList() {
+      this.loading = true;
       this.$axios
         .post("/markApi/finance/investment/findAllPage", {
           limit: this.currentPage4,
           page: this.pageSize
         })
         .then(response => {
+          console.log(response.data);
           var result = response.data;
           this.tableData = result.data;
+           this.total=response.data.count;
           this.loading = false;
-          console.log(result.data);
         })
         .catch(() => {});
     },
     getInvestStateList() {
+      this.loading = true;
       this.$axios
         .post("/api/finance/investment/findAllPage")
         .then(response => {
           var result = response.data;
           this.options = result.data;
-          console.log(result);
+          this.loading = false;
+          console.log(response.data);
         })
         .catch(() => {});
     },
@@ -236,46 +242,42 @@ export default {
         page: this.pageSize,
         phone: this.input1,
         entitle: this.input2,
-        investState: this.value,
-        startDate:
-          new Date(this.value2[0]).getFullYear() +
-          "-" +
-          new Date(this.value2[0]).getMonth() +
-          "-" +
-          new Date(this.value2[0]).getDate(),
-        endDate:
-          new Date(this.value2[1]).getFullYear() +
-          "-" +
-          new Date(this.value2[1]).getMonth() +
-          "-" +
-          new Date(this.value2[1]).getDate()
+        state: this.value,
+        startDate: this.value2,
       });
+      this.loading = true;
       this.$axios
         .post("/markApi/finance/investment/findAllPage", {
           limit: this.currentPage4,
           page: this.pageSize,
           phone: this.input1,
           entitle: this.input2,
-          investState: this.value,
+          state: this.value,
           startDate:
-            new Date(this.value2[0]).getFullYear() +
-            "-" +
-            new Date(this.value2[0]).getMonth() +
-            "-" +
-            new Date(this.value2[0]).getDate(),
+            this.value2 && this.value2[0] && this.value2[0] != null
+              ? new Date(this.value2[0]).getFullYear() +
+                "-" +
+                new Date(this.value2[0]).getMonth() +
+                "-" +
+                new Date(this.value2[0]).getDate()
+              : "",
           endDate:
-            new Date(this.value2[1]).getFullYear() +
-            "-" +
-            new Date(this.value2[1]).getMonth() +
-            "-" +
-            new Date(this.value2[1]).getDate()
+            this.value2 && this.value2[1] && this.value2[1] != null
+              ? new Date(this.value2[1]).getFullYear() +
+                "-" +
+                new Date(this.value2[1]).getMonth() +
+                "-" +
+                new Date(this.value2[1]).getDate()
+              : ""
         })
         .then(response => {
           if (response.data.code == 200) {
             this.tableData = response.data.data;
             console.log(response.data.data);
+            this.loading = false;
           } else {
             this.$message(response.data.msg);
+            this.loading = false;
           }
         })
         .catch(() => {
@@ -285,10 +287,12 @@ export default {
     handleDelete(index, row) {
       console.log(index, row);
     },
-    handleSizeChange() {
+    handleSizeChange(val) {
+      this.pageSize = val;
       this.investSearch();
     },
-    handleCurrentChange() {
+    handleCurrentChange(val) {
+      this.currentPage4 = val;
       this.investSearch();
     }
   }

@@ -101,6 +101,14 @@ const routes = [
           import(
             /* webpackChunkName: "about" */ "../views/repaymentManage/repaymentRecords/index"
           )
+      },
+      {
+        path: "/debitManage/debitItems/investRecord",
+        name: "investRecord",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../views/repaymentManage/repaymentRecords/index"
+          )
       }
     ]
   },
