@@ -17,7 +17,8 @@ export default new Vuex.Store({
       tabItems: sessionStorage.getItem("tabItems")
         ? JSON.parse(sessionStorage.getItem("tabItems"))
         : [{ path: "/home", title: "工作台", index: 0 }]
-    }
+    },
+    maintenance:{}
   },
   mutations: {
     saveLeftMenu(state, load) {
@@ -61,6 +62,9 @@ export default new Vuex.Store({
     },
     changeNowAct(state, load) {
       state.home.nowActiveTab = load;
+    },
+    saveMainten(state,load){
+      state.maintenance = load;
     }
   },
   actions: {
@@ -83,6 +87,9 @@ export default new Vuex.Store({
     },
     getMenuData(state) {
       return state.home.leftMenu;
+    },
+    getMainten(state){
+      return {...state.maintenance};
     }
   },
   modules: {},

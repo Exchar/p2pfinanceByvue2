@@ -1,312 +1,441 @@
 <template>
-  <div class="contain">
+  <div class="contain" >
     <span class="title">基本信息:</span>
-    <el-form label-width="120px">
-      <el-row :gutter="20">
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="借款名称：">
-              <el-input></el-input>
-            </el-form-item></div
+    <el-form label-width="120px" :data="baseInfo">
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="借款名称：">
+            <span>{{ getMainten.entitle }}</span>
+          </el-form-item></div
         ></el-col>
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="风险等级：">
-              <el-input></el-input>
-            </el-form-item></div
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="风险等级：">
+            <span>{{}}</span>
+          </el-form-item></div
         ></el-col>
+        <el-col :span="2"><div></div></el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="借款方：">
-              <el-input></el-input>
-            </el-form-item></div
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="借款方：">
+            <span>{{getMainten.borrower}}</span>
+          </el-form-item></div
         ></el-col>
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="借款总金额：">
-              <el-input></el-input>
-            </el-form-item></div
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="借款总金额：">
+            <span>{{getMainten.money}}</span>
+          </el-form-item></div
         ></el-col>
+        <el-col :span="2"><div></div></el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="年利率：">
-              <el-input></el-input>
-            </el-form-item></div
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="年利率：">
+            <span>{{getMainten.annual}}</span>
+          </el-form-item></div
         ></el-col>
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="资金用途：">
-              <el-input></el-input>
-            </el-form-item></div
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="资金用途：">
+            <span>{{}}</span>
+          </el-form-item></div
         ></el-col>
+        <el-col :span="2"><div></div></el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="借款期限：">
-              <el-input></el-input>
-            </el-form-item></div
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="借款期限：">
+            <span>{{getMainten.deadline}}</span>
+          </el-form-item></div
         ></el-col>
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="起息方式：">
-              <el-input></el-input>
-            </el-form-item></div
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="起息方式：">
+            <span>{{}}</span>
+          </el-form-item></div
         ></el-col>
+        <el-col :span="2"><div></div></el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="还款方式：">
-              <el-input></el-input>
-            </el-form-item></div
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="还款方式：">
+            <span>{{}}</span>
+          </el-form-item></div
         ></el-col>
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="借款管理费：">
-              <el-input></el-input>
-            </el-form-item></div
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="借款管理费：">
+            <span>{{}}</span>
+          </el-form-item></div
         ></el-col>
+        <el-col :span="2"><div></div></el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="利息管理费：">
-              <el-input></el-input>
-            </el-form-item></div
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="利息管理费：">
+            <span>{{}}</span>
+          </el-form-item></div
         ></el-col>
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="逾期罚息利率：">
-              <el-input></el-input>
-            </el-form-item></div
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="逾期罚息利率：">
+            <span>{{}}</span>
+          </el-form-item></div
         ></el-col>
+        <el-col :span="2"><div></div></el-col>
       </el-row>
     </el-form>
     <span class="title">担保信息:</span>
     <el-form label-width="120px">
-      <el-row :gutter="20">
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="是否担保：">
-              <el-input></el-input>
-            </el-form-item></div
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="是否担保：">
+            <span></span>
+          </el-form-item></div
         ></el-col>
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="担保机构：">
-              <el-input></el-input>
-            </el-form-item></div
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="担保机构：">
+            <span></span>
+          </el-form-item></div
         ></el-col>
+        <el-col :span="2"><div></div></el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="是否抵押：">
-              <el-input></el-input>
-            </el-form-item></div
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="是否抵押：">
+            <span></span>
+          </el-form-item></div
         ></el-col>
-        <el-col :span="12"><div></div></el-col>
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8"><div></div></el-col>
+        <el-col :span="2"><div></div></el-col>
       </el-row>
     </el-form>
     <span class="title">借款资料:</span>
     <el-row>
-      <el-col
-        :span="8"
-        v-for="(o, index) in 2"
-        :key="o"
-        :offset="index > 0 ? 2 : 0"
-      >
+      <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
         <el-card :body-style="{ padding: '0px' }">
-          <img
-            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            class="image"
-          />
           <div style="padding: 14px;">
-            <span>好吃的汉堡</span>
-            <div class="bottom clearfix">
-              <time class="time">{{ currentDate }}</time>
-              <el-button type="text" class="button">操作按钮</el-button>
-            </div>
           </div>
         </el-card>
       </el-col>
     </el-row>
     <span class="title">标的信息:</span>
     <el-form label-width="120px">
-      <el-row :gutter="20">
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="项目名称：">
-              <el-input></el-input>
-            </el-form-item></div
-        ></el-col>
-        <el-col :span="12"
-          ><el-form-item label="标签：">
-            <el-input></el-input>
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8">
+          <div>
+            <el-form-item label="标名：" prop="entitle" required>
+              <span></span>
+            </el-form-item>
+          </div>
+        </el-col>
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8">
+          <div>
+            <el-form-item label="标签：" prop="tag" required>
+              <span></span>
+            </el-form-item>
+          </div>
+        </el-col>
+        <el-col :span="2"><div></div></el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="标签类型：" prop="markType" required>
+            <span></span>
           </el-form-item>
-          <div></div
+        </div
         ></el-col>
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="最低起投金额：" required prop="money">
+            <span></span>
+          </el-form-item></div
+        ></el-col>
+        <el-col :span="2"><div></div></el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="项目类型：">
-              <el-input></el-input>
-            </el-form-item></div
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="递增金额：" prop="increase" required>
+           <span></span>
+          </el-form-item></div
         ></el-col>
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="最低起投金额：">
-              <el-input></el-input>
-            </el-form-item></div
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="最大可投金额：" prop="maxMoney"  required>
+            <span></span>
+          </el-form-item></div
         ></el-col>
+        <el-col :span="2"><div></div></el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="递增金额：">
-              <el-input></el-input>
-            </el-form-item></div
-        ></el-col>
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="最大可投金额：">
-              <el-input></el-input>
-            </el-form-item></div
-        ></el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="上架渠道：">
-              <el-input></el-input>
-            </el-form-item></div
-        ></el-col>
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="设置精选：">
-              <el-input></el-input>
-            </el-form-item></div
-        ></el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="新手专享：">
-              <el-input></el-input>
-            </el-form-item></div
-        ></el-col>
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="募集时间：">
-              <el-input></el-input>
-            </el-form-item></div
-        ></el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="上架时间：">
-              <el-input></el-input>
-            </el-form-item></div
-        ></el-col>
-        <el-col :span="12"
-          ><div>
-            <el-form-item label="开售时间：">
-              <el-input></el-input>
-            </el-form-item></div
-        ></el-col>
-      </el-row>
-    </el-form>
-    <span class="title">审核:</span>
-    <div>
-      <span>是否通过：</span>
-      <el-radio v-model="radio" label="1">通过</el-radio>
-      <el-radio v-model="radio" label="2">不通过</el-radio>
-      <span>备注：</span>
-      <el-input
-        type="textarea"
-        :rows="2"
-        placeholder="请输入内容"
-        v-model="textarea"
-      >
-      </el-input>
-    </div>
-    <el-form>
-      <el-form-item>
-        <SubmitButton type="primary" @click="submitForm('numberValidateForm')"
-          >提交</SubmitButton
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="投资计息方式：" required>
+           <span></span>
+          </el-form-item>
+        </div></el-col
         >
-        <BackButton @click="resetForm('numberValidateForm')">返回</BackButton>
-      </el-form-item>
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="上架渠道：" prop="type" required>
+           <span></span>
+          </el-form-item></div
+        ></el-col>
+        <el-col :span="2"><div></div></el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="新手专享：" required>
+           <span></span>
+          </el-form-item>
+        </div
+        ></el-col>
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="设置精选：" required prop="selected">
+            <span></span>
+          </el-form-item>
+        </div
+        ></el-col>
+        <el-col :span="2"><div></div></el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="募集时间：" prop="raisingTime" required>
+            <span></span>
+          </el-form-item></div
+        ></el-col>
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="上架时间" required>
+            <span></span>
+          </el-form-item></div
+        ></el-col>
+        <el-col :span="2"><div></div></el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="2"><div></div></el-col>
+        <el-col :span="8"
+        ><div>
+          <el-form-item label="开售时间：" required>
+            <span></span>
+          </el-form-item></div
+        ></el-col>
+        <el-col :span="4"><div></div></el-col>
+        <el-col :span="8"><div></div></el-col>
+        <el-col :span="2"><div></div></el-col>
+      </el-row>
     </el-form>
+    <div id="btn">
+      <SubmitButton msg="提交"></SubmitButton>
+      <BackButton msg="返回"></BackButton>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: "RecheckAction",
-  data() {
-    return {};
-  },
-  methods: {
-    onSubmit() {
-      console.log("submit!");
+  import SubmitButton from "../../../components/common/SubmitButton";
+  import BackButton from "../../../components/common/BackButton";
+  import { mapGetters} from "vuex";
+  export default {
+    name: "Maintenance",
+    computed:{
+      ...mapGetters(["getMainten"])
     },
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
+    components: {
+      SubmitButton,
+      BackButton
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    data() {
+      return {
+        baseInfo: {},
+        interest: "",
+        radio: 1,
+        type: [],
+        selected: 1,
+        Novice: 1,
+        raisingTime: "",
+        day: "",
+        date1: "",
+        date2: "",
+        date3: "",
+        date4: "",
+        desc: "",
+        entitle: "",
+        tag: "",
+        markType: "",
+        money: "",
+        increase: "",
+        maxMoney: "",
+        risk: "",
+        increaseList: "",
+        markTypeList: ""
+      };
+    },
+    rules: {
+      money: [
+        { required: true, message: '金额不能为空'},
+        { type: 'number', message: '金额必须为数字值'}
+      ],
+      markType: [
+        {required: true, message: "请选择标签类型", trigger: 'change'}
+      ],
+      tag: [
+        { required: true, message: '请选择标签', trigger: 'change' }
+      ],
+      entitle: [
+        { required: true, message: '标名', trigger: 'blur' },
+        { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      ],
+      date1: [
+        { type: "date", required: true, message: "请选择日期", trigger: "change" }
+      ],
+      date2: [
+        { type: "date", required: true, message: "请选择时间", trigger: "change" }
+      ],
+      date3: [
+        { type: "date", required: true, message: "请选择日期", trigger: "change" }
+      ],
+      date4: [
+        { type: "date", required: true, message: "请选择时间", trigger: "change" }
+      ],
+      interest: [
+        { required: true, message: '投资计息方式', trigger: 'change' }
+      ],
+    },
+    created() {
+      console.log(this.getMainten)
+    },
+    methods: {
+      onSubmit() {
+        console.log("submit!");
+      },
+      submitForm(formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            alert("submit!");
+          } else {
+            console.log("error submit!!");
+            return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      }
     }
-  }
-};
+  };
 </script>
 
 <style scoped>
-.title {
-  font-size: 24px;
-  font-weight: 600;
-}
-.time {
-  font-size: 13px;
-  color: #999;
-}
+  #btn{
+    width: 90%;
+    height: 100px;
+    margin: auto;
+    border-top:1px solid rgba(166,166,164,0.5);
+    padding-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 
-.bottom {
-  margin-top: 13px;
-  line-height: 12px;
-}
+  }
+  .el-card{
+    width: 350px;
+    height: 350px;
+    margin-left: 200px;
+  }
+  #raising {
+    display: flex;
+    align-items: center;
+  }
+  .title {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    height: 60px;
+    line-height: 60px;
+  }
+  .time {
+    font-size: 10px;
+    color: #999;
+  }
 
-.button {
-  padding: 0;
-  float: right;
-}
+  .bottom {
+    margin-top: 13px;
+    line-height: 12px;
+  }
 
-.image {
-  width: 100%;
-  display: block;
-}
+  .button {
+    padding: 0;
+    float: right;
+  }
 
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-
-.clearfix:after {
-  clear: both;
-}
+  .image {
+    width: 100%;
+    display: block;
+  }
+  .el-col-2 {
+    height: 50px;
+  }
+  .el-col-4 {
+    height: 50px;
+  }
+  .el-col-3 {
+    height: 50px;
+  }
+  .el-col-16 {
+    height: 150px;
+  }
+  .area{
+    width: 75%;
+    height: 150px;
+    margin: auto;
+  }
+  .contain{
+    overflow: scroll;
+    height: 600px;
+  }
 </style>

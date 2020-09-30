@@ -9,7 +9,9 @@
                 <el-input
                   placeholder="搜索借款方"
                   v-model="peopleList.borrower"
+                  suffix-icon="el-icon-search"
                   clearable
+                  @change="getData"
                 >
                 </el-input></div
             ></el-col>
@@ -18,11 +20,12 @@
                 <el-input
                   placeholder="搜索借款人手机"
                   v-model="peopleList.phone"
+                  suffix-icon="el-icon-search"
                   clearable
+                  @change="getData"
                 >
                 </el-input></div
             ></el-col>
-            <el-button type="primary" @click="getData">搜索</el-button>
             <el-col :span="16"><div></div></el-col>
           </el-row>
         </el-form-item>
@@ -30,23 +33,27 @@
     </div>
     <div id="table">
       <el-table stripe style="width: 100%" :data="tableData">
-        <el-table-column prop="num" label="编号"> </el-table-column>
+        <el-table-column prop="num" label="编号"></el-table-column>
         <el-table-column prop="borrower" label="借款方"> </el-table-column>
         <el-table-column prop="phone" label="借款人手机"> </el-table-column>
         <el-table-column prop="entitle" label="标名"> </el-table-column>
-        <el-table-column prop="guarantee" label="担保机构" width="180">
-        </el-table-column>
+        <el-table-column prop="guarantee" label="担保机构"></el-table-column>
         <el-table-column prop="type" label="类型"> </el-table-column>
         <el-table-column prop="money" label="借款金额"> </el-table-column>
-        <el-table-column prop="annual" label="年利率化"> </el-table-column>
+        <el-table-column prop="annual" :formatter="annualState" label="年利率化"> </el-table-column>
         <el-table-column prop="repayment" label="还款方式"> </el-table-column>
         <el-table-column prop="deadline" label="期限"> </el-table-column>
         <el-table-column label="审核时间"> </el-table-column>
         <el-table-column prop="state" label="状态"> </el-table-column>
         <el-table-column label="操作">
-          <el-link type="primary" :underline="false" @click="markOn"
-            >上架</el-link
-          >
+          <template slot-scope="scope">
+            <el-link
+              type="primary"
+              :underline="false"
+              @click="markOn(scope.row)"
+              >上架</el-link
+            >
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -74,8 +81,10 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "MarkOn",
+  computed: {},
   data() {
     return {
       peopleList: {
@@ -96,40 +105,10 @@ export default {
     this.getData();
   },
   methods: {
-    markOn() {
+    ...mapMutations(["saveMainten"]),
+    markOn(row) {
+      this.saveMainten(row);
       this.$router.push("/debitManage/Maintenance");
-      /*this.$axios
-              .post("/markApi/finance/sign/insert", {
-                num: "20171045102",
-                lable: "2",
-                genre: "1",
-                lowmoney: "100",
-                addmoney: "100",
-                largemoney: "100000",
-                manner: "4",
-                ditch: "1",
-                sift: "0",
-                noob: "1",
-                raisedata: "0",
-                timetype: "null",
-                timevalue: "null",
-                putawaytime: "2020-09-27",
-                saletime: "2020-09-28",
-                introduce: "接口测试",
-                step: "接口测试的防控措施"
-              })
-              .then(response => {
-                console.log(response);
-                if (response.data.code == 200) {
-                  this.tableData = response.data.data;
-                  console.log(response.data);
-                } else {
-                  this.$message(response.data.msg);
-                }
-              })
-              .catch(error => {
-                console.log(error);
-              });*/
     },
     handleSizeChange(value) {
       this.pageSize = value;
@@ -139,47 +118,32 @@ export default {
       this.currentPage4 = value;
       this.getData();
     },
-    getData: function() {
-      console.log({
-        phone: "" + this.peopleList.phone,
-        borrower: "" + this.peopleList.borrower,
-        pledge: "1",
-        limit: +this.currentPage4,
-        page: +this.pageSize
-      }),
-        this.$axios
-          .post("/markApi/finance/sign/findPage", {
-            phone: "" + this.peopleList.phone,
-            borrower: "" + this.peopleList.borrower,
-            pledge: "1",
-            limit: +this.currentPage4,
-            page: +this.pageSize
-          })
-          .then(response => {
-            console.log(response);
-            if (response.data.code == 200) {
-              this.tableData = response.data.data;
-              console.log(response.data);
-            } else {
-              this.$message(response.data.msg);
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          });
+    getData() {
+      this.$axios
+        .post("/markApi/finance/sign/findPage", {
+          phone: "" + this.peopleList.phone,
+          borrower: "" + this.peopleList.borrower,
+          pledge: "1",
+          limit: +this.currentPage4,
+          page: +this.pageSize
+        })
+        .then(response => {
+          console.log(response);
+          if (response.data.code == 200) {
+            this.tableData = response.data.data;
+            this.saveMainten(response.data.data);
+            console.log(response.data);
+          } else {
+            this.$message(response.data.msg);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    annualState(row) {
+      return row.annual*100+"%";
     }
-    /* search(){
-      console.log(this.peopleList)
-      this.$axios.post("/markApi/finance/sign/findPage",{
-        phone: "",
-        borrower:"",
-        pledge:"",
-        limit: 1,
-        page: 10
-      }).then(res=>{
-        console.log(res)
-      })
-    }*/
   }
 };
 </script>
