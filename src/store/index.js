@@ -20,53 +20,53 @@ export default new Vuex.Store({
     },
     index: {
       shortcuts:
-          localStorage.getItem("shortcuts") !== null
-              ? JSON.parse(localStorage.getItem("shortcuts"))
-              : [
-                {
-                  icon: "el-icon-user",
-                  bgColor: "rgb(255,96,71)",
-                  linkTo: "/userInfoManage",
-                  title: "个人信息维护"
-                },
-                {
-                  icon: "el-icon-plus",
-                  bgColor: "rgb(89,179,231)",
-                  linkTo: "/debitManage/addDebitItem",
-                  title: "新增借款标"
-                },
-                {
-                  icon: "el-icon-s-operation",
-                  bgColor: "rgb(87,137,208)",
-                  linkTo: "/userInfoManage",
-                  title: "系统设置"
-                },
-                {
-                  icon: "el-icon-s-finance",
-                  bgColor: "rgb(251,178,37)",
-                  linkTo: "/userInfoManage",
-                  title: "资金日志"
-                },
-                {
-                  icon: "el-icon-s-data",
-                  bgColor: "rgb(45,194,219)",
-                  linkTo: "/userInfoManage",
-                  title: "平台资金"
-                },
-                {
-                  icon: "el-icon-tickets",
-                  bgColor: "rgb(86,138,208)",
-                  linkTo: "/userInfoManage",
-                  title: "用户资金"
-                }
-              ],
+        localStorage.getItem("shortcuts") !== null
+          ? JSON.parse(localStorage.getItem("shortcuts"))
+          : [
+              {
+                icon: "el-icon-user",
+                bgColor: "rgb(255,96,71)",
+                linkTo: "/userInfoManage",
+                title: "个人信息维护"
+              },
+              {
+                icon: "el-icon-plus",
+                bgColor: "rgb(89,179,231)",
+                linkTo: "/debitManage/addDebitItem",
+                title: "新增借款标"
+              },
+              {
+                icon: "el-icon-s-operation",
+                bgColor: "rgb(87,137,208)",
+                linkTo: "/userInfoManage",
+                title: "系统设置"
+              },
+              {
+                icon: "el-icon-s-finance",
+                bgColor: "rgb(251,178,37)",
+                linkTo: "/userInfoManage",
+                title: "资金日志"
+              },
+              {
+                icon: "el-icon-s-data",
+                bgColor: "rgb(45,194,219)",
+                linkTo: "/userInfoManage",
+                title: "平台资金"
+              },
+              {
+                icon: "el-icon-tickets",
+                bgColor: "rgb(86,138,208)",
+                linkTo: "/userInfoManage",
+                title: "用户资金"
+              }
+            ],
       shortcutsAll:
-          sessionStorage.getItem("shortcutsAll") !== ""
-              ? JSON.parse(sessionStorage.getItem("shortcutsAll"))
-              : [],
+        sessionStorage.getItem("shortcutsAll") !== ""
+          ? JSON.parse(sessionStorage.getItem("shortcutsAll"))
+          : [],
       token: ""
     },
-    maintenance:{}
+    maintenance: {}
   },
   mutations: {
     saveLeftMenu(state, load) {
@@ -91,12 +91,12 @@ export default new Vuex.Store({
         }
       });
       isAdd
-          ? state.home.tabItems.push({
+        ? state.home.tabItems.push({
             path: load,
             title: title,
             index: index + load
           })
-          : "";
+        : "";
     },
     delTabItem(state, tabPath) {
       let tabIndex = 0;
@@ -126,46 +126,46 @@ export default new Vuex.Store({
     },
     saveToken(state, load) {
       state.index.token = load;
-      saveMainten(state, load)
-      {
-        state.maintenance = load;
-      }
     },
-    actions: {
-      commMenu({commit}) {
-        commit("saveLeftMenu");
-      },
-      commSaveTabItem({commit}) {
-        commit("saveTabItem");
-      },
-      commDelTabItem({commit}) {
-        commit("delTabItem");
-      }
+    saveMainten(state, load) {
+      state.maintenance = load;
+    }
+  },
+  actions: {
+    commMenu({ commit }) {
+      commit("saveLeftMenu");
     },
-    getters: {
-      getHeaderTabs(state) {
-        return state.home.tabItems;
-      },
-      getNowAct(state) {
-        return state.home.nowActiveTab;
-      },
-      getMenuData(state) {
-        return state.home.leftMenu;
-      },
-      getShortcuts(state) {
-        console.log("左边菜单", state.index.shortcuts);
-        return state.index.shortcuts;
-      },
-      getShortcutsAll(state) {
-        return state.index.shortcutsAll;
-      },
-      getToken(state) {
-        return state.index.token;
-      },
-      getMainten(state) {
-        return {...state.maintenance};
-      }
+    commSaveTabItem({ commit }) {
+      commit("saveTabItem");
     },
-    modules: {},
-    plugins: [vuexPresient()]
-  }});
+    commDelTabItem({ commit }) {
+      commit("delTabItem");
+    }
+  },
+  getters: {
+    getHeaderTabs(state) {
+      return state.home.tabItems;
+    },
+    getNowAct(state) {
+      return state.home.nowActiveTab;
+    },
+    getMenuData(state) {
+      return state.home.leftMenu;
+    },
+    getShortcuts(state) {
+      console.log("左边菜单", state.index.shortcuts);
+      return state.index.shortcuts;
+    },
+    getShortcutsAll(state) {
+      return state.index.shortcutsAll;
+    },
+    getToken(state) {
+      return state.index.token;
+    },
+    getMainten(state) {
+      return { ...state.maintenance };
+    }
+  },
+  modules: {},
+  plugins: [vuexPresient()]
+});
