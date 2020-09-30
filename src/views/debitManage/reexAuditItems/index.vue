@@ -6,32 +6,22 @@
           <el-row :gutter="20">
             <el-col :span="4"
               ><div class="grid-content">
-                <el-input
-                  placeholder="搜索借款方"
-                  suffix-icon="el-icon-search"
-                  v-model="input1"
-                >
+                <el-input placeholder="搜索借款方" v-model="input1">
                 </el-input></div
             ></el-col>
             <el-col :span="4"
               ><div class="grid-content">
-                <el-input
-                  placeholder="搜索借款人手机"
-                  suffix-icon="el-icon-search"
-                  v-model="input2"
-                >
+                <el-input placeholder="搜索借款人手机" v-model="input2">
                 </el-input></div
             ></el-col>
             <el-col :span="4"
               ><div class="grid-content">
-                <el-select placeholder="全部进度">
-                  <el-option label="满标" :value="1"></el-option>
-                  <el-option label="未满标" :value="0"></el-option>
+                <el-select placeholder="全部进度" v-model="progress">
+                  <el-option label="满标" value="man"></el-option>
+                  <el-option label="未满标" value="noman"></el-option>
                 </el-select></div
             ></el-col>
-            <el-col :span="12"
-              ><div class="grid-content bg-purple-light"></div
-            ></el-col>
+            <el-col :span="12"><div></div></el-col>
           </el-row>
         </el-form-item>
       </el-form>
@@ -45,7 +35,7 @@
         <el-table-column prop="guarantee" label="借款金额"> </el-table-column>
         <el-table-column prop="annual" label="年利率化"> </el-table-column>
         <el-table-column prop="repayment" label="还款方式"> </el-table-column>
-        <el-table-column prop="rate" label="期限"> </el-table-column>
+        <el-table-column prop="deadline" label="期限"> </el-table-column>
         <el-table-column prop="repayType" label="募集时长"> </el-table-column>
         <el-table-column prop="term" label="募集资金"> </el-table-column>
         <el-table-column prop="checkTime" label="投资进度"> </el-table-column>
@@ -89,6 +79,7 @@ export default {
     return {
       input1: "",
       input2: "",
+      progress: "",
       currentPage: 1,
       tableData: []
     };
