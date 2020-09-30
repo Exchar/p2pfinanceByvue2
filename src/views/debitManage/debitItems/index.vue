@@ -1,6 +1,7 @@
 <template>
   <div class="viewMain">
-    <el-row :gutter="20">
+    <div class="viewMain1">
+    <el-row :gutter="20" class="searchLine">
       <el-col :span="4"
         ><el-input
           v-model="input1"
@@ -41,39 +42,39 @@
       class="debitTable"
       header-row-class-name="dtable"
       v-loading="loading"
-      
+      align="center"
     >
-      <el-table-column label="借款ID" width="100">
+      <el-table-column label="借款ID" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.num }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="借款方" width="100">
+      <el-table-column label="借款方" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.borrower }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="借款人手机" width="130">
+      <el-table-column label="借款人手机" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.phone }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="借款名称" width="100">
+      <el-table-column label="借款名称" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.entitle }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="借款金额" width="120">
+      <el-table-column label="借款金额" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ '￥'+scope.row.money.toFixed(2) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="年化利率" width="100">
+      <el-table-column label="年化利率" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.annual * 100 + "%" }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="还款方式" width="110">
+      <el-table-column label="还款方式" width="180" align="center">
         <template slot-scope="scope">
           <p v-if="debitltemsData[scope.$index].repayment == 1">一次性还款</p>
           <p v-if="debitltemsData[scope.$index].repayment == 2">等额本息</p>
@@ -83,37 +84,37 @@
           <p v-if="debitltemsData[scope.$index].repayment == 4">按天还款</p>
         </template>
       </el-table-column>
-      <el-table-column label="期限" width="100">
+      <el-table-column label="期限" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.deadline }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="借款管理费月率" width="170">
+      <el-table-column label="借款管理费月率" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.monthly * 100 + "%" }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="借款管理费" width="120">
+      <el-table-column label="借款管理费" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ '￥'+scope.row.managerfee.toFixed(2) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="上架时间" width="120">
+      <el-table-column label="上架时间" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.putawaytime|formatDate}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="开售时间" width="120">
+      <el-table-column label="开售时间" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.saletime|formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="投资进度" width="100">
+      <el-table-column label="投资进度" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.speed * 100 + "%" }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="状态" width="100">
+      <el-table-column label="状态" width="180" align="center">
         <template slot-scope="scope">
           <p v-if="debitltemsData[scope.$index].state == 1">待回款</p>
           <p v-if="debitltemsData[scope.$index].state == 2">已结算</p>
@@ -122,11 +123,21 @@
           <p v-if="debitltemsData[scope.$index].state == 5">投资中</p>
           <p v-if="debitltemsData[scope.$index].state == 6">投资失败</p>
         </template> </el-table-column
-      ><el-table-column label="操作" width="100">
+      ><el-table-column label="操作" width="200" style="width:200px" align="center">
         <template slot-scope="scope">
-          <el-button type="text" @click="checkDetail(scope.row)"
+          <el-button-group>
+            <el-button type="text" @click="checkDetail(scope.row)"
             >详情</el-button
           >
+          <el-button type="text" @click="invsetRecord(scope.row)"
+            >投资记录</el-button
+          >
+          <el-button type="text" @click="paybackRecord(scope.row)"
+            >还款记录</el-button
+          >
+              </el-button-group>
+
+        
           <el-dialog title="借款记录详情" :visible.sync="dialogFormVisible">
             <el-form :model="form">
               <el-form-item label="借款ID：" :label-width="formLabelWidth">
@@ -145,7 +156,7 @@
                 <span>{{ form.money?'￥'+parseFloat(form.money).toFixed(2):'' }}</span>
               </el-form-item>
               <el-form-item label="年化利率：" :label-width="formLabelWidth">
-                <span>{{ form.annual * 100 + "%" }}</span>
+                <span>{{  form.annual?form.annual * 100 + "%":'' }}</span>
               </el-form-item>
               <el-form-item label="还款方式：" :label-width="formLabelWidth">
                 <span v-if="form.repayment == 1">一次性还款</span>
@@ -189,9 +200,7 @@
               >
             </div>
           </el-dialog>
-          <el-button type="text" @click="invsetRecord(scope.row)"
-            >投资记录</el-button
-          >
+          
           <el-dialog title="投资记录详情" :visible.sync="dialogForm1Visible">
             <p v-show="form1.id?false:true">没有该条数据对应的投资记录</p>
             <el-form :model="form1" v-show="form1.id?true:false">
@@ -252,9 +261,7 @@
               >
             </div>
           </el-dialog>
-          <el-button type="text" @click="paybackRecord(scope.row)"
-            >还款记录</el-button
-          >
+          
           <el-dialog title="还款记录详情" :visible.sync="dialogForm2Visible">
             <p v-show="form2.debitNum?false:true">没有该条数据对应的还款记录</p>
             <el-form :model="form2" v-show="form2.debitNum?true:false">
@@ -320,10 +327,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-row>
-      <el-col :sapn="12"></el-col>
-      <el-col :sapn="12">
-        <el-pagination
+      <el-pagination
         background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -335,15 +339,13 @@
         prev-text="上一页"
         next-text="下一页"
       >
-      </el-pagination>
-      </el-col>
-    </el-row>
-      
-    
+      </el-pagination>  
+      </div>  
   </div>
 </template>
 <script>
 import moment from 'moment'
+import "@/assets/depitXin.css"
 export default {
   name: "debitItems",
   data() {
@@ -595,5 +597,17 @@ input.el-input__inner {
 }
 .el-col-12{
   height: 30px important;
+}
+.el-pagination{
+ position: absolute;
+ bottom: 30px;
+ right: 30px;
+}
+.el-table{
+  margin-bottom: 50px;
+}
+.searchLine{
+  margin-bottom: 10px;
+    margin-top: 20px;
 }
 </style>

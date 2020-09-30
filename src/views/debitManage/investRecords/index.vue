@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row :gutter="20">
+    <el-row :gutter="20" class="searchLan">
       <el-col :span="3"
         ><el-input
           v-model="input1"
@@ -58,68 +58,69 @@
       style="width: 100%"
       height="350px"
       v-loading="loading"
+      align="center"
     >
-      <el-table-column label="标的编号" width="150">
+      <el-table-column label="标的编号" width="150" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.num }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="投资人" width="150">
+      <el-table-column label="投资人" width="150" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.investor }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="投资人手机" width="150">
+      <el-table-column label="投资人手机" width="150" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.phone }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="标名" width="150">
+      <el-table-column label="标名" width="150" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.entitle }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="投资金额" width="150">
+      <el-table-column label="投资金额" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.money }}</span>
+          <span>{{ scope.row.money?'￥'+parseFloat(scope.row.money).toFixed(2):'' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="利息" width="150">
+      <el-table-column label="利息" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.interest * 100 + "%" }}</span>
+          <span>{{ scope.row.interest?scope.row.interest * 100 + "%":'' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="利息管理费" width="150">
+      <el-table-column label="利息管理费" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.managerfee }}</span>
+          <span>{{ scope.row.managerfee?'￥'+parseFloat(scope.row.managerfee).toFixed(2):'' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="收益方式" width="150">
+      <el-table-column label="收益方式" width="150" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.income }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="已收金额" width="150">
+      <el-table-column label="已收金额" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.amount }}</span>
+          <span>{{ scope.row.amount?'￥'+parseFloat(scope.row.amount).toFixed(2):'' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="待收总额" width="150">
+      <el-table-column label="待收总额" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.duein }}</span>
+          <span>{{ scope.row.duein?'￥'+parseFloat(scope.row.duein).toFixed(2):'' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="投资渠道" width="150">
+      <el-table-column label="投资渠道" width="150" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.ditch }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="投资时间" width="150">
+      <el-table-column label="投资时间" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ new Date(scope.row.investime).toLocaleDateString() }}</span>
+          <span>{{ scope.row.investime?new Date(scope.row.investime).toLocaleDateString():'' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="投资状态" width="150" prop="state">
+      <el-table-column label="投资状态" width="150" prop="state" align="center">
         <template slot-scope="scope">
           <p v-if="tableData[scope.$index].state == 1">待回款</p>
           <p v-if="tableData[scope.$index].state == 2">已结算</p>
@@ -130,7 +131,8 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="block">
+    <el-row :gutter="20">
+  <el-col :offset="6" style="text-align:center"><div class="block">
       <el-pagination
         background
         @size-change="handleSizeChange"
@@ -144,7 +146,9 @@
         next-text="下一页"
       >
       </el-pagination>
-    </div>
+    </div></el-col>
+</el-row>
+    
   </div>
 </template>
 <script>
@@ -304,5 +308,9 @@ export default {
 }
 .el-col {
   border-radius: 4px solid;
+}
+.searchLan{
+  margin-bottom: 10px;
+    margin-top: 20px;
 }
 </style>
