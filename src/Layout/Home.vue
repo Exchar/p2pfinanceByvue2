@@ -132,4 +132,7 @@ body {
 .viewIn-enter-active {
   transition: all 0.3s ease;
 }
+.viewIn{
+  position: relative;
+}
 </style>

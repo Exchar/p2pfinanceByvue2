@@ -1,0 +1,6 @@
+.el-button.el-button--text:not(:nth-of-type(3n))::after{
+    content: "|";
+  }
+  .el-button.el-button--text{
+      padding-left: 5px;
+  }
