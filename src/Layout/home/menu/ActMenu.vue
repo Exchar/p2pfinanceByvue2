@@ -1,16 +1,24 @@
 <template>
   <div>
     <!-- 根据实际情况做修改 -->
-    <div v-for="(item, index) in list" :key="index">
+    <div v-for="item in list" :key="item.index">
       <el-menu-item
-        v-if="item.children && item.children.length === 0"
+        v-if="
+          item.children == null ||
+            item.children.length === 0 ||
+            item.path === '/home'
+        "
         :index="item.path"
       >
         <i :class="item.icon"></i>
         <span>{{ item.title }}</span>
       </el-menu-item>
       <el-submenu
-        v-if="item.children.length > 0"
+        v-if="
+          item.children != null &&
+            item.path !== '/home' &&
+            item.children.length > 0
+        "
         :index="item.path"
         class="secondMenu"
       >

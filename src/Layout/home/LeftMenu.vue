@@ -35,6 +35,7 @@ export default {
   },
   methods: {
     tabsAction(ment) {
+      console.log(ment);
       this.changeNowAct(ment);
       let addItem = true;
       let tabItems = this.getHeaderTabs;

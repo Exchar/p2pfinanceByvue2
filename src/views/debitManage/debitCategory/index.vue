@@ -40,7 +40,7 @@
       style="width: 100%"
       align="center"
       v-loading="loading"
-        height="600px"
+      height="600px"
     >
       <el-table-column prop="cname" label="分类名称" width="180" align="center">
       </el-table-column>

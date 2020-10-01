@@ -85,6 +85,7 @@ export default {
         userPwd: "",
         phone: ""
       },
+      saveArr: [],
       imgData: [
         { url: require("../assets/login/loginBackImg.jpg") },
         { url: require("../assets/login/loginBackImg2.jpg") },
@@ -114,7 +115,52 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["saveLeftMenu"]),
+    ...mapMutations(["saveLeftMenu", "saveToken", "setRefresh", "saveRoutes"]),
+    //打散数组
+    dasan(arr) {
+      for (let v in arr) {
+        let newItem = {};
+        if (
+          arr[v].children != null &&
+          arr[v].children &&
+          arr[v].children.length > 0
+        ) {
+          arr[v].del = true;
+          for (const key in arr[v]) {
+            //判断是不是多余的菜单
+            if (key == "children") {
+              newItem.children = [];
+              //判断是不是多余的菜单
+            } else {
+              newItem[key] = arr[v][key];
+            }
+          }
+        } else {
+          for (const key in arr[v]) {
+            newItem[key] = arr[v][key];
+          }
+        }
+        this.saveArr.push(newItem);
+        if (
+          arr[v].children != null &&
+          arr[v].children &&
+          arr[v].children.length > 0
+        ) {
+          this.dasan([...arr[v].children]);
+        }
+      }
+    },
+    //拼接数组
+    connect(newA) {
+      let newB = [];
+      for (let i in newA) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (!newA[i].hasOwnProperty("del")) {
+          newB.push(newA[i]);
+        }
+      }
+      return newB;
+    },
     gotoHome() {
       this.$router.push("/home");
     },
@@ -132,26 +178,73 @@ export default {
       Object.keys(msgObj).forEach(v => {
         console.log(v);
         if (this.formData[v].length === 0) {
-          this.$message.error(msgObj[v] + "不能为空");
+          this.$message({
+            type: "error",
+            message: msgObj[v] + "不能为空",
+            duration: 500
+          });
           isLogin = false;
         }
       });
       isLogin
         ? this.$axios
-            .post("/api/userLogin", {
+            // .post("markApi/finance/check/login", {
+            //   username: this.formData.userName,
+            //   password: "" + this.formData.userPwd
+            // })
+            .post("/testApi/userLogin", {
               userName: this.formData.userName,
-              userPwd: this.formData.userPwd
+              userPwd: "" + this.formData.userPwd
             })
             .then(res => {
-              if (res.data.code === 500) {
-                this.$message.error("用户名或者密码错误");
-              } else if (res.data.code === 200) {
+              console.log(res);
+              if (res.data.code != 200) {
+                this.$message({
+                  type: "error",
+                  duration: 500,
+                  message: "用户名或密码错误"
+                });
+              } else if (res.data.code == 200) {
+                //  console.log(res.data.menu);
+                // this.$message.success("登录成功");
+                // let newA = [...res.data.menu];
+                // this.reCon(newA);
+                // console.log(newA);
+                // this.saveLeftMenu(res.data.menu);
+                // this.saveToken(res.data.token);
+                // this.setRefresh();
+                // this.$router.push("/home");
+
+                //本地接口测试
+                console.log(res.data.leftMenu);
                 this.$message.success("登录成功");
+                let newA = [...res.data.leftMenu];
+                this.reCon(newA);
+                console.log(newA);
+                //保存左菜单
                 this.saveLeftMenu(res.data.leftMenu);
+                //生成路由表，保存路由表
+                let reArr = [...res.data.leftMenu];
+                this.dasan(reArr);
+                this.saveRoutes(this.connect(this.saveArr));
+                this.saveToken(res.data.token);
+                this.setRefresh();
                 this.$router.push("/home");
               }
             })
         : "";
+    },
+    reCon(arr) {
+      arr.forEach(v => {
+        if (v.path == "/home") {
+          v.component = "/Layout/Home";
+        } else if (v.children == null) {
+          v.component = v.path + "/index";
+        } else if (v.children && v.children.length > 0) {
+          v.component = "/Layout/Home";
+          this.reCon(v.children);
+        }
+      });
     }
   }
 };

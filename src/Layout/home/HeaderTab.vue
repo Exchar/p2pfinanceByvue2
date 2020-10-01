@@ -7,13 +7,12 @@
       @tab-remove="removeTab"
       @tab-click="tabClick"
       :active-name="getNowAct"
-        :stretch="true"
     >
       <el-tab-pane
         v-for="item in getHeaderTabs"
         :key="item.path"
         :label="item.title"
-        :name="item.path"
+        :name="'' + item.path"
       >
       </el-tab-pane>
     </el-tabs>

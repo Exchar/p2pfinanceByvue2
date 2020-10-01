@@ -1,11 +1,12 @@
 import Vue from "vue";
 import App from "./App.vue";
-import router from "./router";
+import router from "./router/index";
 import store from "./store";
 import ElementUi from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import Axios from "axios";
 import animated from "animate.css";
+import "@/router/permission";
 Vue.config.productionTip = false;
 Vue.use(ElementUi);
 Vue.prototype.$axios = Axios;

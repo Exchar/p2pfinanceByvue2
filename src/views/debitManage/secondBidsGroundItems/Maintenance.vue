@@ -139,10 +139,14 @@
     </el-form>
     <span class="title">借款资料:</span>
     <el-row>
-      <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
+      <el-col
+        :span="8"
+        v-for="(o, index) in 2"
+        :key="o"
+        :offset="index > 0 ? 2 : 0"
+      >
         <el-card :body-style="{ padding: '0px' }">
-          <div style="padding: 14px;">
-          </div>
+          <div style="padding: 14px;"></div>
         </el-card>
       </el-col>
     </el-row>
@@ -206,14 +210,13 @@
           ><div>
             <el-form-item label="投资计息方式：" prop="interest" required>
               <el-radio-group>
-                <el-radio  label="成交日"></el-radio>
-                <el-radio  label="T+1"></el-radio>
-                <el-radio  label="T+2"></el-radio>
-                <el-radio  label="成立计息"></el-radio>
+                <el-radio label="成交日"></el-radio>
+                <el-radio label="T+1"></el-radio>
+                <el-radio label="T+2"></el-radio>
+                <el-radio label="成立计息"></el-radio>
               </el-radio-group>
-            </el-form-item>
-          </div></el-col
-        >
+            </el-form-item></div
+        ></el-col>
         <el-col :span="3"><div></div></el-col>
         <el-col :span="8"
           ><div>
@@ -379,9 +382,7 @@ export default {
     date4: [
       { type: "date", required: true, message: "请选择时间", trigger: "change" }
     ],
-    interest: [
-      { required: true, message: '投资计息方式', trigger: 'change' }
-    ],
+    interest: [{ required: true, message: "投资计息方式", trigger: "change" }]
   },
   methods: {
     onSubmit() {
@@ -405,7 +406,7 @@ export default {
 </script>
 
 <style scoped>
-.el-card{
+.el-card {
   width: 350px;
   height: 350px;
   margin-left: 200px;
