@@ -12,9 +12,7 @@ export default {
     this.setRefresh();
     console.log("app.vue的created周期函数");
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     ...mapMutations(["setRefresh"])
   }

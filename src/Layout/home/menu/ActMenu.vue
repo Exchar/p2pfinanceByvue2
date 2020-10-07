@@ -11,7 +11,7 @@
         :index="item.path"
       >
         <i :class="item.icon"></i>
-        <span>{{ item.title }}</span>
+        <span>{{ item.name }}</span>
       </el-menu-item>
       <el-submenu
         v-if="
@@ -24,7 +24,7 @@
       >
         <template slot="title">
           <i :class="item.icon"></i>
-          <span>{{ item.title }}</span>
+          <span>{{ item.name }}</span>
         </template>
         <ActMenu :list="item.children"></ActMenu>
       </el-submenu>

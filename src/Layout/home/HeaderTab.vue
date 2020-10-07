@@ -34,14 +34,20 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["delTabItem"]),
+    ...mapMutations(["delTabItem", "changeNowAct"]),
     tabClick(ment) {
+      // console.log(ment);
       if (this.$route.path !== ment.name) {
         this.$router.push(ment.name);
+        this.changeNowAct(ment.name);
       }
     },
     removeTab(targetName) {
       this.delTabItem(targetName);
+      //越界判断
+      // if (targetName === this.getNowAct) {
+      //
+      // }
     }
   }
 };

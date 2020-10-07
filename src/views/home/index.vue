@@ -5,14 +5,15 @@
         <h3 class="actionNorTit">常用功能</h3>
         <el-col
           :span="2"
-          v-for="item in actionMenuInit"
-          :key="item.index"
+          v-for="(item, index) in actionMenuData"
+          :key="index"
           class="colItem"
+          disabled
         >
           <div
             class="actionMenuItem"
             style="text-align: center;cursor: pointer"
-            @click="linkGo(item.linkTo)"
+            @click="linkGo(item.path)"
           >
             <div
               style="text-align: center"
@@ -26,44 +27,115 @@
             </p>
           </div>
         </el-col>
+        <el-col :span="2">
+          <div
+            class="actionMenuItem"
+            style="text-align: center;cursor: pointer"
+            @click="centerDialogVisible = true"
+          >
+            <div
+              style="text-align: center; background-color:#eeeeee"
+              class="iconOUt"
+            >
+              <i class="iconIn el-icon-plus"></i>
+            </div>
+            <p style="text-align: center" class="iconBot">
+              管理快捷方式
+            </p>
+          </div>
+        </el-col>
       </el-row>
-      <el-row class="actionMenu mainContent" :gutter="20">
-        <h3 class="actionNorTit">项目概况</h3>
-        <el-col :span="16"></el-col>
-        <el-col :span="8"></el-col>
+
+      <el-row class="mainContent" :gutter="20">
+        <el-col :span="16" class="indexChart">
+          <h3 class="actionNorTit">项目概况</h3>
+          <div style="width: 100%">
+            <!--          echart图-->
+            <el-row>
+              <el-col :span="12"><EchartsOne></EchartsOne></el-col>
+              <el-col :span="12"><EchartsTwo></EchartsTwo></el-col>
+            </el-row>
+          </div>
+        </el-col>
+        <el-col :span="8" style="padding-right: 0">
+          <div class="message">
+            <el-row></el-row>
+          </div>
+        </el-col>
       </el-row>
+      <!--      对话框-->
+      <el-dialog
+        title="可以添加的快捷方式"
+        :visible.sync="centerDialogVisible"
+        width="40%"
+        center
+      >
+        <!--        穿梭框-->
+        <el-transfer
+          v-model="value"
+          :props="{
+            key: 'path',
+            label: 'title'
+          }"
+          :data="data"
+          @change="transChange"
+        >
+        </el-transfer>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="centerDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="subBtnClick">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
 <script>
 import { mapGetters, mapMutations } from "vuex";
 import preventBack from "vue-prevent-browser-back";
+import EchartsOne from "@/components/index/EchartsOne";
+import EchartsTwo from "@/components/index/EchartsTwo";
 import "../../assets/index/main.css";
 export default {
   name: "index",
-  mixins:[preventBack],
+  mixins: [preventBack],
+  components: {
+    EchartsOne,
+    EchartsTwo
+  },
   data() {
-    return {};
+    return {
+      centerDialogVisible: false,
+      value: []
+    };
   },
   computed: {
     ...mapGetters([
       "getShortcuts",
       "getMenuData",
       "getShortcutsAll",
-      "getHeaderTabs"
+      "getHeaderTabs",
+      "getShortCutsInit",
+      "getShortDefaultChecked"
     ]),
-    actionMenuInit() {
-      return this.getShortcuts;
+    actionMenuData() {
+      return this.getShortCutsInit.concat(this.getShortcuts);
+    },
+    data(){
+      return this.getShortcutsAll;
     }
   },
   methods: {
+    //在一个数组中随机选取一个元素
+    randomChoice(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    },
     linkGo(ment) {
-      console.log(ment)
+      console.log(ment);
       this.changeNowAct(ment);
       this.$router.push(ment);
       let addItem = true;
       let tabItems = this.getHeaderTabs;
-      console.log(tabItems)
+      console.log(tabItems);
       tabItems.forEach(v => {
         if (v.path === ment) {
           addItem = false;
@@ -73,14 +145,48 @@ export default {
     },
     ...mapMutations([
       "addshortcut",
-      "addshortcut",
       "saveLeftMenu",
       "saveTabItem",
-      "changeNowAct"
-    ])
+      "changeNowAct",
+      "setDefaultChecked",
+      "clearShort"
+    ]),
+    transChange(v) {
+      console.log(v);
+    },
+    subBtnClick() {
+      this.centerDialogVisible = false;
+      console.log(this.value);
+      //添加快捷方式
+      if (this.value.length > 0) {
+        this.addshortcut(
+          this.getShortcutsAll.filter(v => {
+            return this.value.includes(v.path);
+          })
+        );
+        //添加完成之后设置默认
+        this.setDefaultChecked(this.value);
+      } else {
+        this.clearShort();
+      }
+    }
   },
   created() {
-    console.log(this.getShortcuts);
+    //console.log(this.getShortcuts);
+    this.value = [...this.getShortDefaultChecked];
+  },
+  mounted() {
+    // this.$axios.post("/testApi/indexInfo").then((res)=>{
+    //   console.log(res.data);
+    //   this.$message({
+    //     type:"success",
+    //     message:"成功拉取首页数据",
+    //     duration:500
+    //   })
+    // }).catch((err)=>{
+    //   console.log(err);
+    //   this.$message.error("请求数据失败")
+    // })
   }
 };
 </script>
@@ -117,7 +223,9 @@ export default {
   font-weight: 500 !important;
   margin-left: 10px;
 }
-.contentMain > div > .el-row {
+.contentMain > div > .el-row:first-of-type,
+.indexChart,
+.message {
   background-color: #ffffff;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
 }
@@ -126,5 +234,12 @@ export default {
 }
 .contentMain > div {
   padding: 0 8px 0 8px;
+}
+.indexChart {
+  padding: 2px 2px 2px 10px;
+}
+.message {
+  height: 200px;
+  width: 100%;
 }
 </style>

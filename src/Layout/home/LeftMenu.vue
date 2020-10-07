@@ -31,11 +31,12 @@ export default {
   },
   created() {
     //根据用户权限获取路由,当前是管理员
+    // console.log(this.$route.path);
     this.menuData = this.getMenuData;
   },
   methods: {
     tabsAction(ment) {
-      console.log(ment);
+      // console.log(ment);
       this.changeNowAct(ment);
       let addItem = true;
       let tabItems = this.getHeaderTabs;

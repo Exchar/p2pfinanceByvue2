@@ -26,26 +26,81 @@
           <div slot="header" class="clearfix" style="text-align: center">
             <span>{{ transData.title }}</span>
           </div>
-          <el-form label-position="right" label-width="80px" :model="formData">
+          <el-form
+            label-position="right"
+            label-width="80px"
+            :model="formData"
+            v-if="defaultState"
+          >
             <el-form-item
               label="用户名:"
               :rules="[{ required: true, message: '用户名不能为空' }]"
+              v-show="login"
             >
               <el-input
-                v-model="formData.phone"
-                v-show="!login"
-                placeholder="请输入绑定的手机号"
-              ></el-input>
-              <el-input
                 v-model="formData.userName"
-                v-show="login"
                 placeholder="请输入用户名"
+                @input="nowInput"
+              ></el-input>
+            </el-form-item>
+            <el-form-item
+              label="用户名"
+              :rules="[{ required: true, message: '用户名不能为空' }]"
+              v-show="!login"
+            >
+              <el-input
+                v-model="formData.forgetName"
+                placeholder="输入您想找回密码的用户名"
+                @input="nowInput"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱:" v-show="!login">
+              <el-input
+                v-model="formData.email"
+                type="email"
+                placeholder="输入您绑定的邮箱号码"
+                @input="nowInput"
+                ><template slot="append">
+                  <i class="el-icon-timer"></i> </template
               ></el-input>
             </el-form-item>
             <el-form-item label="密码:" v-show="login">
-              <el-input v-model="formData.userPwd" type="password"></el-input>
+              <el-input
+                v-model="formData.userPwd"
+                type="password"
+                @input="nowInput"
+              ></el-input>
             </el-form-item>
           </el-form>
+          <el-form
+            label-position="right"
+            label-width="80px"
+            v-if="!defaultState"
+            v-model="reSetPwd"
+          >
+            <el-form-item label="验证码" v-if="!conSuccess">
+              <el-input
+                placeholder="查看您邮箱中的验证码"
+                v-model="reSetPwd.code"
+              >
+                <template slot="append">
+                  <i class="el-icon-timer"></i>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="新密码" v-if="!conSuccess">
+              <el-input
+                placeholder="请输入新密码"
+                v-model="reSetPwd.newPwd"
+              ></el-input>
+            </el-form-item>
+            <p v-if="conSuccess" class="successInfo">
+              重置成功！点击按钮返回登录
+            </p>
+          </el-form>
+          <transition name="fade">
+            <p class="errorInfo" v-show="failed">用户名或密码错误</p>
+          </transition>
           <div class="subBtns">
             <el-button
               type="primary"
@@ -55,7 +110,18 @@
               @keydown.enter="loginReq"
               >登录</el-button
             >
-            <el-button type="primary" class="loginBtn" v-show="!login"
+            <el-button
+              type="primary"
+              class="loginBtn"
+              v-show="!login && defaultState"
+              @click="forgetBtnHandle"
+              >提交</el-button
+            >
+            <el-button
+              type="primary"
+              class="loginBtn"
+              v-show="!login && !defaultState && !conSuccess"
+              @click="changePwdHandle"
               >提交</el-button
             >
             <el-button
@@ -65,7 +131,9 @@
               @click="changeState"
               >找回密码</el-button
             >
-            <el-button v-show="!login" @click="changeState">返回登录</el-button>
+            <el-button v-show="!login" @click="$router.go(0)"
+              >返回登录</el-button
+            >
           </div>
         </el-card>
       </div>
@@ -74,7 +142,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 export default {
   name: "login",
   data() {
@@ -83,8 +151,16 @@ export default {
       formData: {
         userName: "",
         userPwd: "",
-        phone: ""
+        email: "",
+        forgetName: ""
       },
+      reSetPwd: {
+        code: "",
+        newPwd: ""
+      },
+      conSuccess: false,
+      defaultState: true,
+      failed: false,
       saveArr: [],
       imgData: [
         { url: require("../assets/login/loginBackImg.jpg") },
@@ -94,6 +170,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["getRoutes", "getShortCutsIcon", "getShortCutsColor"]),
     transData() {
       if (this.login) {
         return {
@@ -115,7 +192,18 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["saveLeftMenu", "saveToken", "setRefresh", "saveRoutes"]),
+    ...mapMutations([
+      "saveLeftMenu",
+      "saveToken",
+      "setRefresh",
+      "saveRoutes",
+      "saveName",
+      "saveShortcutsAll"
+    ]),
+    //从一个数组中随意取一个元素
+    randomChoice(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    },
     //打散数组
     dasan(arr) {
       for (let v in arr) {
@@ -161,9 +249,6 @@ export default {
       }
       return newB;
     },
-    gotoHome() {
-      this.$router.push("/home");
-    },
     changeState() {
       this.login = !this.login;
       this.formData = {
@@ -172,29 +257,36 @@ export default {
         phone: ""
       };
     },
+    //登录时的相关处理
     loginReq() {
       let msgObj = { userName: "用户名", userPwd: "密码" };
       let isLogin = true;
-      Object.keys(msgObj).forEach(v => {
-        console.log(v);
-        if (this.formData[v].length === 0) {
-          this.$message({
-            type: "error",
-            message: msgObj[v] + "不能为空",
-            duration: 500
-          });
-          isLogin = false;
-        }
-      });
+      try {
+        Object.keys(msgObj).forEach(v => {
+          console.log(v);
+          if (this.formData[v].length === 0) {
+            this.$message({
+              type: "error",
+              message: msgObj[v] + "不能为空",
+              duration: 500
+            });
+            isLogin = false;
+            this.failed = true;
+            throw new Error("EndIterative");
+          }
+        });
+      } catch (e) {
+        if (e.message !== "EndIterative") throw e;
+      }
       isLogin
         ? this.$axios
             // .post("markApi/finance/check/login", {
             //   username: this.formData.userName,
             //   password: "" + this.formData.userPwd
             // })
-            .post("/testApi/userLogin", {
-              userName: this.formData.userName,
-              userPwd: "" + this.formData.userPwd
+            .post("/markApi/finance/check/login", {
+              username: this.formData.userName,
+              password: "" + this.formData.userPwd
             })
             .then(res => {
               console.log(res);
@@ -204,6 +296,7 @@ export default {
                   duration: 500,
                   message: "用户名或密码错误"
                 });
+                this.failed = true;
               } else if (res.data.code == 200) {
                 //  console.log(res.data.menu);
                 // this.$message.success("登录成功");
@@ -215,20 +308,52 @@ export default {
                 // this.setRefresh();
                 // this.$router.push("/home");
 
-                //本地接口测试
-                console.log(res.data.leftMenu);
+                console.log(res.data);
                 this.$message.success("登录成功");
-                let newA = [...res.data.leftMenu];
+                let newA = [...res.data.menu];
                 this.reCon(newA);
-                console.log(newA);
+                newA.unshift([...newA][0].children[0]);
+                newA[0].icon = "el-icon-house";
+                newA[0].path = "/home";
+                newA[0].children = [];
+                newA[0].name = "工作台";
+                newA.splice(1, 1);
+                // console.log("修改后的",newA);
                 //保存左菜单
-                this.saveLeftMenu(res.data.leftMenu);
+                this.saveLeftMenu(newA);
                 //生成路由表，保存路由表
-                let reArr = [...res.data.leftMenu];
+                let reArr = [...res.data.menu];
                 this.dasan(reArr);
+                //保存路由信息
                 this.saveRoutes(this.connect(this.saveArr));
+                //保存token信息
                 this.saveToken(res.data.token);
+                //设置需要添加路由
                 this.setRefresh();
+                //保存用户名
+                this.saveName(res.data.name);
+                //生成并保存主页的快捷方式json数据
+                //1.生成快捷方式json数据
+                //先拷贝路由数据
+                let shortCuts = this.getRoutes;
+                // console.log("初始的快捷方式数据", shortCuts);
+                let filtShort = () => {
+                  let temp = [];
+                  shortCuts.forEach(v => {
+                    if (v.path != "/home") {
+                      temp.push({
+                        path: v.path,
+                        title: v.name,
+                        icon: this.randomChoice(this.getShortCutsIcon),
+                        bgColor: this.randomChoice(this.getShortCutsColor)
+                      });
+                    }
+                  });
+                  return temp;
+                };
+                // console.log(filtShort());
+                this.saveShortcutsAll(filtShort());
+                //跳转到主页
                 this.$router.push("/home");
               }
             })
@@ -236,6 +361,9 @@ export default {
     },
     reCon(arr) {
       arr.forEach(v => {
+        if (v.children == null) {
+          v.children = [];
+        }
         if (v.path == "/home") {
           v.component = "/Layout/Home";
         } else if (v.children == null) {
@@ -245,12 +373,47 @@ export default {
           this.reCon(v.children);
         }
       });
+    },
+    nowInput() {
+      this.failed = false;
+    },
+    //点击忘记密码提交按钮
+    forgetBtnHandle() {
+      this.defaultState = false;
+    },
+    //修改密码提交按钮
+    changePwdHandle() {
+      this.conSuccess = true;
     }
+  },
+  created() {
+    document.title = "惠众借贷后台管理系统登录";
   }
 };
 </script>
 
 <style scoped>
+.errorInfo {
+  font-size: 15px;
+  font-weight: 400;
+  color: red;
+  text-align: center;
+  margin: 0 !important;
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+}
+.successInfo {
+  font-size: 17px;
+  font-weight: 500;
+  text-align: center;
+  margin: 0 !important;
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+}
 .loginMain {
   overflow: hidden;
   position: absolute;
@@ -262,6 +425,7 @@ export default {
   min-height: 600px;
   z-index: -1;
 }
+
 .el-carousel {
   opacity: 0.8;
 }

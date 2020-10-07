@@ -11,7 +11,7 @@ export function getAsyncRoutes(routes) {
           newItem.component = () => "";
         } else if (v.path === "/") {
           newItem.component = newItem.component = resolve => {
-            require([`@/views${v.component}/index`], resolve);
+            require([`@/views${v.component}`], resolve);
           };
         } else {
           //如果不是，就替换
@@ -20,7 +20,6 @@ export function getAsyncRoutes(routes) {
           };
         }
       }
-
       for (const key in v) {
         if (keys.includes(key)) {
           if (key === "name") {
@@ -29,7 +28,7 @@ export function getAsyncRoutes(routes) {
             ];
           } else {
             newItem[key] = v[key];
-            newItem.meta = { title: v.title };
+            newItem.meta = { title: v.name };
           }
           // } else {
           //   newItem["name"] = v["path"].split("/")[
