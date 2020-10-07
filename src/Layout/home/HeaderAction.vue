@@ -10,9 +10,16 @@
       <el-col :span="9">
         <el-breadcrumb separator="|">
           <el-breadcrumb-item>
-            <el-input placeholder="搜索" size="mini" class="searchInp">
-              <i slot="prefix" class="el-input__icon el-icon-search"></i>
-            </el-input>
+            <el-autocomplete
+              class="inline-input searchInp"
+              v-model="state2"
+              :fetch-suggestions="querySearch"
+              placeholder="搜索"
+              :trigger-on-focus="false"
+              @select="handleSelect"
+              size="mini"
+              ><i slot="prefix" class="el-input__icon el-icon-search"></i
+            ></el-autocomplete>
           </el-breadcrumb-item>
           <el-breadcrumb-item>
             <el-badge :value="5" class="item">
@@ -23,18 +30,18 @@
             </el-badge>
           </el-breadcrumb-item>
           <el-breadcrumb-item>
-            <el-dropdown>
+            <el-dropdown @command="dropClick">
               <span class="el-dropdown-link">
-                <span>{{ username }}</span
+                <span>{{ getName }}</span
                 >欢迎登录<i
                   class="el-icon-caret-bottom
  el-icon--right"
                 ></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>个人信息维护</el-dropdown-item>
-                <el-dropdown-item>帮助</el-dropdown-item>
-                <el-dropdown-item>注销</el-dropdown-item>
+                <el-dropdown-item command="a">个人信息维护</el-dropdown-item>
+                <el-dropdown-item command="b">帮助</el-dropdown-item>
+                <el-dropdown-item command="c">注销</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <el-avatar :size="40" icon="el-icon-user-solid"></el-avatar>
@@ -47,14 +54,64 @@
 
 <script>
 import "../../assets/layout/headeAction.css";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "LeftMenu",
-  computed: {},
-  methods: {},
+  computed: {
+    ...mapGetters(["getName", "getRoutes"])
+  },
+  methods: {
+    ...mapMutations(["changeNowAct"]),
+    dropClick(e) {
+      switch (e) {
+        case "c":
+          localStorage.clear();
+          this.$router.push("/login");
+          this.$router.history.go(0);
+      }
+    },
+    querySearch(queryString, cb) {
+      let restaurants = this.restaurants;
+      let results = queryString
+        ? restaurants.filter(this.createFilter(queryString))
+        : restaurants;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    createFilter(queryString) {
+      return restaurant => {
+        return (
+          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
+          0
+        );
+      };
+    },
+    loadAll() {
+      let routes = this.getRoutes;
+      routes.forEach(v => {
+        Object.keys(v).forEach(key => {
+          if (key === "name") {
+            v["value"] = v[key];
+          }
+        });
+      });
+      return routes;
+    },
+    handleSelect(v) {
+      console.log(v);
+      this.$router.push(v.path);
+      this.changeNowAct(v.path);
+    }
+  },
   data() {
     return {
-      username: "用户名"
+      username: "用户名",
+      restaurants: [],
+      state2: ""
     };
+  },
+  mounted() {
+    this.restaurants = this.loadAll();
   }
 };
 </script>

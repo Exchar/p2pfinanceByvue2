@@ -5,7 +5,19 @@
     </transition>
   </div>
 </template>
-<script></script>
+<script>
+import { mapMutations } from "vuex";
+export default {
+  created() {
+    this.setRefresh();
+    console.log("app.vue的created周期函数");
+  },
+  mounted() {},
+  methods: {
+    ...mapMutations(["setRefresh"])
+  }
+};
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

@@ -90,14 +90,14 @@
         <el-table-column prop="state" label="状态"> </el-table-column>
         <el-table-column prop="action" label="操作" width="180px">
           <template slot-scope="scope">
-            <el-link
-              type="primary"
-              :underline="false"
-              @click="edit(scope.row)"
+            <el-link type="primary" :underline="false" @click="edit(scope.row)"
               >修改</el-link
             >
             |
-            <el-link type="primary" :underline="false" @click="markDown(scope.row)"
+            <el-link
+              type="primary"
+              :underline="false"
+              @click="markDown(scope.row)"
               >下架</el-link
             >
           </template>
@@ -111,7 +111,8 @@
         <el-col :span="10"
           ><div>
             <el-pagination
-               @size-change="handleSizeChange"                     @current-change="handleCurrentChange"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
               :current-page="currentPage"
               :page-sizes="[2, 3, 5, 10]"
               :page-size="pageSize"
@@ -141,8 +142,8 @@ export default {
       input1: "",
       input2: "",
       currentPage: 1,
-      pageSize:3,
-      total:3,
+      pageSize: 3,
+      total: 3,
       tableData: [],
       selectVal: "",
       dialogFormVisible: false,
@@ -182,29 +183,29 @@ export default {
         });
     },
     edit(obj) {
-      this.dialogFormVisible = true
-      this.form.num = obj.num
-      this.form.borrower = obj.borrower
-      this.form.phone = obj.phone
-      this.form.entitle = obj.entitle
-      this.form.money = obj.money
-      this.form.annual = obj.annual
-      this.form.state = obj.state
+      this.dialogFormVisible = true;
+      this.form.num = obj.num;
+      this.form.borrower = obj.borrower;
+      this.form.phone = obj.phone;
+      this.form.entitle = obj.entitle;
+      this.form.money = obj.money;
+      this.form.annual = obj.annual;
+      this.form.state = obj.state;
     },
     submit() {
       this.dialogFormVisible = false;
       this.$axios
-        .post("/markApi/finance/load/update",{
+        .post("/markApi/finance/load/update", {
           num: this.form.num,
-          borrower:this.form.borrower,
-          money: this.form.money,
+          borrower: this.form.borrower,
+          money: this.form.money
           /*phone: this.form.phone,
           entitle: this.form.entitle,
           annual: this.form.annual,
           state: this.form.state*/
         })
         .then(response => {
-          console.log(response)
+          console.log(response);
           if (response.data.code == 200) {
             this.getData();
           } else {
@@ -212,45 +213,45 @@ export default {
           }
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
     markDown() {
       this.$axios
-      .post("/markApi/finance/loan/updating",{
-        num: ""+this.peopleList.num,
-        remarks: ""+this.peopleList.remarks,
-        state: 100
-      })
-      .then(response =>{
-        console.log(response)
-      })
-      .catch(error =>{
-        console.log(error)
-      })
+        .post("/markApi/finance/loan/updating", {
+          num: "" + this.peopleList.num,
+          remarks: "" + this.peopleList.remarks,
+          state: 100
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     //搜索
     searchRunning() {
       this.$axios
-              .post("/markApi/finance/loan/findingByPage",{
-                borrower:this.peopleList.borrower,
-                phone:this.peopleList.phone,
-                limit: this.currentPage,
-                page: this.pageSize,
-                count:this.total
-              })
-              .then(response =>{
-                if (response.data.code == 200) {
-                  this.tableData = response.data.data;
-                  console.log(response.data);
-                } else {
-                  this.$message(response.data.msg);
-                }
-                console.log(response)
-              })
-              .catch(error =>{
-                console.log(error)
-              })
+        .post("/markApi/finance/loan/findingByPage", {
+          borrower: this.peopleList.borrower,
+          phone: this.peopleList.phone,
+          limit: this.currentPage,
+          page: this.pageSize,
+          count: this.total
+        })
+        .then(response => {
+          if (response.data.code == 200) {
+            this.tableData = response.data.data;
+            console.log(response.data);
+          } else {
+            this.$message(response.data.msg);
+          }
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     reBack() {
       this.dialogFormVisible = false;
@@ -262,13 +263,13 @@ export default {
     handleCurrentChange(value) {
       this.currentPage = value;
       this.searchRunning();
-    },
+    }
   }
 };
 </script>
 
 <style scoped>
-.dialog-footer{
+.dialog-footer {
   display: flex;
   align-items: center;
 }

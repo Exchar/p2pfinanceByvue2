@@ -7,13 +7,12 @@
       @tab-remove="removeTab"
       @tab-click="tabClick"
       :active-name="getNowAct"
-        :stretch="true"
     >
       <el-tab-pane
         v-for="item in getHeaderTabs"
         :key="item.path"
         :label="item.title"
-        :name="item.path"
+        :name="'' + item.path"
       >
       </el-tab-pane>
     </el-tabs>
@@ -35,14 +34,20 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["delTabItem"]),
+    ...mapMutations(["delTabItem", "changeNowAct"]),
     tabClick(ment) {
+      // console.log(ment);
       if (this.$route.path !== ment.name) {
         this.$router.push(ment.name);
+        this.changeNowAct(ment.name);
       }
     },
     removeTab(targetName) {
       this.delTabItem(targetName);
+      //越界判断
+      // if (targetName === this.getNowAct) {
+      //
+      // }
     }
   }
 };

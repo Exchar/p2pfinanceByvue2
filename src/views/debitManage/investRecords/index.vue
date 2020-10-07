@@ -82,17 +82,25 @@
       </el-table-column>
       <el-table-column label="投资金额" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.money?'￥'+parseFloat(scope.row.money).toFixed(2):'' }}</span>
+          <span>{{
+            scope.row.money ? "￥" + parseFloat(scope.row.money).toFixed(2) : ""
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="利息" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.interest?scope.row.interest * 100 + "%":'' }}</span>
+          <span>{{
+            scope.row.interest ? scope.row.interest * 100 + "%" : ""
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="利息管理费" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.managerfee?'￥'+parseFloat(scope.row.managerfee).toFixed(2):'' }}</span>
+          <span>{{
+            scope.row.managerfee
+              ? "￥" + parseFloat(scope.row.managerfee).toFixed(2)
+              : ""
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="收益方式" width="150" align="center">
@@ -102,12 +110,18 @@
       </el-table-column>
       <el-table-column label="已收金额" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.amount?'￥'+parseFloat(scope.row.amount).toFixed(2):'' }}</span>
+          <span>{{
+            scope.row.amount
+              ? "￥" + parseFloat(scope.row.amount).toFixed(2)
+              : ""
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="待收总额" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.duein?'￥'+parseFloat(scope.row.duein).toFixed(2):'' }}</span>
+          <span>{{
+            scope.row.duein ? "￥" + parseFloat(scope.row.duein).toFixed(2) : ""
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="投资渠道" width="150" align="center">
@@ -117,7 +131,11 @@
       </el-table-column>
       <el-table-column label="投资时间" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.investime?new Date(scope.row.investime).toLocaleDateString():'' }}</span>
+          <span>{{
+            scope.row.investime
+              ? new Date(scope.row.investime).toLocaleDateString()
+              : ""
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="投资状态" width="150" prop="state" align="center">
@@ -132,23 +150,23 @@
       </el-table-column>
     </el-table>
     <el-row :gutter="20">
-  <el-col :offset="6" style="text-align:center"><div class="block">
-      <el-pagination
-        background
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage4"
-        :page-sizes="[5, 10, 20, 30]"
-        :page-size="pageSize"
-        layout="sizes,total,  jumper ,prev, pager, next"
-        :total="total"
-        prev-text="上一页"
-        next-text="下一页"
-      >
-      </el-pagination>
-    </div></el-col>
-</el-row>
-    
+      <el-col :offset="6" style="text-align:center"
+        ><div class="block">
+          <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage4"
+            :page-sizes="[5, 10, 20, 30]"
+            :page-size="pageSize"
+            layout="sizes,total,  jumper ,prev, pager, next"
+            :total="total"
+            prev-text="上一页"
+            next-text="下一页"
+          >
+          </el-pagination></div
+      ></el-col>
+    </el-row>
   </div>
 </template>
 <script>
@@ -168,7 +186,7 @@ export default {
       tableData: [],
       currentPage4: 1,
       pageSize: 10,
-      total:8,
+      total: 8,
       pickerOptions: {
         shortcuts: [
           {
@@ -220,7 +238,7 @@ export default {
           console.log(response.data);
           var result = response.data;
           this.tableData = result.data;
-           this.total=response.data.count;
+          this.total = response.data.count;
           this.loading = false;
         })
         .catch(() => {});
@@ -247,7 +265,7 @@ export default {
         phone: this.input1,
         entitle: this.input2,
         state: this.value,
-        startDate: this.value2,
+        startDate: this.value2
       });
       this.loading = true;
       this.$axios
@@ -309,8 +327,8 @@ export default {
 .el-col {
   border-radius: 4px solid;
 }
-.searchLan{
+.searchLan {
   margin-bottom: 10px;
-    margin-top: 20px;
+  margin-top: 20px;
 }
 </style>
