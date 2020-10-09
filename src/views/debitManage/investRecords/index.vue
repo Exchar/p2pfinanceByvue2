@@ -51,9 +51,7 @@
       <el-col :span="3" :offset="6"
         ><el-button plain>自定义列</el-button></el-col
       >
-      <el-col :span="3"
-        ><el-button plain >导出</el-button></el-col
-      ></el-row
+      <el-col :span="3"><el-button plain>导出</el-button></el-col></el-row
     >
     <el-table
       :data="tableData"
