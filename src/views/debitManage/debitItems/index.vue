@@ -34,15 +34,16 @@
             </el-option> </el-select
         ></el-col>
         <el-col :span="3" :offset="6"
-          ><el-button type="primary" plain>自定义列</el-button></el-col
+          ><el-button  plain>自定义列</el-button></el-col
         >
         <el-col :span="3"
-          ><el-button type="primary" plain>导出</el-button></el-col
+          ><el-button  plain>导出</el-button></el-col
         >
       </el-row>
       <el-table
         :data="debitltemsData"
         style="width: 100%"
+        height="350px"
         class="debitTable"
         header-row-class-name="dtable"
         v-loading="loading"
@@ -488,8 +489,8 @@ export default {
       this.loading = true;
       this.$axios
         .post("/markApi/finance/allBorSign/findAllBorSignPage", {
-          limit: "1",
-          page: "5"
+          limit: this.currentPage4,
+          page: this.pageSize
         })
         .then(response => {
           console.log(response.data);
@@ -667,7 +668,7 @@ input.el-input__inner {
   background-color: gray !important;
 }
 .el-col-12 {
-  height: 30px important;
+  height: 30px !important;
 }
 .el-pagination {
   position: absolute;
@@ -675,7 +676,7 @@ input.el-input__inner {
   right: 30px;
 }
 .el-table {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 .searchLine {
   margin-bottom: 10px;
