@@ -31,17 +31,33 @@
         <el-table-column prop="num" label="编号"> </el-table-column>
         <el-table-column prop="borrower" label="借款方"> </el-table-column>
         <el-table-column prop="phone" label="借款人手机"> </el-table-column>
-        <el-table-column prop="markName" label="借款名称"> </el-table-column>
-        <el-table-column prop="guarantee" label="借款金额"> </el-table-column>
-        <el-table-column prop="annual" label="年利率化"> </el-table-column>
-        <el-table-column prop="repayment" label="还款方式"> </el-table-column>
+        <el-table-column prop="entitle" label="借款名称"> </el-table-column>
+        <el-table-column prop="money" label="借款金额"> </el-table-column>
+        <el-table-column
+          prop="annual"
+          label="年利率化"
+          :formatter="annualState"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="repayment"
+          label="还款方式"
+          :formatter="repayType"
+        >
+        </el-table-column>
         <el-table-column prop="deadline" label="期限"> </el-table-column>
         <el-table-column prop="repayType" label="募集时长"> </el-table-column>
         <el-table-column prop="term" label="募集资金"> </el-table-column>
-        <el-table-column prop="checkTime" label="投资进度"> </el-table-column>
-        <el-table-column prop="state" label="开售时间"> </el-table-column>
-        <el-table-column prop="action" label="结束时间"> </el-table-column>
-        <el-table-column prop="state" label="状态"> </el-table-column>
+        <el-table-column prop="id" label="投资进度" :formatter="invest">
+        </el-table-column>
+        <el-table-column prop="saletime" label="开售时间">
+          <span>{{ tableData.saletime | formatDate }}</span>
+        </el-table-column>
+        <el-table-column prop="putawaytime" label="结束时间">
+          <span>{{ tableData.putawaytime | formatDate }}</span>
+        </el-table-column>
+        <el-table-column prop="state" label="状态" :formatter="markState">
+        </el-table-column>
         <el-table-column prop="action" label="操作">
           <el-link type="primary" :underline="false" @click="recheck"
             >复审</el-link
@@ -73,6 +89,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "Recheck",
   data() {
@@ -99,7 +117,7 @@ export default {
     },
     getData: function() {
       this.$axios
-        .post("/markApi/finance/sign/findPage", {
+        .post("/markApi/finance/loan/findFinishByPage", {
           limit: 1,
           page: 5
         })
@@ -115,6 +133,55 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    markState(row) {
+      return row.state == 1
+        ? "待回款"
+        : row.state == 2
+        ? "已结算"
+        : row.state == 3
+        ? "撤标"
+        : row.state == 4
+        ? "流标"
+        : row.state == 5
+        ? "投资中"
+        : row.state == 6
+        ? "投资失败"
+        : "";
+    },
+    repayType(row) {
+      return row.state == 1
+        ? "一次性还款"
+        : row.state == 2
+        ? "等额本息"
+        : row.state == 3
+        ? "按月付息到期还本"
+        : row.state == 4
+        ? "按天还款"
+        : "";
+    },
+    annualState(row) {
+      return row.annual * 100 + "%";
+    },
+    invest(row) {
+      return row.state == 1
+        ? "待回款"
+        : row.state == 2
+        ? "已结算"
+        : row.state == 3
+        ? "撤标"
+        : row.state == 4
+        ? "流标"
+        : row.state == 5
+        ? "投资中"
+        : row.state == 6
+        ? "投资失败"
+        : "";
+    }
+  },
+  filters: {
+    formatDate: function(value) {
+      return moment(value).format("YYYY-MM-DD");
     }
   }
 };
