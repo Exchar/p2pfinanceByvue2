@@ -265,7 +265,18 @@ export default {
         phone: this.input1,
         entitle: this.input2,
         state: this.value,
-        startDate: this.value2
+        startDate:
+          this.value2 && this.value2[0] && this.value2[0] != null
+            ? `${new Date(this.value2[0]).getFullYear()}-${Number(
+                new Date(this.value2[0]).getMonth() + 1
+              )}-${new Date(this.value2[0]).getDate()}`
+            : "",
+        endDate:
+          this.value2 && this.value2[1] && this.value2[1] != null
+            ? `${new Date(this.value2[1]).getFullYear()}-${Number(
+                new Date(this.value2[1]).getMonth() + 1
+              )}-${new Date(this.value2[1]).getDate()}`
+            : ""
       });
       this.loading = true;
       this.$axios
@@ -277,19 +288,15 @@ export default {
           state: this.value,
           startDate:
             this.value2 && this.value2[0] && this.value2[0] != null
-              ? new Date(this.value2[0]).getFullYear() +
-                "-" +
-                new Date(this.value2[0]).getMonth() +
-                "-" +
-                new Date(this.value2[0]).getDate()
+              ? `${new Date(this.value2[0]).getFullYear()}-${Number(
+                  new Date(this.value2[0]).getMonth() + 1
+                )}-${new Date(this.value2[0]).getDate()}`
               : "",
           endDate:
             this.value2 && this.value2[1] && this.value2[1] != null
-              ? new Date(this.value2[1]).getFullYear() +
-                "-" +
-                new Date(this.value2[1]).getMonth() +
-                "-" +
-                new Date(this.value2[1]).getDate()
+              ? `${new Date(this.value2[1]).getFullYear()}-${Number(
+                  new Date(this.value2[1]).getMonth() + 1
+                )}-${new Date(this.value2[1]).getDate()}`
               : ""
         })
         .then(response => {

@@ -403,7 +403,7 @@ export default {
   created() {
     document.title = "惠众借贷后台管理系统登录";
     let lett = this;
-    document.onkeydown = (e) =>{
+    document.onkeydown = e => {
       let key = e.keyCode;
       if (key == 13 && this.login) {
         lett.loginReq();

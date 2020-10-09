@@ -29,9 +29,9 @@ export function resetRouter() {
 }
 export const errorRoute = [
   {
-    name:'login',
-    path:"/login",
-    component:()=>import("../views/Login")
+    name: "login",
+    path: "/login",
+    component: () => import("../views/Login")
   }
 ];
 export default index;

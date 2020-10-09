@@ -327,6 +327,7 @@ export default {
         borrower: [
           { required: true, message: "借款方不能为空", trigger: "change" }
         ],
+
         // borrower: [
         //   { required: true, message: '借款方不能为空', trigger: 'change' },
         // ],
@@ -359,6 +360,7 @@ export default {
         ],
         money: [
           { required: true, message: "借款总金额不能为空", trigger: "blur" },
+
           {
             type: "number",
             message: "借款总金额必须为数字值",

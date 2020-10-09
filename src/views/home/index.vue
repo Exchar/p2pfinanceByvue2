@@ -66,10 +66,10 @@
               <p class="actionNorTit">消息通知</p>
               <el-row v-for="item in messages" :key="item.index" :span="24">
                 <el-row>
-                  <el-col :span="24">{{item.msg}}</el-col>
+                  <el-col :span="24">{{ item.msg }}</el-col>
                 </el-row>
-                <el-row >
-                  <el-col :span="24">{{item.time}}</el-col>
+                <el-row>
+                  <el-col :span="24">{{ item.time }}</el-col>
                 </el-row>
               </el-row>
             </el-row>
@@ -109,7 +109,7 @@ import EchartsOne from "@/components/index/EchartsOne";
 import EchartsTwo from "@/components/index/EchartsTwo";
 import EchartsThree from "@/components/index/EchartsThree";
 import "../../assets/index/main.css";
-import "../../assets/xnoScoll.css"
+import "../../assets/xnoScoll.css";
 export default {
   name: "index",
   mixins: [preventBack],
@@ -240,8 +240,6 @@ export default {
   height: 50%;
   font-size: 1.4em;
 }
-
-
 .actionMenu {
   padding: 2px 20px 2px 20px;
 }
@@ -252,6 +250,7 @@ export default {
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   font-size: 1em;
+
   font-weight: 600 !important;
   margin-left: 10px;
 }
@@ -261,8 +260,14 @@ export default {
   background-color: #ffffff;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
 }
-.message{
+.message {
   padding: 6px 30px 30px 30px;
+  font-weight: 500 !important;
+  margin-left: 10px;
+}
+.contentMain > div > .el-row {
+  background-color: #ffffff;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 .contentMain > div > .el-row:not(:first-of-type) {
   margin-top: 10px;

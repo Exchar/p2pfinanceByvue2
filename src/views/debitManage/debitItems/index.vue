@@ -278,9 +278,7 @@
                   <span>{{ form1.ditch }}</span>
                 </el-form-item>
                 <el-form-item label="投资时间" :label-width="formLabelWidth">
-                  <span>
-                    {{ form1.investime ? formatDate(form1.investime) : "" }}
-                  </span>
+                  <span>{{ form1.investime | formatDate }}</span>
                 </el-form-item>
                 <el-form-item label="投资状态" :label-width="formLabelWidth">
                   <span v-if="form.state == 1">待回款</span>
@@ -554,12 +552,14 @@ export default {
           page: this.pageSize,
           borrower: this.input1,
           phone: this.input2,
-          state: this.value
+          state: this.value,
+          count: this.total
         })
         .then(response => {
           if (response.data.code == 200) {
             this.debitltemsData = response.data.data;
             console.log(response.data.data);
+            this.total = response.data.count;
             this.loading = false;
           } else {
             this.$message(response.data.msg);
