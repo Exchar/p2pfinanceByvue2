@@ -40,7 +40,12 @@
         <el-table-column prop="guarantee" label="担保机构"></el-table-column>
         <el-table-column prop="type" label="类型"> </el-table-column>
         <el-table-column prop="money" label="借款金额"> </el-table-column>
-        <el-table-column prop="annual" :formatter="annualState" label="年利率化"> </el-table-column>
+        <el-table-column
+          prop="annual"
+          :formatter="annualState"
+          label="年利率化"
+        >
+        </el-table-column>
         <el-table-column prop="repayment" label="还款方式"> </el-table-column>
         <el-table-column prop="deadline" label="期限"> </el-table-column>
         <el-table-column label="审核时间"> </el-table-column>
@@ -142,7 +147,7 @@ export default {
         });
     },
     annualState(row) {
-      return row.annual*100+"%";
+      return row.annual * 100 + "%";
     }
   }
 };

@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div class="add"><el-button @click="changeStateAdd">添加分类</el-button>
-</div>
-    
+    <div class="add">
+      <el-button @click="changeStateAdd">添加分类</el-button>
+    </div>
+
     <el-dialog
       :title="isadd ? '添加分类' : '修改分类'"
       :visible.sync="dialogFormVisible"
@@ -44,8 +45,8 @@
       :data="tableData"
       style="width: 90%;margin:auto"
       v-loading="loading"
-        height="600px"
-        align="center"
+      height="600px"
+      align="center"
     >
       <el-table-column prop="cname" label="分类名称" width="180" align="center">
       </el-table-column>
@@ -67,22 +68,23 @@
       <el-table-column prop="caozuo" label="操作" width="200" align="center">
         <template slot-scope="scope">
           <div id="action">
-            <div id="btn"><el-button
-            size="mini"
-            type="primary"
-            icon="el-icon-edit"
-            @click="changeStateEdit(scope.row)"
-          ></el-button></div>
-          <div><el-switch
-            v-model="scope.row.cstate"
-            active-text="有效"
-            inactive-text="禁用"
-            @change="changeCstate(scope.$index, scope.row)"
-          ></el-switch></div>
+            <div id="btn">
+              <el-button
+                size="mini"
+                type="primary"
+                icon="el-icon-edit"
+                @click="changeStateEdit(scope.row)"
+              ></el-button>
+            </div>
+            <div>
+              <el-switch
+                v-model="scope.row.cstate"
+                active-text="有效"
+                inactive-text="禁用"
+                @change="changeCstate(scope.$index, scope.row)"
+              ></el-switch>
+            </div>
           </div>
-           
-          
-          
         </template>
       </el-table-column>
     </el-table>
@@ -261,25 +263,25 @@ export default {
   color: gray;
 }
 .el-row {
-    margin-bottom: 20px;
-  }
-  .el-col {
-    border-radius: 4px;
-  }
-  #btn{
-    margin-right: 10px;
-  } 
-  #action{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-  .add{
-    width: 90%;
-    margin: auto;
-  }
-  .el-button{
-    margin-bottom: 10px;
-    margin-top: 20px;
-  }
+  margin-bottom: 20px;
+}
+.el-col {
+  border-radius: 4px;
+}
+#btn {
+  margin-right: 10px;
+}
+#action {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.add {
+  width: 90%;
+  margin: auto;
+}
+.el-button {
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
 </style>

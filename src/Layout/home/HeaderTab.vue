@@ -7,7 +7,7 @@
       @tab-remove="removeTab"
       @tab-click="tabClick"
       :active-name="getNowAct"
-        :stretch="true"
+      :stretch="true"
     >
       <el-tab-pane
         v-for="item in getHeaderTabs"

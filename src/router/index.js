@@ -37,8 +37,8 @@ const routes = [
       {
         path: "/debitManage/secondBidsGroundItems",
         name: "index",
-        component: () => import("../views/debitManage/secondBidsGroundItems/index"),
-
+        component: () =>
+          import("../views/debitManage/secondBidsGroundItems/index")
       },
       {
         path: "/debitManage/reexAuditItems",
@@ -48,12 +48,14 @@ const routes = [
       {
         path: "/debitManage/RecheckAction",
         name: "RecheckAction",
-        component: () => import("../views/debitManage/reexAuditItems/RecheckAction")
+        component: () =>
+          import("../views/debitManage/reexAuditItems/RecheckAction")
       },
       {
         path: "/debitManage/Maintenance",
         name: "Maintenance",
-        component: () => import("../views/debitManage/secondBidsGroundItems/Maintenance")
+        component: () =>
+          import("../views/debitManage/secondBidsGroundItems/Maintenance")
       },
       {
         path: "/debitManage/index",

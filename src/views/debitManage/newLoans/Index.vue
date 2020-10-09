@@ -1,56 +1,66 @@
 <template>
   <div class="scroll">
     <el-row>
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm" >
+      <el-form
+        :model="ruleForm"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="120px"
+        class="demo-ruleForm"
+      >
         <el-col :span="24">
           <p>基本信息</p>
         </el-col>
         <el-col :span="12">
           <el-form-item label="标名" prop="entitle">
-            <el-input v-model="ruleForm.entitle" placeholder="请输入名称"></el-input>
+            <el-input
+              v-model="ruleForm.entitle"
+              placeholder="请输入名称"
+            ></el-input>
           </el-form-item>
           <el-form-item label="借款方" prop="borrower">
             <el-col :span="19">
-              <el-input v-model="ruleForm.borrower" placeholder="请点击按钮选择借款账号" readonly="readonly"></el-input>
+              <el-input
+                v-model="ruleForm.borrower"
+                placeholder="请点击按钮选择借款账号"
+                readonly="readonly"
+              ></el-input>
             </el-col>
             <el-col :span="5">
-              <el-button type="primary" @click="getBorrowersList">选择</el-button>
+              <el-button type="primary" @click="getBorrowersList"
+                >选择</el-button
+              >
               <el-dialog title="选择借款人" :visible.sync="dialogTableVisible">
                 <el-col :span="8">
                   <el-input
-                      size="max"
-                      placeholder="搜索借款人姓名"
-                      suffix-icon="el-icon-search"
-                      v-model="borrowers"
-                      @keyup.native="getQueryBorrower">
+                    size="max"
+                    placeholder="搜索借款人姓名"
+                    suffix-icon="el-icon-search"
+                    v-model="borrowers"
+                    @keyup.native="getQueryBorrower"
+                  >
                   </el-input>
                 </el-col>
                 <el-table :data="gridData">
-                  <el-table-column
-                      property="username"
-                      label="真实姓名">
+                  <el-table-column property="username" label="真实姓名">
                   </el-table-column>
                   <el-table-column
-                      property="phone"
-                      label="手机号码/用户名"
-                      width="200">
+                    property="phone"
+                    label="手机号码/用户名"
+                    width="200"
+                  >
+                  </el-table-column>
+                  <el-table-column property="sock" label="用户状态">
+                  </el-table-column>
+                  <el-table-column property="type" label="身份类型">
                   </el-table-column>
                   <el-table-column
-                      property="sock"
-                      label="用户状态">
+                    property="registration"
+                    label="添加时间"
+                    width="140"
+                  >
                   </el-table-column>
-                  <el-table-column
-                      property="type"
-                      label="身份类型">
-                  </el-table-column>
-                  <el-table-column
-                      property="registration"
-                      label="添加时间"
-                      width="140">
-                  </el-table-column>
-                  <el-table-column
-                      property="options"
-                      label="操作">
+                  <el-table-column property="options" label="操作">
                   </el-table-column>
                 </el-table>
               </el-dialog>
@@ -114,7 +124,10 @@
             </el-select>
           </el-form-item>
           <el-form-item label="借款总金额" prop="money">
-            <el-input v-model="ruleForm.money" placeholder="请输入500-500000的整数"></el-input>
+            <el-input
+              v-model="ruleForm.money"
+              placeholder="请输入500-500000的整数"
+            ></el-input>
           </el-form-item>
           <el-form-item label="还款方式" prop="repayment">
             <el-select
@@ -132,10 +145,16 @@
             </el-select>
           </el-form-item>
           <el-form-item label="借款期限" prop="deadline">
-            <el-input v-model="ruleForm.deadline" placeholder="请输入0-999的整数"></el-input>
+            <el-input
+              v-model="ruleForm.deadline"
+              placeholder="请输入0-999的整数"
+            ></el-input>
           </el-form-item>
           <el-form-item label="借款管理费月率" prop="monthly">
-            <el-input v-model="ruleForm.monthly" placeholder="请输入0-24之间的数"></el-input>
+            <el-input
+              v-model="ruleForm.monthly"
+              placeholder="请输入0-24之间的数"
+            ></el-input>
           </el-form-item>
           <el-form-item label="借款类型" prop="type">
             <el-select
@@ -153,7 +172,10 @@
             </el-select>
           </el-form-item>
           <el-form-item label="还款来源" prop="source">
-            <el-input v-model="ruleForm.source" placeholder="请输入借款人还款来源"></el-input>
+            <el-input
+              v-model="ruleForm.source"
+              placeholder="请输入借款人还款来源"
+            ></el-input>
           </el-form-item>
         </el-col>
         <!--      担保信息-->
@@ -199,13 +221,18 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="上传借款资料" prop="datum">
-            <el-input v-model="ruleForm.monthlyFee" placeholder="请输入0-24之间的数"></el-input>
+            <el-input
+              v-model="ruleForm.monthlyFee"
+              placeholder="请输入0-24之间的数"
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-divider></el-divider>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">提交审核</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')"
+              >提交审核</el-button
+            >
             <el-button>保存</el-button>
           </el-form-item>
         </el-col>
@@ -252,63 +279,65 @@ export default {
       // 借款人
       borrowers: "",
       gridData: [
-      {
+        {
           username: "企业1号",
           phone: "1566224",
           sock: "正常",
           type: "企业用户",
           registration: "2017-01-01 12:00",
           options: ""
-      }
+        }
       ],
       dialogTableVisible: false,
       // 校验规则
       rules: {
         borrower: [
-          { required: true, message: '借款方不能为空', trigger: 'change' },
+          { required: true, message: "借款方不能为空", trigger: "change" }
         ],
-        entitle: [
-          { required: true, message: '标名不能为空', trigger: 'blur' },
-        ],
+        entitle: [{ required: true, message: "标名不能为空", trigger: "blur" }],
         grade: [
-          { required: true, message: '请选择风险等级', trigger: 'change' }
+          { required: true, message: "请选择风险等级", trigger: "change" }
         ],
         annual: [
-          { required: true, message: '年利率不能为空', trigger: 'blur'},
-          { type: 'number', message: '年利率必须为数字值', trigger: 'blur'}
+          { required: true, message: "年利率不能为空", trigger: "blur" },
+          { type: "number", message: "年利率必须为数字值", trigger: "blur" }
         ],
         type: [
-          { required: true, message: '请选择借款类型', trigger: 'change' }
+          { required: true, message: "请选择借款类型", trigger: "change" }
         ],
         way: [
-          { required: true, message: '请选择借款起息方式', trigger: 'change' }
+          { required: true, message: "请选择借款起息方式", trigger: "change" }
         ],
         penalty: [
-          { required: true, message: '逾期罚息利率不能为空', trigger: 'blur'},
-          { type: 'number', message: '逾期罚息利率必须为数字值', trigger: 'blur'}
+          { required: true, message: "逾期罚息利率不能为空", trigger: "blur" },
+          {
+            type: "number",
+            message: "逾期罚息利率必须为数字值",
+            trigger: "blur"
+          }
         ],
         purpose: [
-          { required: true, message: '请选择资金用途', trigger: 'change' }
+          { required: true, message: "请选择资金用途", trigger: "change" }
         ],
         money: [
-          { required: true, message: '借款总金额不能为空', trigger: 'blur'},
-          { type: 'number', message: '借款总金额必须为数字值', trigger: 'blur'}
+          { required: true, message: "借款总金额不能为空", trigger: "blur" },
+          { type: "number", message: "借款总金额必须为数字值", trigger: "blur" }
         ],
         repayment: [
-          { required: true, message: '请选择还款方式', trigger: 'change' }
+          { required: true, message: "请选择还款方式", trigger: "change" }
         ],
         deadline: [
-          { required: true, message: '请选择期限类型', trigger: 'change'},
+          { required: true, message: "请选择期限类型", trigger: "change" }
         ],
         monthly: [
-          { required: true, message: '借款月费率不能为空', trigger: 'blur'},
-          { type: 'number', message: '借款月费率必须为数字值', trigger: 'blur'}
+          { required: true, message: "借款月费率不能为空", trigger: "blur" },
+          { type: "number", message: "借款月费率必须为数字值", trigger: "blur" }
         ],
         source: [
-          { required: true, message: '还款来源不能为空', trigger: 'blur' },
+          { required: true, message: "还款来源不能为空", trigger: "blur" }
         ],
         datum: [
-          { required: true, message: '借款资料不能为空', trigger: 'blur' },
+          { required: true, message: "借款资料不能为空", trigger: "blur" }
         ]
       }
     };
@@ -385,19 +414,23 @@ export default {
         });
     },
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          alert('submit!');
+          alert("submit!");
         } else {
-          console.log('error submit!!');
+          console.log("error submit!!");
           return false;
         }
       });
     },
     // 获取查询后借款人
-    getQueryBorrower: function () {
+    getQueryBorrower: function() {
       this.$axios
-        .post("/api/finance/loanUser/selectLikeName",{"username":"pp","page":1,"limit":5})
+        .post("/api/finance/loanUser/selectLikeName", {
+          username: "pp",
+          page: 1,
+          limit: 5
+        })
         .then(res => {
           // 请求返回的数据
           // 赋值
@@ -409,10 +442,10 @@ export default {
         });
     },
     // 获取借款人列表
-    getBorrowersList: function () {
-      this.dialogTableVisible=true;
+    getBorrowersList: function() {
+      this.dialogTableVisible = true;
       this.$axios
-        .post("/api/finance/loanUser/select",{"page":1,"limit":5})
+        .post("/api/finance/loanUser/select", { page: 1, limit: 5 })
         .then(res => {
           // 请求返回的数据
           // 赋值

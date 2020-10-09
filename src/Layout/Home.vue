@@ -5,7 +5,12 @@
         <el-header ref="header" id="header">
           <HeaderAction></HeaderAction>
         </el-header>
-        <el-container class="mainBody" ref="mainBody" id="mainBody" style="width: 100%">
+        <el-container
+          class="mainBody"
+          ref="mainBody"
+          id="mainBody"
+          style="width: 100%"
+        >
           <!--        侧边栏-->
           <el-aside width="200px">
             <LeftMenu></LeftMenu>
@@ -59,7 +64,8 @@ export default {
     let mainBody = this.$refs.mainBody.$el;
     mainBody.style.height =
       parseFloat(appView.style.height) -
-      parseFloat(this.$refs.header.$el.style.height)-100 +
+      parseFloat(this.$refs.header.$el.style.height) -
+      100 +
       "px";
   }
 };
@@ -132,7 +138,7 @@ body {
 .viewIn-enter-active {
   transition: all 0.3s ease;
 }
-.viewIn{
+.viewIn {
   position: relative;
 }
 </style>
