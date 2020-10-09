@@ -10,7 +10,6 @@ import { mapMutations } from "vuex";
 export default {
   created() {
     this.setRefresh();
-    console.log("app.vue的created周期函数");
   },
   mounted() {},
   methods: {

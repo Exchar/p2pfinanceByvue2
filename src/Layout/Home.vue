@@ -78,13 +78,14 @@ export default {
     this.changeNowAct(this.$route.path);
   },
   watch: {
+    //监听页面变化
     getNowAct: function() {
-      console.log("当前变化了");
       this.breadRefresh = false;
       this.$nextTick(() => {
         this.breadRefresh = true;
       });
     },
+    //监听高度变化
     outerHeight: function() {
       console.log(this.outerHeight);
       let appView = this.$refs.appView;
@@ -101,6 +102,16 @@ export default {
   },
   mounted() {
     let that = this;
+    let appView = this.$refs.appView;
+    let view = this.$refs.view;
+    appView.style.height = window.outerHeight + "px";
+    view.style.height = window.outerHeight + "px";
+    let mainBody = this.$refs.mainBody.$el;
+    mainBody.style.height =
+      parseFloat(appView.style.height) -
+      parseFloat(this.$refs.header.$el.style.height) -
+      100 +
+      "px";
     //定义窗口大小改变监听事件
     window.onresize = () => {
       return (() => {
