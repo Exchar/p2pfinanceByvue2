@@ -1,6 +1,13 @@
 <template>
   <el-breadcrumb separator="/" class="bread">
-    <el-breadcrumb-item @click="goHome">首页</el-breadcrumb-item>
+    <el-breadcrumb-item
+      ><span
+        class="indexHome"
+        @click="goHome"
+        style="cursor: pointer;font-weight: 700"
+        >首页</span
+      ></el-breadcrumb-item
+    >
     <el-breadcrumb-item v-for="item in breadAct" :key="item.index"
       >{{ item.title }}
     </el-breadcrumb-item>
@@ -59,4 +66,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.indexHome:hover {
+  color: #409eff !important;
+}
+</style>

@@ -107,7 +107,10 @@
               class="loginBtn"
               v-show="login"
               @click="loginReq"
-              @keydown.enter="loginReq"
+              @keyup.enter.native="loginReq"
+              v-loading.fullscreen.lock="fullscreenLoading"
+              element-loading-text="玩儿命加载中"
+              element-loading-background="rgba(0,0,0,.7)"
               >登录</el-button
             >
             <el-button
@@ -148,12 +151,16 @@ export default {
   data() {
     return {
       login: true,
+      //登录表单的数据
       formData: {
         userName: "",
         userPwd: "",
         email: "",
         forgetName: ""
       },
+      //全局加载中
+      fullscreenLoading: false,
+      //重置密码的表单
       reSetPwd: {
         code: "",
         newPwd: ""
@@ -192,6 +199,9 @@ export default {
     }
   },
   methods: {
+    openFullScreen1() {
+      this.fullscreenLoading = true;
+    },
     ...mapMutations([
       "saveLeftMenu",
       "saveToken",
@@ -259,11 +269,11 @@ export default {
     },
     //登录时的相关处理
     loginReq() {
+      this.openFullScreen1();
       let msgObj = { userName: "用户名", userPwd: "密码" };
       let isLogin = true;
       try {
         Object.keys(msgObj).forEach(v => {
-          console.log(v);
           if (this.formData[v].length === 0) {
             this.$message({
               type: "error",
@@ -271,7 +281,7 @@ export default {
               duration: 500
             });
             isLogin = false;
-            this.failed = true;
+            this.fullscreenLoading = false;
             throw new Error("EndIterative");
           }
         });
@@ -297,6 +307,7 @@ export default {
                   message: "用户名或密码错误"
                 });
                 this.failed = true;
+                this.fullscreenLoading = false;
               } else if (res.data.code == 200) {
                 //  console.log(res.data.menu);
                 // this.$message.success("登录成功");
@@ -356,6 +367,7 @@ export default {
                 // console.log(filtShort());
                 this.saveShortcutsAll(filtShort());
                 //跳转到主页
+                this.fullscreenLoading = false;
                 this.$router.push("/home");
               }
             })
@@ -390,6 +402,13 @@ export default {
   },
   created() {
     document.title = "惠众借贷后台管理系统登录";
+    let lett = this;
+    document.onkeydown = (e) =>{
+      let key = e.keyCode;
+      if (key == 13 && this.login) {
+        lett.loginReq();
+      }
+    };
   }
 };
 </script>
@@ -425,7 +444,7 @@ export default {
   height: 100%;
   min-width: 1350px;
   min-height: 600px;
-  z-index: -1;
+  z-index: 2;
 }
 
 .el-carousel {

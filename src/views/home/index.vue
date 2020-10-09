@@ -55,11 +55,24 @@
               <el-col :span="12"><EchartsOne></EchartsOne></el-col>
               <el-col :span="12"><EchartsTwo></EchartsTwo></el-col>
             </el-row>
+            <el-row>
+              <el-col :span="12"><EchartsThree></EchartsThree></el-col>
+            </el-row>
           </div>
         </el-col>
         <el-col :span="8" style="padding-right: 0">
           <div class="message">
-            <el-row></el-row>
+            <el-row>
+              <p class="actionNorTit">消息通知</p>
+              <el-row v-for="item in messages" :key="item.index" :span="24">
+                <el-row>
+                  <el-col :span="24">{{item.msg}}</el-col>
+                </el-row>
+                <el-row >
+                  <el-col :span="24">{{item.time}}</el-col>
+                </el-row>
+              </el-row>
+            </el-row>
           </div>
         </el-col>
       </el-row>
@@ -94,18 +107,35 @@ import { mapGetters, mapMutations } from "vuex";
 import preventBack from "vue-prevent-browser-back";
 import EchartsOne from "@/components/index/EchartsOne";
 import EchartsTwo from "@/components/index/EchartsTwo";
+import EchartsThree from "@/components/index/EchartsThree";
 import "../../assets/index/main.css";
+import "../../assets/xnoScoll.css"
 export default {
   name: "index",
   mixins: [preventBack],
   components: {
     EchartsOne,
-    EchartsTwo
+    EchartsTwo,
+    EchartsThree
   },
   data() {
     return {
       centerDialogVisible: false,
-      value: []
+      value: [],
+      messages: [
+        {
+          msg: "您有一条新消息",
+          time: "2020-9-15 XX-XX-XX"
+        },
+        {
+          msg: "您有一条新的审核待通过",
+          time: "2020-9-15 XX-XX-XX"
+        },
+        {
+          msg: "一条新的申请待通过",
+          time: "2020-9-15 XX-XX-XX"
+        }
+      ]
     };
   },
   computed: {
@@ -210,6 +240,8 @@ export default {
   height: 50%;
   font-size: 1.4em;
 }
+
+
 .actionMenu {
   padding: 2px 20px 2px 20px;
 }
@@ -220,7 +252,7 @@ export default {
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   font-size: 1em;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
   margin-left: 10px;
 }
 .contentMain > div > .el-row:first-of-type,
@@ -228,6 +260,9 @@ export default {
 .message {
   background-color: #ffffff;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
+}
+.message{
+  padding: 6px 30px 30px 30px;
 }
 .contentMain > div > .el-row:not(:first-of-type) {
   margin-top: 10px;

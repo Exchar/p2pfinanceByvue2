@@ -24,12 +24,14 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  overflow: hidden;
+  height: 100%;
+  position: relative;
 }
 body,
 html {
   padding: 0 !important;
   margin: 0;
+  height: 100%;
 }
 #nav a {
   font-weight: bold;
