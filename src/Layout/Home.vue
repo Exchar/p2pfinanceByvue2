@@ -35,6 +35,10 @@
                   <router-view></router-view>
                 </transition>
               </el-scrollbar>
+              <!--              底部的版权声明-->
+              <p style="text-align: center;margin-top: 8px;font-size:0.8em">
+                &copy;惠众借贷版权所有
+              </p>
             </div>
           </el-main>
         </el-container>
@@ -60,7 +64,8 @@ export default {
   },
   data() {
     return {
-      breadRefresh: true
+      breadRefresh: true,
+      outerHeight: window.outerHeight
     };
   },
   methods: {
@@ -79,19 +84,29 @@ export default {
       this.$nextTick(() => {
         this.breadRefresh = true;
       });
+    },
+    outerHeight: function() {
+      console.log(this.outerHeight);
+      let appView = this.$refs.appView;
+      let view = this.$refs.view;
+      appView.style.height = window.outerHeight + "px";
+      view.style.height = window.outerHeight + "px";
+      let mainBody = this.$refs.mainBody.$el;
+      mainBody.style.height =
+        parseFloat(appView.style.height) -
+        parseFloat(this.$refs.header.$el.style.height) -
+        100 +
+        "px";
     }
   },
   mounted() {
-    let appView = this.$refs.appView;
-    let view = this.$refs.view;
-    appView.style.height = window.outerHeight + "px";
-    view.style.height = window.outerHeight + "px";
-    let mainBody = this.$refs.mainBody.$el;
-    mainBody.style.height =
-      parseFloat(appView.style.height) -
-      parseFloat(this.$refs.header.$el.style.height) -
-      100 +
-      "px";
+    let that = this;
+    //定义窗口大小改变监听事件
+    window.onresize = () => {
+      return (() => {
+        that.outerHeight = window.outerHeight;
+      })();
+    };
   }
 };
 </script>
