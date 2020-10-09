@@ -45,9 +45,8 @@
           </div>
         </el-col>
       </el-row>
-
       <el-row class="mainContent" :gutter="20">
-        <el-col :span="16" class="indexChart">
+        <el-col :span="17" class="indexChart">
           <h3 class="actionNorTit">项目概况</h3>
           <div style="width: 100%">
             <!--          echart图-->
@@ -60,16 +59,16 @@
             </el-row>
           </div>
         </el-col>
-        <el-col :span="8" style="padding-right: 0">
+        <el-col :span="7" style="padding-right: 0">
           <div class="message">
             <el-row>
               <p class="actionNorTit">消息通知</p>
               <el-row v-for="item in messages" :key="item.index" :span="24">
                 <el-row>
-                  <el-col :span="24">{{item.msg}}</el-col>
+                  <el-col :span="24">{{ item.msg }}</el-col>
                 </el-row>
-                <el-row >
-                  <el-col :span="24">{{item.time}}</el-col>
+                <el-row>
+                  <el-col :span="24">{{ item.time }}</el-col>
                 </el-row>
               </el-row>
             </el-row>
@@ -109,7 +108,7 @@ import EchartsOne from "@/components/index/EchartsOne";
 import EchartsTwo from "@/components/index/EchartsTwo";
 import EchartsThree from "@/components/index/EchartsThree";
 import "../../assets/index/main.css";
-import "../../assets/xnoScoll.css"
+import "../../assets/xnoScoll.css";
 export default {
   name: "index",
   mixins: [preventBack],
@@ -206,6 +205,7 @@ export default {
     this.value = [...this.getShortDefaultChecked];
   },
   mounted() {
+    //拉取图表数据
     // this.$axios.post("/testApi/indexInfo").then((res)=>{
     //   console.log(res.data);
     //   this.$message({
@@ -241,7 +241,6 @@ export default {
   font-size: 1.4em;
 }
 
-
 .actionMenu {
   padding: 2px 20px 2px 20px;
 }
@@ -261,8 +260,9 @@ export default {
   background-color: #ffffff;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
 }
-.message{
-  padding: 6px 30px 30px 30px;
+.message {
+  box-sizing: border-box;
+  padding: 6px 30px 30px 10px;
 }
 .contentMain > div > .el-row:not(:first-of-type) {
   margin-top: 10px;

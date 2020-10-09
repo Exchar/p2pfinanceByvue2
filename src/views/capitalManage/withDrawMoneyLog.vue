@@ -112,48 +112,52 @@
 </template>
 <script>
 export default {
-     handleSizeChange: function (size) {
-                  this.pagesize = size;
-                  console.log(this.pagesize)  //每页下拉显示数据
-    },
-    handleCurrentChange: function(currentPage){
-            this.currentPage = currentPage;
-            console.log(this.currentPage)  //点击第几页
-    },
+  handleSizeChange: function(size) {
+    this.pagesize = size;
+    console.log(this.pagesize); //每页下拉显示数据
+  },
+  handleCurrentChange: function(currentPage) {
+    this.currentPage = currentPage;
+    console.log(this.currentPage); //点击第几页
+  },
   data() {
     return {
-         pickerOptions: {
-          shortcuts: [{
-            text: '最近一周',
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
-          }, {
-            text: '最近一个月',
+          },
+          {
+            text: "最近一个月",
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
-          }, {
-            text: '最近三个月',
+          },
+          {
+            text: "最近三个月",
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
-          }]
-        },
-        value1: '',
-        value2: '',
-        currentPage:1, //初始页
-        pagesize:2, 
-         tableData: [],
+          }
+        ]
+      },
+      value1: "",
+      value2: "",
+      currentPage: 1, //初始页
+      pagesize: 2,
+      tableData: [],
       options: [],
       value: ""
     };
@@ -161,7 +165,7 @@ export default {
 };
 </script>
 <style scoped>
-  .el-col {
+.el-col {
   padding: 5px 5px 5px 5px;
-  }
+}
 </style>

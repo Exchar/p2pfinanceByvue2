@@ -94,7 +94,7 @@ export default {
       })
       .then(req => {
         console.log(req);
-        this.tableData = req.data.data
+        this.tableData = req.data.data;
         console.log(this.tableData);
       })
       .catch(req => {
@@ -102,39 +102,39 @@ export default {
       });
   },
   methods: {
-    handleSizeChange: function (size) {
-                  this.pagesize = size;
-                  console.log(this.pagesize)  //每页下拉显示数据
+    handleSizeChange: function(size) {
+      this.pagesize = size;
+      console.log(this.pagesize); //每页下拉显示数据
     },
-    handleCurrentChange: function(currentPage){
-            this.currentPage = currentPage;
-            console.log(this.currentPage)  //点击第几页
+    handleCurrentChange: function(currentPage) {
+      this.currentPage = currentPage;
+      console.log(this.currentPage); //点击第几页
     }
   },
   data() {
     return {
-      tableData:[],
-      value1:"",
-      value:"",
-      value2:"",
-      currentPage:1, //初始页
-      pagesize:2, 
+      tableData: [],
+      value1: "",
+      value: "",
+      value2: "",
+      currentPage: 1, //初始页
+      pagesize: 2,
       input1: "",
-      option:[
-         {
-          value:"0",
-          label:"微信"
+      option: [
+        {
+          value: "0",
+          label: "微信"
         },
         {
-          value:"1",
-          label:"支付宝"
+          value: "1",
+          label: "支付宝"
         },
         {
-          value:"2",
-          label:"银行卡"
-        },
+          value: "2",
+          label: "银行卡"
+        }
       ],
-      options:[],
+      options: [],
       pickerOptions: {
         shortcuts: [
           {
