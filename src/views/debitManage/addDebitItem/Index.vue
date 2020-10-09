@@ -1,6 +1,6 @@
 <template>
   <div class="scroll">
-    <el-row>
+    <el-row :gutter="20">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm" >
         <el-col :span="24">
           <p>基本信息</p>
@@ -51,6 +51,7 @@
                   <el-table-column
                       property="options"
                       label="操作">
+                    <el-link type="primary" :underline="false">选择借款人</el-link>
                   </el-table-column>
                 </el-table>
               </el-dialog>
@@ -63,8 +64,8 @@
             >
             </el-input>
           </el-form-item>
-          <el-form-item label="期限类型" prop="type">
-            <el-radio-group v-model="ruleForm.deadline">
+          <el-form-item label="期限类型">
+            <el-radio-group v-model="loanTerm">
               <el-radio label="月"></el-radio>
               <el-radio label="天"></el-radio>
             </el-radio-group>
@@ -131,8 +132,8 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="借款期限" prop="deadline">
-            <el-input v-model="ruleForm.deadline" placeholder="请输入0-999的整数"></el-input>
+          <el-form-item label="借款期限">
+            <el-input v-model="termType" placeholder="请输入0-999的整数"></el-input>
           </el-form-item>
           <el-form-item label="借款管理费月率" prop="monthly">
             <el-input v-model="ruleForm.monthly" placeholder="请输入0-24之间的数"></el-input>
@@ -167,8 +168,8 @@
               <el-radio label="是"></el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="抵押材料">
-            <el-radio-group v-model="ruleForm.materials">
+          <el-form-item label="抵押类型">
+            <el-radio-group v-model="ruleForm.pledge">
               <el-radio label="无"></el-radio>
               <el-radio label="房抵"></el-radio>
               <el-radio label="车抵"></el-radio>
@@ -192,6 +193,18 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="抵押材料">
+            <el-upload
+                action="/markApi/finance/pullMean/findAllGgrade"
+                list-type="picture-card"
+                :on-preview="handlePictureCardPreview"
+                :on-remove="handleRemove">
+              <i class="el-icon-plus"></i>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
+          </el-form-item>
         </el-col>
         <!--      借款资料-->
         <el-col :span="24">
@@ -199,7 +212,16 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="上传借款资料" prop="datum">
-            <el-input v-model="ruleForm.monthlyFee" placeholder="请输入0-24之间的数"></el-input>
+            <el-upload
+                action="/markApi/finance/pullMean/findAllGgrade"
+                list-type="picture-card"
+                :on-preview="handlePictureCardPreview"
+                :on-remove="handleRemove">
+              <i class="el-icon-plus"></i>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
           </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -247,26 +269,23 @@ export default {
         source: "",
         assure: "",
         penalty: "",
-        materials: ""
+        materials: "",
+        pledge: ""
       },
       // 借款人
       borrowers: "",
-      gridData: [
-      {
-          username: "企业1号",
-          phone: "1566224",
-          sock: "正常",
-          type: "企业用户",
-          registration: "2017-01-01 12:00",
-          options: ""
-      }
-      ],
+      loanTerm: "",
+      termType: "",
+      gridData: [],
       dialogTableVisible: false,
+      // 图片上传
+      dialogImageUrl: "",
+      dialogVisible: false,
       // 校验规则
       rules: {
-        borrower: [
-          { required: true, message: '借款方不能为空', trigger: 'change' },
-        ],
+        // borrower: [
+        //   { required: true, message: '借款方不能为空', trigger: 'change' },
+        // ],
         entitle: [
           { required: true, message: '标名不能为空', trigger: 'blur' },
         ],
@@ -274,8 +293,7 @@ export default {
           { required: true, message: '请选择风险等级', trigger: 'change' }
         ],
         annual: [
-          { required: true, message: '年利率不能为空', trigger: 'blur'},
-          { type: 'number', message: '年利率必须为数字值', trigger: 'blur'}
+          { required: true, message: '年利率不能为空', trigger: 'blur'}
         ],
         type: [
           { required: true, message: '请选择借款类型', trigger: 'change' }
@@ -284,31 +302,22 @@ export default {
           { required: true, message: '请选择借款起息方式', trigger: 'change' }
         ],
         penalty: [
-          { required: true, message: '逾期罚息利率不能为空', trigger: 'blur'},
-          { type: 'number', message: '逾期罚息利率必须为数字值', trigger: 'blur'}
+          { required: true, message: '逾期罚息利率不能为空', trigger: 'blur'}
         ],
         purpose: [
           { required: true, message: '请选择资金用途', trigger: 'change' }
         ],
         money: [
-          { required: true, message: '借款总金额不能为空', trigger: 'blur'},
-          { type: 'number', message: '借款总金额必须为数字值', trigger: 'blur'}
+          { required: true, message: '借款总金额不能为空', trigger: 'blur'}
         ],
         repayment: [
           { required: true, message: '请选择还款方式', trigger: 'change' }
         ],
-        deadline: [
-          { required: true, message: '请选择期限类型', trigger: 'change'},
-        ],
         monthly: [
-          { required: true, message: '借款月费率不能为空', trigger: 'blur'},
-          { type: 'number', message: '借款月费率必须为数字值', trigger: 'blur'}
+          { required: true, message: '借款月费率不能为空', trigger: 'blur'}
         ],
         source: [
-          { required: true, message: '还款来源不能为空', trigger: 'blur' },
-        ],
-        datum: [
-          { required: true, message: '借款资料不能为空', trigger: 'blur' },
+          { required: true, message: '还款来源不能为空', trigger: 'blur' }
         ]
       }
     };
@@ -316,8 +325,9 @@ export default {
   methods: {
     // 风险等级列表获取
     getRiskList: function() {
+      console.log(111)
       this.$axios
-        .post("/api/finance/pullMean/findAllGgrade")
+        .post("/markApi/finance/pullMean/findAllGgrade")
         .then(res => {
           //请求返回的数据
           //赋值
@@ -331,7 +341,7 @@ export default {
     // 资金用途列表获取
     getCapitalList: function() {
       this.$axios
-        .post("/api/finance/pullMean/findAllPurpose")
+        .post("/markApi/finance/pullMean/findAllPurpose")
         .then(res => {
           // 请求返回的数据
           // 赋值
@@ -345,7 +355,7 @@ export default {
     // 获取还款方式列表
     getRepaymentList: function() {
       this.$axios
-        .post("/api/finance/pullMean/findAllRepayment")
+        .post("/markApi/finance/pullMean/findAllRepayment")
         .then(res => {
           // 请求返回的数据
           // 赋值
@@ -359,7 +369,7 @@ export default {
     // 获取借款列表
     getLoanTypeList: function() {
       this.$axios
-        .post("/api/finance/pullMean/findAllType")
+        .post("/markApi/finance/pullMean/findAllType")
         .then(res => {
           // 请求返回的数据
           // 赋值
@@ -373,7 +383,7 @@ export default {
     // 获取担保机构列表
     getGuaranteeList: function() {
       this.$axios
-        .post("/api/finance/pullMean/findAllGuarantee")
+        .post("/markApi/finance/pullMean/findAllGuarantee")
         .then(res => {
           // 请求返回的数据
           // 赋值
@@ -384,10 +394,45 @@ export default {
           console.log(error);
         });
     },
+    // 表单提交
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          this.ruleForm.deadline = this.termType+this.loanTerm;
+          this.$axios
+              .post("/markApi/finance/loan/insert",{
+                datum:"新增借款资料",
+                purpose:"1",
+                penalty:"0.9",
+                num:"20171045100",
+                borrower:"测试借款方100",
+                guarantee:"测试担保机构100",
+                source:"微信",
+                type:"借款类型100",
+                way:"1",
+                entitle:"测试标名100",
+                money:"12000.52",
+                phone:"17778444308",
+                materials:"抵押物材料100",
+                grade:"5",
+                assure:"5",
+                annual:"0.05",
+                monthly:"0.02",
+                pledge:"1",
+                state:"1",
+                deadline:"期限一年",
+                repayment:"1",
+                managerfee:"200"
+              })
+              .then(res => {
+                if(res.data.code=="200") {
+                  console.log(res.data.msg)
+                }
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          console.log(this.ruleForm)
         } else {
           console.log('error submit!!');
           return false;
@@ -397,7 +442,10 @@ export default {
     // 获取查询后借款人
     getQueryBorrower: function () {
       this.$axios
-        .post("/api/finance/loanUser/selectLikeName",{"username":"pp","page":1,"limit":5})
+        .post("/markApi/finance/loanUser/selectLikeName",{
+          "username":""+this.borrowers,
+          "page":1,
+          "limit":5})
         .then(res => {
           // 请求返回的数据
           // 赋值
@@ -412,7 +460,7 @@ export default {
     getBorrowersList: function () {
       this.dialogTableVisible=true;
       this.$axios
-        .post("/api/finance/loanUser/select",{"page":1,"limit":5})
+        .post("/markApi/finance/loanUser/select",{"page":1,"limit":5})
         .then(res => {
           // 请求返回的数据
           // 赋值
@@ -422,6 +470,14 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    // 图片上传
+    handleRemove: function (file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePictureCardPreview: function (file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
     }
   }
 };
@@ -429,8 +485,11 @@ export default {
 
 <style scoped>
 .scroll {
-  height: 700px;
+  height: 600px;
   overflow: scroll;
-  overflow-x: auto;
+  overflow-x: hidden;
+}
+.el-row {
+  margin-bottom: 20px;
 }
 </style>

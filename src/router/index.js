@@ -29,8 +29,8 @@ const routes = [
         component: () => import("../views/home/index")
       },
       {
-        path: "/debitManage/addDebitItem",
-        name: "addDebitItem",
+        path: "/debitManage/details",
+        name: "details",
         component: () =>
           import(/* webpackChunkName: "about" */ "../views/NotFound")
       },
@@ -101,6 +101,26 @@ const routes = [
           import(
             /* webpackChunkName: "about" */ "../views/repaymentManage/repaymentRecords/index"
           )
+      },
+      {
+        path: "/debitManage/addDebitItem",
+        name: "AddDebitItem",
+        component: () => import("../views/debitManage/addDebitItem/Index")
+      },
+      {
+        path: "/debitManage/upholdNewBidItems",
+        name: "UpholdNewBidItems",
+        component: () => import("../views/debitManage/upholdNewBidItems/Index")
+      },
+      {
+        path: "/debitManage/firstLevelAuditItems",
+        name: "FirstLevelAuditItems",
+        component: () => import("../views/debitManage/firstLevelAuditItems/Index")
+      },
+      {
+        path: "/details",
+        name: "Details",
+        component: () => import("../views/debitManage/details/Index")
       }
     ]
   },
@@ -177,29 +197,6 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../components/rest/BwUser1.vue")
-  },
-  {
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    path: "/newLoans",
-    name: "newLoans",
-    component: () => import("../views/debitManage/newLoans/Index")
-  },
-  {
-    path: "/standard",
-    name: "Standard",
-    component: () => import("../views/debitManage/newStandard/Index")
-  },
-  {
-    path: "/loanReview",
-    name: "LoanReview",
-    component: () => import("../views/debitManage/loanReview/Index")
-  },
-  {
-    path: "/loanDetails",
-    name: "LoanDetails",
-    component: () => import("../views/debitManage/loanDetails/Index")
   }
 ];
 

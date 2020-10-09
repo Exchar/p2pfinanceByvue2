@@ -5,9 +5,9 @@
         <el-col :span="4">
           <el-input
               size="max"
-              placeholder="搜索借款名称"
+              placeholder="搜索标名"
               suffix-icon="el-icon-search"
-              v-model="input1"
+              v-model="entitle"
               @keyup.native="getQueryLoanList">
           </el-input>
         </el-col>
@@ -16,7 +16,8 @@
               size="max"
               placeholder="搜索借款方"
               suffix-icon="el-icon-search"
-              v-model="input2">
+              v-model="borrower"
+              @keyup.native="getQueryLoanList">
           </el-input>
         </el-col>
         <el-col :span="4">
@@ -24,7 +25,9 @@
               size="max"
               placeholder="搜索借款人手机"
               suffix-icon="el-icon-search"
-              v-model="input3">
+              v-model="phone"
+              @keyup.native="getQueryLoanList"
+          >
           </el-input>
         </el-col>
         <el-col :span="4">
@@ -32,10 +35,11 @@
               v-model="queryState"
               placeholder="请选择"
               style="width: 100%"
+              @change="getQueryLoanList"
           >
             <el-option
                 v-for="item in stateList"
-                :label="item.name"
+                :label="item.sname"
                 :key="item.id"
                 :value="item.id"
             >
@@ -79,10 +83,12 @@
           </el-table-column>
         <el-table-column
               prop="annual"
+              :formatter="annualState"
               label="年化利率">
           </el-table-column>
         <el-table-column
               prop="repayment"
+              :formatter="repaymentState"
               label="还款方式">
           </el-table-column>
         <el-table-column
@@ -95,11 +101,17 @@
           </el-tale-column>
         <el-table-column
               prop="state"
+              :formatter="loanState"
               label="状态">
           </el-table-column>
         <el-table-column
               prop="operation"
               label="操作">
+         <template slot-scope="scope">
+           <el-link type="primary" :underline="false">编辑</el-link>
+           |
+           <el-link type="primary" :underline="false" @click="void(scope.row)">作废</el-link>
+         </template>
           </el-table-column>
       </el-table>
     </div>
@@ -109,61 +121,100 @@
 <script>
 export default {
   name: "Index",
-  created:  function() {
+  created: function() {
     this.getLoanList();
   },
   data() {
     return {
-      input1: "",
-      input2: "",
-      input3: "",
-      input4: "",
-      queryState:"",
+      borrower: "",
+      entitle: "",
+      phone: "",
+      queryState: "",
       stateList: [
         {
+          id: 0,
+          sname: "全部状态"
+        },
+        {
           id: 1,
-          name: "新增草稿"
+          sname: "新标待审核"
         },
         {
           id: 2,
-          name: "新标待审核"
+          sname: "新标草稿"
         },
         {
           id: 3,
-          name: "初审不通过"
+          sname: "初审不通过"
         }
       ],
       tableData: []
     }
   },
-  methods:  {
+  methods: {
+    // 借款标状态转换
+    loanState: function (row) {
+      return row.state ==1 ? "新标待审核" : row.state ==2 ? "新标草稿" : row.state ==3 ? "初审不通过" : "";
+    },
+    // 还款方式转换
+    repaymentState: function (row) {
+      return row.repayment ==1 ? "一次性还款"
+          : row.repayment==2 ? "等额本息"
+              : row.repayment==3 ? "按月付息到期还本"
+                  : row.repayment==4 ? "按天还款" : "";
+    },
+    // 年化利率转换
+    annualState: function (row) {
+      return row.annual*100+"%";
+    },
+    // 列表渲染
     getLoanList: function () {
       this.$axios
-        .post("/api/finance/loan/findLikeLoanDefend",
-         {limit:"1",page:"3"})
+        .post("/markApi/finance/loan/findLikeLoanDefend",
+         {limit:"1",page:"5"})
         .then(res => {
-      // 请求返回的数据
-      // 赋值
           this.tableData = res.data.data;
-       console.log(this.tableData);
+          console.log(this.tableData);
        })
         .catch(error => {
          console.log(error);
        });
     },
+    // 多条件查询
     getQueryLoanList: function () {
+      let indexState=this.queryState;
+      if (indexState==0) {
+        indexState="";
+      }
       this.$axios
-          .post("/api/finance/loan/findLikeLoanDefend",
-              {"entitle":"测","borrower":"100","phone":"777","state":"2","limit":"1","page":"10"})
+          .post("/markApi/finance/loan/findLikeLoanDefend",JSON.stringify(
+              {
+                entitle: ""+this.entitle,
+                borrower: ""+this.borrower,
+                phone: ""+this.phone,
+                state: indexState,
+                limit:"1",
+                page:"10"
+              }
+          ))
           .then(res => {
             // 请求返回的数据
             // 赋值
-            this.tableData = res.data.data;
+            if (res.data.code === "200") {
+              this.tableData = res.data.data;
+            }
+            else {
+              console.log(res.data)
+            }
             console.log(this.tableData);
           })
           .catch(error => {
             console.log(error);
           });
+    },
+    // 作废
+    void: function () {
+
     }
   }
 }
