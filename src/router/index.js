@@ -34,6 +34,11 @@ export const errorRoute = [
     hidden: true,
     name: "pageNotFound",
     meta: { title: "页面不见啦" }
+  },
+  {
+    name:"login",
+    path:"/login",
+    component:()=>import("../views/Login")
   }
 ];
 export default index;
