@@ -140,12 +140,12 @@
       </el-table-column>
       <el-table-column label="投资状态" width="150" prop="state" align="center">
         <template slot-scope="scope">
-          <p v-if="tableData[scope.$index].state == 1">待回款</p>
-          <p v-if="tableData[scope.$index].state == 2">已结算</p>
-          <p v-if="tableData[scope.$index].state == 3">撤标</p>
-          <p v-if="tableData[scope.$index].state == 4">流标</p>
-          <p v-if="tableData[scope.$index].state == 5">投资中</p>
-          <p v-if="tableData[scope.$index].state == 6">投资失败</p>
+          <p v-if="Number(tableData[scope.$index].state) === 1">待回款</p>
+          <p v-if="Number(tableData[scope.$index].state) === 2">已结算</p>
+          <p v-if="Number(tableData[scope.$index].state) === 3">撤标</p>
+          <p v-if="Number(tableData[scope.$index].state) === 4">流标</p>
+          <p v-if="Number(tableData[scope.$index].state) === 5">投资中</p>
+          <p v-if="Number(tableData[scope.$index].state) === 6">投资失败</p>
         </template>
       </el-table-column>
     </el-table>
@@ -274,13 +274,13 @@ export default {
                   new Date(this.value2[1]).getMonth() + 1
                 )}-${new Date(this.value2[1]).getDate()}`
               : "",
-              count: this.total
+          count: this.total
         })
         .then(response => {
-          if (response.data.code == 200) {
+          if (Number(response.data.code) === 200) {
             this.tableData = response.data.data;
             this.total = response.data.count;
-            console.log(response.data.data,response.data.count);
+            console.log(response.data.data, response.data.count);
             this.loading = false;
           } else {
             this.$message(response.data.msg);

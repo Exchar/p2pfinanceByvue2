@@ -60,9 +60,13 @@
       </el-table-column>
       <el-table-column prop="cstate" label="状态" width="180" align="center">
         <template slot-scope="scope">
-          <span :class="scope.row.cstate == 1 ? 'statusActive' : 'statusDel'">{{
-            scope.row.cstate == 1 ? "有效" : "禁用"
-          }}</span>
+          <span
+            :class="
+              Number(scope.row.cstate) === 1 ? 'statusActive' : 'statusDel'
+            "
+          >
+            {{ Number(scope.row.cstate) === 1 ? "有效" : "禁用" }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column prop="caozuo" label="操作" width="200" align="center">
@@ -154,7 +158,7 @@ export default {
           cstate: this.form.cstate
         })
         .then(response => {
-          if (response.data.code == 200) {
+          if (Number(response.data.code) === 200) {
             this.$message(response.data.msg);
             if (response.data.msg == "成功") {
               this.gedebitList();
@@ -188,7 +192,7 @@ export default {
         })
         .then(response => {
           const result = response.data;
-          if (result.code == 200) {
+          if (Number(result.code) === 200) {
             if (result.msg == "成功") {
               console.log(result);
               this.$message(result.msg);
@@ -212,7 +216,7 @@ export default {
           cstate: Number(row.cstate)
         })
         .then(response => {
-          if (response.data.code == 200) {
+          if (Number(response.data.code) === 200) {
             this.gedebitList();
             this.$message({
               type: "success",
@@ -232,7 +236,7 @@ export default {
       this.$axios
         .post("/markApi/finance/category/findAll")
         .then(response => {
-          if (response.data.code == 200) {
+          if (Number(response.data.code) === 200) {
             response.data.data.forEach(v => {
               v.cstate = Boolean(v.cstate);
             });

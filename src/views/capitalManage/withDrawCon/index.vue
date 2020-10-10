@@ -124,16 +124,16 @@ export default {
   },
   methods: {
     search1() {
-      console.log( {
-          name: "" + this.input2,
-          phone: "" + this.input1,
-          limit: 5,
-          page: 1
-        })
+      console.log({
+        name: "" + this.input2,
+        phone: "" + this.input1,
+        limit: 5,
+        page: 1
+      });
       this.$axios
         .post("/markApi/finance/audit/selectAll", {
-          name:this.input2,
-          phone:this.input1,
+          name: this.input2,
+          phone: this.input1,
           limit: 5,
           page: 1
         })
@@ -206,8 +206,8 @@ export default {
       ],
       input1: "",
       input2: "",
-      value1:"",
-      value2:"",
+      value1: "",
+      value2: "",
       currentPage: 1, //初始页
       pagesize: 2,
       options: [

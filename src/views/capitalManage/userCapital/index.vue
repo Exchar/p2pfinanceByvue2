@@ -132,16 +132,16 @@ export default {
       console.log(this.currentPage); //点击第几页
     },
     search1() {
-      console.log( {
-          name: "" + this.input2,
-          phone: "" + this.input1,
-          limit: 5,
-          page: 1
-        })
+      console.log({
+        name: "" + this.input2,
+        phone: "" + this.input1,
+        limit: 5,
+        page: 1
+      });
       this.$axios
         .post("/markApi/finance/userMoney/selectKey", {
-          name:this.input2,
-          phone:this.input1,
+          name: this.input2,
+          phone: this.input1,
           limit: 5,
           page: 1
         })
@@ -203,7 +203,7 @@ export default {
       pagesize: 2,
       tableData: [],
       value1: "",
-      value2: "",
+      value2: ""
     };
   }
 };

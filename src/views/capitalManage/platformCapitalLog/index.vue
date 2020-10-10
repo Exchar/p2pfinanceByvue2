@@ -81,102 +81,102 @@
 </template>
 <script>
 export default {
-    created() {
-      this.$axios
-        .post("/markApi/finance/platformFunds/selectAll", {
-          limit: 5,
-          page: 1
-        })
-        .then(req => {
-          console.log(req);
-          this.tableData = req.data.data;
-          console.log(this.tableData);
-        })
-        .catch(req => {
-          console.log(req);
-        });
+  created() {
+    this.$axios
+      .post("/markApi/finance/platformFunds/selectAll", {
+        limit: 5,
+        page: 1
+      })
+      .then(req => {
+        console.log(req);
+        this.tableData = req.data.data;
+        console.log(this.tableData);
+      })
+      .catch(req => {
+        console.log(req);
+      });
+  },
+  methods: {
+    handleSizeChange: function(size) {
+      this.pagesize = size;
+      console.log(this.pagesize); //每页下拉显示数据
     },
-    methods: {
-      handleSizeChange: function(size) {
-        this.pagesize = size;
-        console.log(this.pagesize); //每页下拉显示数据
-      },
-      handleCurrentChange: function(currentPage) {
-        this.currentPage = currentPage;
-        console.log(this.currentPage); //点击第几页
-      }
-    },
-    data() {
-      return {
-        pickerOptions: {
-          shortcuts: [
-            {
-              text: "最近一周",
-              onClick(picker) {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                picker.$emit("pick", [start, end]);
-              }
-            },
-            {
-              text: "最近一个月",
-              onClick(picker) {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                picker.$emit("pick", [start, end]);
-              }
-            },
-            {
-              text: "最近三个月",
-              onClick(picker) {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                picker.$emit("pick", [start, end]);
-              }
+    handleCurrentChange: function(currentPage) {
+      this.currentPage = currentPage;
+      console.log(this.currentPage); //点击第几页
+    }
+  },
+  data() {
+    return {
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
             }
-          ]
-        },
-        input1: "",
-        tableData: [],
-        options: [
-          {
-            value: "选项1",
-            label: "平台充值"
           },
           {
-            value: "选项2",
-            label: "平台提现"
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            }
           },
           {
-            value: "选项3",
-            label: "借款管理费"
-          },
-          {
-            value: "选项4",
-            label: "利息管理费"
-          },
-          {
-            value: "选项5",
-            label: "还款垫付"
-          }
-        ],
-        pagesize: 2,
-        currentPage: 1,
-        times: [
-          {
-            value1: "选项1",
-            label: "出账"
-          },
-          {
-            value: "选项2",
-            label: "入账"
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            }
           }
         ]
-      };
-    },
+      },
+      input1: "",
+      tableData: [],
+      options: [
+        {
+          value: "选项1",
+          label: "平台充值"
+        },
+        {
+          value: "选项2",
+          label: "平台提现"
+        },
+        {
+          value: "选项3",
+          label: "借款管理费"
+        },
+        {
+          value: "选项4",
+          label: "利息管理费"
+        },
+        {
+          value: "选项5",
+          label: "还款垫付"
+        }
+      ],
+      pagesize: 2,
+      currentPage: 1,
+      times: [
+        {
+          value1: "选项1",
+          label: "出账"
+        },
+        {
+          value: "选项2",
+          label: "入账"
+        }
+      ]
+    };
+  }
 };
 </script>
 <style scoped>
