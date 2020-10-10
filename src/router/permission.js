@@ -12,7 +12,7 @@ router.beforeEach(async (to, from, next) => {
   NProgress.start();
   document.title = to.meta.title;
   //获取token
-  const hasToken = (await store.getters.getToken) == "" ? false : true;
+  const hasToken = (await store.getters.getToken) !== "";
   // console.log("token:" + hasToken);
   if (hasToken) {
     // console.log("有没有token", hasToken);
@@ -31,7 +31,7 @@ router.beforeEach(async (to, from, next) => {
           await resetRouter();
           const accessRoutes = getAsyncRoutes(await store.getters.getRoutes);
           let changedRoutes = accessRoutes.filter(v => {
-            return v.path != "/home/index";
+            return v.path !== "/home/index";
           });
           //---------------------------------------------------===================================================
           //-----------------------------------------------------================================================
