@@ -52,25 +52,29 @@
       ></el-col>
     </el-row>
     <el-table
-    :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)">
+      :data="
+        tableData.slice((currentPage - 1) * pagesize, currentPage * pagesize)
+      "
+    >
       <el-table-column prop="bankaccount" label="银行账号" width="150">
       </el-table-column>
       <el-table-column prop="bankuser" label="银行名称" width="100">
       </el-table-column>
-      <el-table-column prop="id" label="id" width="100">
-      </el-table-column>
-      <el-table-column prop="name" label="姓名" width="100">
-      </el-table-column>
+      <el-table-column prop="id" label="id" width="100"> </el-table-column>
+      <el-table-column prop="name" label="姓名" width="100"> </el-table-column>
       <el-table-column prop="phone" label="电话号" width="180">
       </el-table-column>
       <el-table-column prop="record" label="提现单号" width="180">
       </el-table-column>
-      <el-table-column prop="state" label="状态" width="120">
+      <el-table-column prop="state" label="状态" width="120"> </el-table-column>
+      <el-table-column
+        prop="subtime"
+        label="提交时间"
+        width="180"
+        :formatter="DateFormatterState"
+      >
       </el-table-column>
-      <el-table-column prop="subtime" label="提交时间" width="180" :formatter="DateFormatterState">
-      </el-table-column>
-      <el-table-column prop="type" label="类型" width="120">
-      </el-table-column>
+      <el-table-column prop="type" label="类型" width="120"> </el-table-column>
     </el-table>
     <div class="blocks">
       <el-pagination
@@ -85,32 +89,10 @@
         <!--//这是显示总共有多少数据，-->
       </el-pagination>
     </div>
-    <div style="height: 100vh; ">
-      <el-scrollbar style="height: 100%;">
-        <div style="height: 50opx;width: 100%;background: red;"></div>
-        <div style="height: 50opx;width: 100%;background: yellowgreen;"></div>
-        <div style="height: 50opx;width: 100%; background: blueviolet; "></div>
-      </el-scrollbar>
-    </div>
   </div>
 </template>
 <script>
 export default {
-  created() {
-    this.$axios
-      .post("/markApi/finance/moneyRecord/selectAll", {
-        limit: 5,
-        page: 1
-      })
-      .then(req => {
-        console.log(req);
-        this.tableData = req.data.data;
-        console.log(this.tableData);
-      })
-      .catch(req => {
-        console.log(req);
-      });
-  },
   data() {
     return {
       value1: "",
@@ -171,15 +153,11 @@ export default {
       });
   },
   methods: {
-    DateFormatterState: function (row) {
-      return new Date(row.subtime).toLocaleDateString()
-    },
-    forma: function (row) {
-      return row.state == "0"
-        ? "微信"
-        : row.state == "1"
-        ? "支付宝" 
-        : "aaa";
+    DateFormatterState: function(row) {
+      return new Date(row.subtime).toLocaleDateString();
+    },
+    forma: function(row) {
+      return row.state == "0" ? "微信" : row.state == "1" ? "支付宝" : "aaa";
     },
     handleSizeChange: function(size) {
       this.pagesize = size;
