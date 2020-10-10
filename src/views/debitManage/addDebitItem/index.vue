@@ -1,5 +1,5 @@
 <template>
-  <div class="scroll">
+  <div>
     <el-row :gutter="20">
       <el-form
         :model="ruleForm"
@@ -11,7 +11,10 @@
         <el-col :span="24">
           <p>基本信息</p>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="1">
+          <div class="grid-content bg-purple-dark"></div>
+        </el-col>
+        <el-col :span="11">
           <el-form-item label="标名" prop="entitle">
             <el-input
               v-model="ruleForm.entitle"
@@ -41,7 +44,7 @@
                   >
                   </el-input>
                 </el-col>
-                <el-table :data="gridData">
+                <el-table v-loading="loading" :data="gridData">
                   <el-table-column property="username" label="真实姓名">
                   </el-table-column>
                   <el-table-column
@@ -50,7 +53,7 @@
                     width="200"
                   >
                   </el-table-column>
-                  <el-table-column property="sock" label="用户状态">
+                  <el-table-column property="sock" label="用户状态" :formatter="sockState">
                   </el-table-column>
                   <el-table-column property="type" label="身份类型">
                   </el-table-column>
@@ -61,9 +64,14 @@
                   >
                   </el-table-column>
                   <el-table-column property="options" label="操作">
-                    <el-link type="primary" :underline="false"
-                      >选择借款人</el-link
-                    >
+                    <template scope="scope">
+                      <el-link
+                        type="primary"
+                        :underline="false"
+                        @click="chooseBorrower(scope.row)"
+                        >选择借款人</el-link
+                      >
+                    </template>
                   </el-table-column>
                 </el-table>
               </el-dialog>
@@ -109,8 +117,11 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="借款人手机">
+            <el-input v-model="ruleForm.phone" readonly="readonly"></el-input>
+          </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="11">
           <el-form-item label="风险等级" prop="grade">
             <el-select
               v-model="ruleForm.grade"
@@ -147,9 +158,9 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="借款期限" prop="deadline">
+          <el-form-item label="借款期限">
             <el-input
-              v-model="ruleForm.deadline"
+              v-model="termType"
               placeholder="请输入0-999的整数"
             ></el-input>
           </el-form-item>
@@ -181,11 +192,17 @@
             ></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="1"
+          ><div class="grid-content bg-purple-dark"></div
+        ></el-col>
         <!--      担保信息-->
         <el-col :span="24">
           <p>担保信息</p>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="1"
+          ><div class="grid-content bg-purple-dark"></div
+        ></el-col>
+        <el-col :span="11">
           <el-form-item label="是否担保">
             <el-radio-group v-model="ruleForm.assure">
               <el-radio label="否"></el-radio>
@@ -195,13 +212,13 @@
           <el-form-item label="抵押类型">
             <el-radio-group v-model="ruleForm.pledge">
               <el-radio label="无"></el-radio>
-              <el-radio label="房抵"></el-radio>
-              <el-radio label="车抵"></el-radio>
+              <el-radio label="房抵品"></el-radio>
+              <el-radio label="车抵品"></el-radio>
               <el-radio label="民品抵"></el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="11">
           <el-form-item label="担保机构">
             <el-select
               v-model="ruleForm.guarantee"
@@ -219,10 +236,11 @@
           </el-form-item>
           <el-form-item label="抵押材料">
             <el-upload
-              action="/markApi/finance/pullMean/findAllGgrade"
+              action="/markApi/finance/upload"
               list-type="picture-card"
-              :on-preview="handlePictureCardPreview"
-              :on-remove="handleRemove"
+              :on-preview="handlePictureCardPreview1"
+              :on-remove="handleRemove1"
+              :on-success="imgSuccess1"
             >
               <i class="el-icon-plus"></i>
             </el-upload>
@@ -231,21 +249,25 @@
             </el-dialog>
           </el-form-item>
         </el-col>
+        <el-col :span="1"
+          ><div class="grid-content bg-purple-dark"></div
+        ></el-col>
         <!--      借款资料-->
         <el-col :span="24">
           <p>借款资料</p>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label="上传借款资料" prop="datum">
-            <el-input
-              v-model="ruleForm.monthlyFee"
-              placeholder="请输入0-24之间的数"
-            ></el-input>
+        <el-col :span="1"
+          ><div class="grid-content bg-purple-dark"></div
+        ></el-col>
+        <el-col :span="11">
+          <el-form-item label="上传借款资料">
             <el-upload
-              action="/markApi/finance/pullMean/findAllGgrade"
+              action="/markApi/finance/upload"
               list-type="picture-card"
               :on-preview="handlePictureCardPreview"
               :on-remove="handleRemove"
+              :on-success="imgSuccess"
+              accept="image/png,image/gif,image/jpg,image/jpeg"
             >
               <i class="el-icon-plus"></i>
             </el-upload>
@@ -289,13 +311,14 @@ export default {
         borrower: "",
         entitle: "",
         grade: "",
+        phone: "",
         guarantee: "",
         type: "",
         money: "",
         annual: "",
         repayment: "",
         deadline: "",
-        way: "",
+        way: "1",
         monthly: "",
         purpose: "",
         source: "",
@@ -304,40 +327,27 @@ export default {
         materials: "",
         pledge: ""
       },
+      loading: true,
       // 借款人
       borrowers: "",
-      gridData: [
-        {
-          username: "企业1号",
-          phone: "1566224",
-          sock: "正常",
-          type: "企业用户",
-          registration: "2017-01-01 12:00",
-          options: ""
-        }
-      ],
+      gridData: [],
       loanTerm: "",
       termType: "",
       dialogTableVisible: false,
       // 图片上传
       dialogImageUrl: "",
+      dialogImageUrl1: "",
       dialogVisible: false,
       // 校验规则
       rules: {
         borrower: [
           { required: true, message: "借款方不能为空", trigger: "change" }
         ],
-
-        // borrower: [
-        //   { required: true, message: '借款方不能为空', trigger: 'change' },
-        // ],
         entitle: [{ required: true, message: "标名不能为空", trigger: "blur" }],
         grade: [
           { required: true, message: "请选择风险等级", trigger: "change" }
         ],
         annual: [
-          { required: true, message: "年利率不能为空", trigger: "blur" },
-          { type: "number", message: "年利率必须为数字值", trigger: "blur" },
           { required: true, message: "年利率不能为空", trigger: "blur" }
         ],
         type: [
@@ -347,35 +357,16 @@ export default {
           { required: true, message: "请选择借款起息方式", trigger: "change" }
         ],
         penalty: [
-          { required: true, message: "逾期罚息利率不能为空", trigger: "blur" },
-          {
-            type: "number",
-            message: "逾期罚息利率必须为数字值",
-            trigger: "blur"
-          },
           { required: true, message: "逾期罚息利率不能为空", trigger: "blur" }
         ],
         purpose: [
           { required: true, message: "请选择资金用途", trigger: "change" }
         ],
         money: [
-          { required: true, message: "借款总金额不能为空", trigger: "blur" },
-
-          {
-            type: "number",
-            message: "借款总金额必须为数字值",
-            trigger: "blur"
-          },
           { required: true, message: "借款总金额不能为空", trigger: "blur" }
         ],
         repayment: [
           { required: true, message: "请选择还款方式", trigger: "change" }
-        ],
-        deadline: [
-          { required: true, message: "请选择期限类型", trigger: "change" }
-        ],
-        datum: [
-          { required: true, message: "借款资料不能为空", trigger: "blur" }
         ],
         monthly: [
           { required: true, message: "借款月费率不能为空", trigger: "blur" }
@@ -387,6 +378,10 @@ export default {
     };
   },
   methods: {
+    // 用户状态转换
+    sockState: function (row) {
+      return row.sock == 1 ? "正常" : row.sock == 0 ? "锁定" : "";
+    },
     // 风险等级列表获取
     getRiskList: function() {
       console.log(111);
@@ -462,36 +457,60 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          this.ruleForm.way = 1;
           this.ruleForm.deadline = this.termType + this.loanTerm;
+          this.ruleForm.annual = this.ruleForm.annual / 100;
+          this.ruleForm.monthly = this.ruleForm.monthly / 100;
+          this.ruleForm.penalty = this.ruleForm.penalty / 100;
+          let assure = 1;
+          if (this.ruleForm.assure == "是") {
+            assure = 1;
+          } else {
+            assure = 0;
+          }
+          let pledge = 1;
+          if (this.ruleForm.pledge == "无") {
+            pledge = 0;
+          } else if (this.ruleForm.pledge == "房抵品") {
+            pledge = 1;
+          } else if (this.ruleForm.pledge == "车抵品") {
+            pledge = 2;
+          } else {
+            pledge = 3;
+          }
+          console.log(assure);
+          console.log(pledge);
           this.$axios
-            .post("/markApi/finance/loan/insert", {
-              datum: "新增借款资料",
-              purpose: "1",
-              penalty: "0.9",
-              num: "20171045100",
-              borrower: "测试借款方100",
-              guarantee: "测试担保机构100",
-              source: "微信",
-              type: "借款类型100",
-              way: "1",
-              entitle: "测试标名100",
-              money: "12000.52",
-              phone: "17778444308",
-              materials: "抵押物材料100",
-              grade: "5",
-              assure: "5",
-              annual: "0.05",
-              monthly: "0.02",
-              pledge: "1",
-              state: "1",
-              deadline: "期限一年",
-              repayment: "1",
-              managerfee: "200"
-            })
+            .post(
+              "/markApi/finance/loan/insert",
+              JSON.stringify({
+                datum: "" + this.dialogImageUrl,
+                purpose: "" + this.ruleForm.purpose,
+                penalty: "" + this.ruleForm.penalty,
+                borrower: "" + this.ruleForm.borrower,
+                guarantee: "" + this.ruleForm.guarantee,
+                source: "" + this.ruleForm.source,
+                type: "" + this.ruleForm.type,
+                way: "" + this.ruleForm.way,
+                entitle: "" + this.ruleForm.entitle,
+                money: "" + this.ruleForm.money,
+                materials: "" + this.dialogImageUrl1,
+                grade: "" + this.ruleForm.grade,
+                assure: "" + assure,
+                annual: "" + this.ruleForm.annual,
+                monthly: "" + this.ruleForm.monthly,
+                pledge: "" + pledge,
+                deadline: "" + this.ruleForm.deadline,
+                repayment: "" + this.ruleForm.repayment,
+                state: "1",
+                phone: "" + this.ruleForm.phone
+              })
+            )
             .then(res => {
+              console.log(res);
               if (res.data.code == "200") {
-                console.log(res.data.msg);
+                this.$message.success(res.data.msg);
+                this.$router.push("/debitManage/upholdNewBidItems");
               }
             })
             .catch(error => {
@@ -507,11 +526,6 @@ export default {
     // 获取查询后借款人
     getQueryBorrower: function() {
       this.$axios
-        .post("/api/finance/loanUser/selectLikeName", {
-          username: "pp",
-          page: 1,
-          limit: 5
-        })
         .post("/markApi/finance/loanUser/selectLikeName", {
           username: "" + this.borrowers,
           page: 1,
@@ -533,34 +547,59 @@ export default {
       this.$axios
         .post("/markApi/finance/loanUser/select", { page: 1, limit: 5 })
         .then(res => {
-          // 请求返回的数据
-          // 赋值
-          this.gridData = res.data.data;
-          console.log(this.gridData);
+          if (res.data.code == "200") {
+            this.gridData = res.data.data;
+            console.log(this.gridData);
+            this.loading = false;
+          }
         })
         .catch(error => {
           console.log(error);
         });
     },
-    // 图片上传
+    // 选择借款人
+    chooseBorrower: function(row) {
+      this.ruleForm.borrower = row.username;
+      this.ruleForm.phone = row.phone;
+      this.dialogTableVisible = false;
+    },
+    // 借款资料图片上传
     handleRemove: function(file, fileList) {
       console.log(file, fileList);
     },
     handlePictureCardPreview: function(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
+    },
+    imgSuccess(res,file) {
+      console.log(res,file);
+      this.dialogImageUrl=res.fileName;
+    },
+    // 抵押物图片上传
+    handleRemove1: function(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePictureCardPreview1: function(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    imgSuccess1(res,file) {
+      console.log(res,file);
+      this.dialogImageUrl1=res.fileName;
     }
   }
 };
 </script>
 
 <style scoped>
-.scroll {
-  height: 600px;
-  overflow: scroll;
-  overflow-x: hidden;
-}
 .el-row {
   margin-bottom: 20px;
+}
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+}
+.bg-purple {
+  background: #d3dce6;
 }
 </style>
