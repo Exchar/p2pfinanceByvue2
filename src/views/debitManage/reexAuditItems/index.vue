@@ -6,28 +6,39 @@
           <el-row :gutter="20">
             <el-col :span="4"
               ><div class="grid-content">
-                <el-input placeholder="搜索借款方" v-model="input1">
+                <el-input
+                  placeholder="搜索借款方"
+                  suffix-icon="el-icon-search"
+                  clearable
+                  @change="getData"
+                  v-model="tableData.borrower"
+                >
                 </el-input></div
             ></el-col>
             <el-col :span="4"
               ><div class="grid-content">
-                <el-input placeholder="搜索借款人手机" v-model="input2">
+                <el-input
+                  placeholder="搜索借款人手机"
+                  suffix-icon="el-icon-search"
+                  clearable
+                  @change="getData"
+                  v-model="tableData.phone"
+                >
                 </el-input></div
             ></el-col>
-            <el-col :span="4"
-              ><div class="grid-content">
-                <el-select placeholder="全部进度" v-model="progress">
-                  <el-option label="满标" value="man"></el-option>
-                  <el-option label="未满标" value="noman"></el-option>
-                </el-select></div
-            ></el-col>
+            <el-col :span="4"><div></div></el-col>
             <el-col :span="12"><div></div></el-col>
           </el-row>
         </el-form-item>
       </el-form>
     </div>
     <div id="table">
-      <el-table stripe style="width: 100%" :data="tableData">
+      <el-table
+        stripe
+        style="width: 100%"
+        :data="tableData"
+        v-loading="loading"
+      >
         <el-table-column prop="num" label="编号"> </el-table-column>
         <el-table-column prop="borrower" label="借款方"> </el-table-column>
         <el-table-column prop="phone" label="借款人手机"> </el-table-column>
@@ -46,9 +57,8 @@
         >
         </el-table-column>
         <el-table-column prop="deadline" label="期限"> </el-table-column>
-        <el-table-column prop="repayType" label="募集时长"> </el-table-column>
-        <el-table-column prop="term" label="募集资金"> </el-table-column>
-        <el-table-column prop="id" label="投资进度" :formatter="invest">
+        <el-table-column prop="paymoney" label="募集资金"> </el-table-column>
+        <el-table-column prop="speed" label="投资进度" :formatter="invest">
         </el-table-column>
         <el-table-column prop="saletime" label="开售时间">
           <span>{{ tableData.saletime | formatDate }}</span>
@@ -58,10 +68,10 @@
         </el-table-column>
         <el-table-column prop="state" label="状态" :formatter="markState">
         </el-table-column>
-        <el-table-column prop="action" label="操作">
-          <el-link type="primary" :underline="false" @click="recheck"
-            >复审</el-link
-          >
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-link type="primary" @click="recheck(scope.row)">复审</el-link>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -75,10 +85,10 @@
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
               :current-page="currentPage"
-              :page-sizes="[20, 40, 60, 80]"
-              :page-size="20"
+              :page-sizes="[2, 3, 5, 10]"
+              :page-size="pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="100"
+              :total="total"
             >
             </el-pagination></div
         ></el-col>
@@ -90,42 +100,61 @@
 
 <script>
 import moment from "moment";
-
+import { mapMutations } from "vuex";
 export default {
   name: "Recheck",
   data() {
     return {
+      peopleList: {
+        pledge: "",
+        borrower: "",
+        phone: "",
+        limit: "",
+        page: ""
+      },
+      total: 4,
       input1: "",
       input2: "",
       progress: "",
       currentPage: 1,
-      tableData: []
+      pageSize: 4,
+      tableData: [],
+      loading: true
     };
   },
   created() {
     this.getData();
   },
   methods: {
-    recheck() {
+    ...mapMutations(["saveBidInfo"]),
+    async recheck(row) {
+      await this.saveBidInfo(row);
       this.$router.push("/debitManage/RecheckAction");
     },
-    handleSizeChange() {
+    handleSizeChange(value) {
+      this.pageSize = value;
       this.getData();
     },
-    handleCurrentChange() {
+    handleCurrentChange(value) {
+      this.currentPage = value;
       this.getData();
     },
     getData: function() {
       this.$axios
         .post("/markApi/finance/loan/findFinishByPage", {
-          limit: 1,
-          page: 5
+          phone: "" + this.peopleList.phone,
+          borrower: "" + this.peopleList.borrower,
+          limit: +this.currentPage,
+          page: +this.pageSize,
+          total: this.count
         })
         .then(response => {
           console.log(response.data);
           if (response.data.code == 200) {
             this.tableData = response.data.data;
+            this.total = response.data.count;
             console.log(response.data);
+            this.loading = false;
           } else {
             this.$message(response.data.msg);
           }
@@ -164,19 +193,7 @@ export default {
       return row.annual * 100 + "%";
     },
     invest(row) {
-      return row.state == 1
-        ? "待回款"
-        : row.state == 2
-        ? "已结算"
-        : row.state == 3
-        ? "撤标"
-        : row.state == 4
-        ? "流标"
-        : row.state == 5
-        ? "投资中"
-        : row.state == 6
-        ? "投资失败"
-        : "";
+      return row.speed * 100 + "%";
     }
   },
   filters: {

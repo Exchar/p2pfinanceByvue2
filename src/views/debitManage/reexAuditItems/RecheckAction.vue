@@ -15,7 +15,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="风险等级：">
-              <span>{{}}</span>
+              <span></span>
             </el-form-item>
           </div></el-col
         >
@@ -53,7 +53,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="资金用途：">
-              <span>{{}}</span>
+              <span></span>
             </el-form-item>
           </div></el-col
         >
@@ -72,7 +72,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="起息方式：">
-              <span>{{}}</span>
+              <span></span>
             </el-form-item>
           </div></el-col
         >
@@ -83,7 +83,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="还款方式：">
-              <span>{{}}</span>
+              <span></span>
             </el-form-item>
           </div></el-col
         >
@@ -91,7 +91,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="借款管理费：">
-              <span>{{}}</span>
+              <span></span>
             </el-form-item>
           </div></el-col
         >
@@ -102,7 +102,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="利息管理费：">
-              <span>{{}}</span>
+              <span></span>
             </el-form-item>
           </div></el-col
         >
@@ -110,7 +110,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="逾期罚息利率：">
-              <span>{{}}</span>
+              <span></span>
             </el-form-item>
           </div></el-col
         >
@@ -169,7 +169,7 @@
         <el-col :span="8">
           <div>
             <el-form-item label="标名：" prop="entitle" required>
-              <span></span>
+              <span>{{ getMainten.entitle }}</span>
             </el-form-item>
           </div>
         </el-col>
@@ -177,7 +177,7 @@
         <el-col :span="8">
           <div>
             <el-form-item label="标签：" prop="tag" required>
-              <span></span>
+              <span>{{ getMainten.label }}</span>
             </el-form-item>
           </div>
         </el-col>
@@ -188,67 +188,75 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="标签类型：" prop="markType" required>
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span>{{ getMainten.genre }}</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
             <el-form-item label="最低起投金额：" required prop="money">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span>{{ getMainten.lowmoney }}</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
         <el-col :span="2"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="递增金额：" prop="increase" required>
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+            <el-form-item label="递增金额：" prop="addmoney" required>
+              <span>{{ getMainten.addmoney }}</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="最大可投金额：" prop="maxMoney" required>
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+            <el-form-item label="最大可投金额：" prop="largemoney" required>
+              <span>{{ getMainten.largemoney }}</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
         <el-col :span="2"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="投资计息方式：" required>
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+            <el-form-item label="投资计息方式：" required prop="manners">
+              <span>{{ getMainten.manners }}</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="上架渠道：" prop="type" required>
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+            <el-form-item label="上架渠道：" prop="ditchs" required>
+              <span>{{ getMainten.ditchs }}</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
         <el-col :span="2"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="新手专享：" required>
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+            <el-form-item label="新手专享：" prop="sift" required>
+              <span>{{ getMainten.sift }}</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="设置精选：" required prop="selected">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+            <el-form-item label="设置精选：" required prop="noob">
+              <span>{{ getMainten.noob }}</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -262,20 +270,22 @@
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="上架时间" required>
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+            <el-form-item label="上架时间" required prop="putawaytime">
+              <span>{{ getMainten.putawaytime }}</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
         <el-col :span="2"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="开售时间：" required>
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+            <el-form-item label="开售时间：" required prop="saletime">
+              <span>{{ getMainten.saletime }}</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"><div></div></el-col>
         <el-col :span="2"><div></div></el-col>
@@ -308,7 +318,7 @@
 
     <div id="btn">
       <el-button type="danger" @click="submit">提交</el-button>
-      <el-button>返回</el-button>
+      <el-button @click="back">返回</el-button>
     </div>
   </div>
 </template>
@@ -323,7 +333,7 @@ export default {
   data() {
     return {
       remarks: "",
-      passed: 2,
+      passed: "",
       baseInfo: {},
       interest: "",
       radio: 1,
@@ -380,7 +390,11 @@ export default {
     console.log(this.getMainten);
   },
   methods: {
+    back() {
+      this.$router.push("/debitManage/RecheckAction");
+    },
     submit() {
+      this.$router.push("/debitManage/RecheckAction");
       this.$axios
         .post("/markApi/finance/loan/fullupdate", {
           num: "" + this.num,

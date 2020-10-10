@@ -1,5 +1,6 @@
 <template>
   <div class="maintain">
+    <!--    搜索框-->
     <div id="nav">
       <el-form>
         <el-form-item prop="region">
@@ -31,15 +32,30 @@
         </el-form-item>
       </el-form>
     </div>
+    <!--    表格-->
     <div id="table">
-      <el-table stripe style="width: 100%" :data="tableData">
+      <el-table
+        stripe
+        style="width: 100%"
+        :data="tableData"
+        v-loading="loading"
+      >
         <el-table-column prop="num" label="编号"></el-table-column>
         <el-table-column prop="borrower" label="借款方"> </el-table-column>
         <el-table-column prop="phone" label="借款人手机"> </el-table-column>
         <el-table-column prop="entitle" label="标名"> </el-table-column>
-        <el-table-column prop="guarantee" label="担保机构"></el-table-column>
-        <el-table-column prop="type" label="类型"> </el-table-column>
-        <el-table-column prop="money" label="借款金额"> </el-table-column>
+        <el-table-column
+          prop="guarantee"
+          label="担保机构"
+          :formatter="gType"
+        ></el-table-column>
+        <el-table-column prop="type" label="类型" :formatter="debtType">
+        </el-table-column>
+        <el-table-column prop="money" label="借款金额">
+          <template slot-scope="scope">
+            <span>{{ "￥" + scope.row.money }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           prop="annual"
           :formatter="annualState"
@@ -70,6 +86,7 @@
         </el-table-column>
       </el-table>
     </div>
+    <!--    分页-->
     <div id="page">
       <el-row>
         <el-col :span="6"><div></div></el-col>
@@ -109,19 +126,20 @@ export default {
         page: ""
       },
       currentPage4: 1,
-      pageSize: 5,
-      total: 5,
+      pageSize: 4,
+      total: 4,
       phoneNum: "",
-      tableData: []
+      tableData: [],
+      loading: true
     };
   },
   created() {
     this.getData();
   },
   methods: {
-    ...mapMutations(["saveMainten"]),
+    ...mapMutations(["saveBidInfo"]),
     markOn(row) {
-      this.saveMainten(row);
+      this.saveBidInfo(row);
       this.$router.push("/debitManage/Maintenance");
     },
     handleSizeChange(value) {
@@ -139,13 +157,16 @@ export default {
           borrower: "" + this.peopleList.borrower,
           pledge: "1",
           limit: +this.currentPage4,
-          page: +this.pageSize
+          page: +this.pageSize,
+          count: this.total
         })
         .then(response => {
           console.log(response);
           if (response.data.code == 200) {
             this.tableData = response.data.data;
-            this.saveMainten(response.data.data);
+            this.total = response.data.count;
+            this.loading = false;
+            this.saveBidInfo(response.data.data);
             console.log(response.data);
           } else {
             this.$message(response.data.msg);
@@ -171,6 +192,28 @@ export default {
         ? "投资中"
         : row.state == 6
         ? "投资失败"
+        : "";
+    },
+    debtType(row) {
+      return row.state == 1
+        ? "新增"
+        : row.state == 2
+        ? "续贷"
+        : row.state == 3
+        ? "资产处理"
+        : "";
+    },
+    gType(row) {
+      return row.state == 1
+        ? "上海泽润典当有限公司"
+        : row.state == 2
+        ? "成都京东金融有限公司"
+        : row.state == 3
+        ? "杭州阿里金融有限公司"
+        : row.state == 4
+        ? "北京联想金融有限公司"
+        : row.state == 5
+        ? "重庆乐花花金融有限公式"
         : "";
     },
     repayType(row) {

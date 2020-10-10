@@ -58,17 +58,8 @@
                 >
                 </el-input></div
             ></el-col>
-            <el-col :span="4"
-              ><div class="grid-content">
-                <el-select placeholder="全部类型" v-model="selectVal">
-                  <el-option label="车抵押" value="car"></el-option>
-                  <el-option label="房抵押" value="house"></el-option>
-                  <el-option label="民品抵押" value="thing"></el-option>
-                </el-select></div
-            ></el-col>
-            <el-col :span="12"
-              ><div class="grid-content bg-purple-light"></div
-            ></el-col>
+            <el-col :span="4"><div></div></el-col>
+            <el-col :span="12"><div></div></el-col>
           </el-row>
         </el-form-item>
       </el-form>
@@ -104,8 +95,9 @@
         <el-table-column prop="saletime" label="开售时间">
           <span>{{ tableData.saletime | formatDate }}</span>
         </el-table-column>
-        <el-table-column prop="checkTime" label="已投金额"> </el-table-column>
-        <el-table-column prop="sname" label="投资进度"> </el-table-column>
+        <el-table-column prop="paymoney" label="已投金额"> </el-table-column>
+        <el-table-column prop="speed" label="投资进度" :formatter="invest">
+        </el-table-column>
         <el-table-column
           prop="state"
           label="状态"
@@ -115,12 +107,12 @@
         <el-table-column prop="action" label="操作" width="180px">
           <template slot-scope="scope">
             <el-button type="text" @click="edit(scope.row)">修改</el-button>
-            |
-            <el-button type="text" @click="down(scope.row)">下架</el-button>
+            |<el-button type="text" @click="down(scope.row)">下架</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
+    <!--分页-->
     <div id="page">
       <el-row>
         <el-col :span="6"><div></div></el-col>
@@ -141,6 +133,7 @@
         <el-col :span="2"><div></div></el-col>
       </el-row>
     </div>
+    <!--下架弹窗-->
     <el-dialog
       title="提示"
       :visible.sync="centerDialogVisible"
@@ -210,16 +203,18 @@ export default {
     getData() {
       this.$axios
         .post("/markApi/finance/loan/findingByPage", {
-          limit: 1,
-          page: 5
+          limit: this.currentPage,
+          page: this.pageSize,
+          count: this.total
         })
         .then(response => {
           console.log(response);
           console.log(response.data);
           if (response.data.code == 200) {
             this.tableData = response.data.data;
+            this.total = response.data.count;
             this.loading = false;
-            console.log(response.data);
+            console.log(response.data, response.data.count);
           } else {
             this.$message(response.data.msg);
           }
@@ -275,12 +270,14 @@ export default {
       });
       this.$axios
         .post("/markApi/finance/loan/updating", {
-          num: "" + this.peopleList.num,
-          remarks: "" + this.peopleList.remarks
+          num: "" + this.num,
+          remarks: "" + this.remarks,
+          state: this.state
         })
         .then(response => {
           this.centerDialogVisible = false;
           console.log(response);
+          this.getData();
         })
         .catch(error => {
           console.log(error);
@@ -349,6 +346,9 @@ export default {
     },
     annualState(row) {
       return row.annual * 100 + "%";
+    },
+    invest(row) {
+      return row.speed * 100 + "%";
     }
   },
   filters: {
