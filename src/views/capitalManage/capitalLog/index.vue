@@ -1,9 +1,9 @@
-<template lang="yi">
+<template>
   <div>
   <el-row :gutter="8">
   <el-col :span="3"><el-input  placeholder="搜索用户手机" prefix-icon="el-icon-search" v-model="input1"></el-input><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="3"><el-input  placeholder="搜索姓名" prefix-icon="el-icon-search" v-model="input2"></el-input><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="16"><el-select  v-model="value" placeholder="全部类型"><el-option v-for="item in options" :key="item.value" :label="item.label":value="item.value"></el-option></el-select><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="16"><el-select  v-model="value" placeholder="全部类型"><el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option></el-select><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="2"><el-row class="but"><el-button plain>导出</el-button></el-row><div class="grid-content bg-purple"></div></el-col>
 </el-row>
   <el-table

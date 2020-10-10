@@ -3,8 +3,8 @@
   <el-row :gutter="8">
   <el-col :span="3"><el-input  placeholder="搜索用户手机" prefix-icon="el-icon-search" v-model="input1"></el-input><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="3"><el-input  placeholder="搜索账户名" prefix-icon="el-icon-search" v-model="input2"></el-input><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="3"><el-select  v-model="value" placeholder="银行名称"><el-option v-for="item in options" :key="item.value" :label="item.label":value="item.value"></el-option></el-select><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="13"><el-date-picker
+  <el-col :span="3"><el-select  v-model="value" placeholder="全部状态"><el-option v-for="item in options" :key="item.value" :label="item.label":value="item.value"></el-option></el-select><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="11"><el-date-picker
       v-model="value2"
       type="daterange"
       align="right"
@@ -14,17 +14,18 @@
       end-placeholder="结束日期"
       :picker-options="pickerOptions">
     </el-date-picker><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="2"><el-button class="lie" plain>自定义列</el-button><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="2"><el-row class="but"><el-button plain>导出</el-button></el-row><div class="grid-content bg-purple"></div></el-col>
 </el-row>
   <el-table
-    :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)">
+    :data="tableData">
     <el-table-column
-      prop="bankaccount"
+      prop="number"
       label="提现单号"
       width="150">
     </el-table-column>
     <el-table-column
-      prop="bankuser  "
+      prop="number"
       label="用户手机"
       width="120">
     </el-table-column>
@@ -34,60 +35,70 @@
       width="120">
     </el-table-column>
     <el-table-column
-      prop="usertype"
+      prop="city"
       label="用户类型"
       width="120">
     </el-table-column>
     <el-table-column
-      prop="money"
+      prop="address"
       label="提现金额"
       width="100">
     </el-table-column>
     <el-table-column
-      prop="fee"
+      prop="czje"
       label="提现手续费"
       width="120">
     </el-table-column>
     <el-table-column
-      prop="accountmoney"
-      label="预计到账金额"
+      prop="dzje"
+      label="到账金额"
       width="120">
     </el-table-column>
     <el-table-column
-      prop="accountbank"
+      prop="sxf"
       label="银行账号"
       width="120">
     </el-table-column>
     <el-table-column
-      prop="bankuser"
+      prop="czfs"
       label="银行名称"
       width="120">
     </el-table-column>
     <el-table-column
-      prop="subtime"
+      prop="jylsh"
+      label="交易流水号"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
       label="提交时间"
       width="120">
     </el-table-column>
     <el-table-column
-      prop="state"
-      label="状态"
+      prop="zip"
+      label="审核人"
       width="120">
     </el-table-column>
     <el-table-column
-      prop="sh"
-      label="审核"
+      prop="right"
+      label="提交时间"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="right"
+      label="到账时间"
       width="120">
     </el-table-column>
   </el-table>
   <div class="blocks">
-     <el-pagination
+    <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="currentPage"
-      :page-sizes="[2, 10, 20, 40]" 
-      :page-size="pagesize"         
+      :current-page="currentPage4"
+      :page-sizes="[100, 200, 300, 400]"
+      :page-size="100"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="tableData.length">    <!--//这是显示总共有多少数据，-->
+      :total="400">
     </el-pagination>
   </div>
   <div style="height: 100vh; ">
@@ -101,29 +112,12 @@
 </template>
 <script>
 export default {
-  created() {
-    this.$axios
-      .post("/markApi/finance/moneyRecord/selectAll", {
-        limit: 5,
-        page: 1
-      })
-      .then(req => {
-        console.log(req);
-        this.tableData = req.data.data;
-        console.log(this.tableData);
-      })
-      .catch(req => {
-        console.log(req);
-      });
-  },
   methods: {
-    handleSizeChange: function(size) {
-      this.pagesize = size;
-      console.log(this.pagesize); //每页下拉显示数据
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
     },
-    handleCurrentChange: function(currentPage) {
-      this.currentPage = currentPage;
-      console.log(this.currentPage); //点击第几页
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
     }
   },
   data() {
@@ -131,7 +125,7 @@ export default {
       pickerOptions: {
         shortcuts: [
           {
-            text: "最近一周" /*  */,
+            text: "最近一周",
             onClick(picker) {
               const end = new Date();
               const start = new Date();
@@ -161,23 +155,44 @@ export default {
       },
       value1: "",
       value2: "",
-      input1: "",
-      input2: "",
-      currentPage: 1, //初始页
-      pagesize: 2,
-      tableData: [],
+      currentPage1: 5,
+      currentPage2: 5,
+      currentPage3: 5,
+      currentPage4: 4,
+      tableData: [
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          province: "上海",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1518 弄",
+          zip: 200333
+        },
+        {
+          date: "2016-05-07",
+          name: "王小虎",
+          province: "上海",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1518 弄",
+          zip: 200333
+        }
+      ],
       options: [
         {
           value: "选项1",
-          label: "建设银行"
+          label: "支付宝"
         },
         {
           value: "选项2",
-          label: "招商银行"
+          label: "微信"
+        },
+        {
+          value: "选项3",
+          label: "在线支付"
         },
         {
           value: "选项4",
-          label: "其他银行"
+          label: "银行转账"
         }
       ],
       value: ""

@@ -1,8 +1,8 @@
 <template lang="yi">
   <div>
   <el-row :gutter="8">
-  <el-col :span="3"><el-input  placeholder="搜索用户手机" prefix-icon="el-icon-search" v-model="input1"></el-input><div class="grid-content bg-purple" @keyup.13="show($event)"></div></el-col>
-  <el-col :span="3"><el-input  placeholder="搜索姓名" prefix-icon="el-icon-search" v-model="input2"></el-input><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="3"><el-input  placeholder="搜索用户手机" prefix-icon="el-icon-search" v-model="input1" @keyup.enter.native="search1()"></el-input><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="3"><el-input  placeholder="搜索姓名" prefix-icon="el-icon-search" v-model="input2" @keyup.enter.native="search1()"></el-input><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="16"><el-select  v-model="value" placeholder="全部用户"><el-option v-for="item in options" :key="item.value" :label="item.label":value="item.value"></el-option></el-select><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="2"><el-row class="but"><el-button plain>导出</el-button></el-row><div class="grid-content bg-purple"></div></el-col>
 </el-row>
@@ -92,7 +92,7 @@
       :page-sizes="[2, 10, 20, 40]" 
       :page-size="pagesize"         
       layout="total, sizes, prev, pager, next, jumper"
-      :total="tableData.length">    <!--//这是显示总共有多少数据，-->
+      :total="tableData.length">   <!--//这是显示总共有多少数据，-->
     </el-pagination>
   </div>
 <div style="height: 100vh; ">
@@ -115,6 +115,7 @@ export default {
       .then(req => {
         console.log(req);
         this.tableData = req.data.data;
+        console.log(this.tabledata);
         console.log(this.data);
       })
       .catch(req => {
@@ -129,6 +130,31 @@ export default {
     handleCurrentChange: function(currentPage) {
       this.currentPage = currentPage;
       console.log(this.currentPage); //点击第几页
+    },
+    search1() {
+      console.log( {
+          name: "" + this.input2,
+          phone: "" + this.input1,
+          limit: 5,
+          page: 1
+        })
+      this.$axios
+        .post("/markApi/finance/userMoney/selectKey", {
+          name:this.input2,
+          phone:this.input1,
+          limit: 5,
+          page: 1
+        })
+        .then(req => {
+          console.log("打字");
+          console.log(req);
+          this.tableData = req.data.data;
+          console.log(req.data.data);
+          console.log(this.tableData);
+        })
+        .catch(req => {
+          console.log(req);
+        });
     }
   },
   data() {
@@ -164,13 +190,20 @@ export default {
           }
         ]
       },
-      value1: "",
-      value2: "",
+      options: [
+        {
+          value: "选项1",
+          label: "投资用户"
+        }
+      ],
+      value: "",
+      input1: "",
+      input2: "",
       currentPage: 1, //初始页
       pagesize: 2,
       tableData: [],
-      options: [],
-      value: ""
+      value1: "",
+      value2: "",
     };
   }
 };

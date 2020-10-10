@@ -1,0 +1,41 @@
+
+.el-aside .leftMenu .el-submenu__title,.el-aside .leftMenu .el-menu-item,.el-aside .el-submenu__title i,.el-aside .el-menu-item i{
+    color:rgb(156,161,181) !important;
+}
+.el-submenu__title:hover,.el-aside .el-submenu__title:hover i,.el-aside .el-menu--inline li:hover,.el-aside .el-menu-item:hover,.el-aside .el-menu--inline li:hover i,.el-aside .el-menu-item:hover i,.el-aside{
+    color: rgb(156,161,181) !important;
+    background-color: rgb(57, 62, 83) !important;
+    transition: none;
+}
+.el-aside .el-menu-item{
+    box-sizing: border-box;
+}
+.el-aside .el-menu-item.is-active{
+    background-color: rgb(20,22,34);
+    border-left: 4px solid rgb(231,58,65);
+}
+.el-aside .el-menu-item.is-active i,.el-aside .el-menu-item.is-active span{
+    color: rgb(229, 232, 239) !important;
+}
+.leftMenu .el-submenu__title,.leftMenu .el-menu-item,.el-submenu__title i,.el-menu-item i{
+    color: white !important;
+}
+.el-menu--inline li:hover,.el-menu-item:hover,.el-menu--inline li:hover i, .el-menu-item:hover i,.el-submenu__title:hover,.el-submenu__title:hover i{
+    color: rgb(156,161,181) !important;
+}
+.el-aside .el-menu-item.is-active{
+    position: relative;
+}
+.el-aside .el-menu-item.is-active::after{
+    content: "";
+    position: absolute;
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: #ffffff;
+    bottom: 0;
+    top: 0;
+    right: -5px;
+    margin: auto;
+    transform: rotate(45deg);
+}
