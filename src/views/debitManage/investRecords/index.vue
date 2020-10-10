@@ -51,9 +51,7 @@
       <el-col :span="3" :offset="6"
         ><el-button plain>自定义列</el-button></el-col
       >
-      <el-col :span="3"
-        ><el-button plain >导出</el-button></el-col
-      ></el-row
+      <el-col :span="3"><el-button plain>导出</el-button></el-col></el-row
     >
     <el-table
       :data="tableData"
@@ -275,12 +273,14 @@ export default {
               ? `${new Date(this.value2[1]).getFullYear()}-${Number(
                   new Date(this.value2[1]).getMonth() + 1
                 )}-${new Date(this.value2[1]).getDate()}`
-              : ""
+              : "",
+              count: this.total
         })
         .then(response => {
           if (response.data.code == 200) {
             this.tableData = response.data.data;
-            console.log(response.data.data);
+            this.total = response.data.count;
+            console.log(response.data.data,response.data.count);
             this.loading = false;
           } else {
             this.$message(response.data.msg);
