@@ -58,13 +58,34 @@
         style="width: 100%"
         v-loading="loading"
       >
-        <el-table-column prop="num" label="编号" width="240px"> </el-table-column>
-        <el-table-column prop="borrower" label="借款方" width="120px"> </el-table-column>
-        <el-table-column prop="phone" label="借款人手机" width="180px"> </el-table-column>
+        <el-table-column prop="num" label="编号" width="240px">
+        </el-table-column>
+        <el-table-column prop="borrower" label="借款方" width="120px">
+        </el-table-column>
+        <el-table-column prop="phone" label="借款人手机" width="180px">
+        </el-table-column>
         <el-table-column prop="entitle" label="标名"> </el-table-column>
-        <el-table-column prop="guarantee" label="担保机构" width="200px" :formatter="guaranteeState"> </el-table-column>
-        <el-table-column prop="type" label="类型" :formatter="typeState" width="120px"> </el-table-column>
-        <el-table-column prop="money" label="借款金额" :formatter="moneyState" width="120px"> </el-table-column>
+        <el-table-column
+          prop="guarantee"
+          label="担保机构"
+          width="200px"
+          :formatter="guaranteeState"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="类型"
+          :formatter="typeState"
+          width="120px"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="money"
+          label="借款金额"
+          :formatter="moneyState"
+          width="120px"
+        >
+        </el-table-column>
         <el-table-column
           prop="annual"
           :formatter="annualState"
@@ -79,8 +100,14 @@
         >
         </el-table-column>
         <el-table-column prop="deadline" label="期限"> </el-table-column>
-        <el-table-column prop="created" label="添加时间" width="140px"> </el-table-column>
-        <el-table-column prop="state" :formatter="loanState" label="状态" width="100px">
+        <el-table-column prop="created" label="添加时间" width="140px">
+        </el-table-column>
+        <el-table-column
+          prop="state"
+          :formatter="loanState"
+          label="状态"
+          width="100px"
+        >
         </el-table-column>
         <el-table-column prop="id" label="操作">
           <template scope="scope">
@@ -153,21 +180,32 @@ export default {
   },
   methods: {
     //借款金额转换
-    moneyState: function (row) {
-      return "￥"+row.money
+    moneyState: function(row) {
+      return "￥" + row.money;
     },
     // 担保机构转换
     guaranteeState: function(row) {
-      return row.guarantee == 1 ? "上海泽润典当有限公司"
-         : row.guarantee == 2 ? "成都京东金融有限公司"
-         : row.guarantee == 3 ? "杭州阿里金融有限公司"
-         : row.guarantee == 4 ? "北京联想金融有限公司"
-         : row.guarantee == 5 ? "重庆勒花花金融有限公司"
-         : row.guarantee;
+      return row.guarantee == 1
+        ? "上海泽润典当有限公司"
+        : row.guarantee == 2
+        ? "成都京东金融有限公司"
+        : row.guarantee == 3
+        ? "杭州阿里金融有限公司"
+        : row.guarantee == 4
+        ? "北京联想金融有限公司"
+        : row.guarantee == 5
+        ? "重庆勒花花金融有限公司"
+        : row.guarantee;
     },
     // 借款类型转换
     typeState: function(row) {
-      return row.type == 1 ? "新增" : row.type == 2 ? "续贷" : row.type == 3 ? "资产处理" : row.type;
+      return row.type == 1
+        ? "新增"
+        : row.type == 2
+        ? "续贷"
+        : row.type == 3
+        ? "资产处理"
+        : row.type;
     },
     // 借款标状态转换
     loanState: function(row) {
@@ -257,7 +295,7 @@ export default {
               num: row
             })
             .then(res => {
-              console.log(res)
+              console.log(res);
               if (res.data.code == "200") {
                 this.$message({
                   message: res.data.msg,

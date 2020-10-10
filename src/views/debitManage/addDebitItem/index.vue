@@ -53,7 +53,11 @@
                     width="200"
                   >
                   </el-table-column>
-                  <el-table-column property="sock" label="用户状态" :formatter="sockState">
+                  <el-table-column
+                    property="sock"
+                    label="用户状态"
+                    :formatter="sockState"
+                  >
                   </el-table-column>
                   <el-table-column property="type" label="身份类型">
                   </el-table-column>
@@ -379,7 +383,7 @@ export default {
   },
   methods: {
     // 用户状态转换
-    sockState: function (row) {
+    sockState: function(row) {
       return row.sock == 1 ? "正常" : row.sock == 0 ? "锁定" : "";
     },
     // 风险等级列表获取
@@ -571,9 +575,9 @@ export default {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
-    imgSuccess(res,file) {
-      console.log(res,file);
-      this.dialogImageUrl=res.fileName;
+    imgSuccess(res, file) {
+      console.log(res, file);
+      this.dialogImageUrl = res.fileName;
     },
     // 抵押物图片上传
     handleRemove1: function(file, fileList) {
@@ -583,9 +587,9 @@ export default {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
-    imgSuccess1(res,file) {
-      console.log(res,file);
-      this.dialogImageUrl1=res.fileName;
+    imgSuccess1(res, file) {
+      console.log(res, file);
+      this.dialogImageUrl1 = res.fileName;
     }
   }
 };

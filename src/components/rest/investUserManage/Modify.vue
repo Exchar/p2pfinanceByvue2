@@ -63,7 +63,7 @@
 import { mapGetters } from "vuex";
 export default {
   name: "Modify",
-  computed:{
+  computed: {
     ...mapGetters(["getUserItem"])
   },
   data() {
@@ -88,8 +88,7 @@ export default {
     onSubmit() {
       let str = this.$srore.getters.getModify;
       console.log(str);
-      this.$axios
-        .post(
+      this.$axios.post(
         "/finance/invest/updatesock",
         JSON.stringify({
           tel: this.formLabelAlign.tel,

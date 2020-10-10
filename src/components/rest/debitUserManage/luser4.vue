@@ -80,7 +80,7 @@ export default {
         email: this.formLabelAlign.email,
         Loginaccount: this.formLabelAlign.Loginaccount,
         password: this.formLabelAlign.password,
-        lpassword:this.formLabelAlign.lpassword,
+        lpassword: this.formLabelAlign.lpassword,
         sex: this.formLabelAlign.sex
       });
       this.$axios
@@ -92,25 +92,25 @@ export default {
           email: this.formLabelAlign.email,
           Loginaccount: this.formLabelAlign.Loginaccount,
           password: this.formLabelAlign.password,
-          lpassword:this.formLabelAlign.lpassword,
+          lpassword: this.formLabelAlign.lpassword,
           sex: this.formLabelAlign.sex
         })
         .then(res => {
           console.log(res);
           var result = res.data;
-          console.log(result)
-          if (result.msg){
+          console.log(result);
+          if (result.msg) {
             this.$message.success(`添加成功`);
-            console.log(this.$router)
+            console.log(this.$router);
             this.$router.push("/index");
           }
         })
         .catch(err => {
           console.log(err);
           console.log("111");
-         this.$message.err("添加失败");
+          this.$message.err("添加失败");
         });
-    },
+    }
   }
 };
 </script>

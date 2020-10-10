@@ -40,39 +40,45 @@ router.beforeEach(async (to, from, next) => {
             //在这里写额外的路由
             {
               path: "/index",
-              component: () => import("@/views/memberManage/debitUserManage/index"),
+              component: () =>
+                import("@/views/memberManage/debitUserManage/index"),
               meta: { title: "工作台" },
-              name: "index",
+              name: "index"
             },
             {
               path: "/",
               name: "sliderManage",
               meta: { title: "轮播管理" },
-              component: () => import("../views/contentManage/sliderManage/index")
+              component: () =>
+                import("../views/contentManage/sliderManage/index")
             },
             {
               path: "/",
               name: "sliderManage",
               meta: { title: "新增轮播" },
-              component: () => import("../views/contentManage/sliderManage/addSlider")
+              component: () =>
+                import("../views/contentManage/sliderManage/addSlider")
             },
             {
               path: "/",
               name: "articleManage",
               meta: { title: "文章管理" },
-              component: () => import("../views/contentManage/articleManage/articleManage")
+              component: () =>
+                import("../views/contentManage/articleManage/articleManage")
             },
             {
               path: "/",
               name: "articleManage",
               meta: { title: "新增文章" },
-              component: () => import("../views/contentManage/articleManage/addArticle")
+              component: () =>
+                import("../views/contentManage/articleManage/addArticle")
             },
             {
               path: "/",
               name: "feedBack",
               meta: { title: "意见反馈" },
-              component: () => import("../views/contentManage/feedBack/feedBack")
+              component: () =>
+                import("../views/contentManage/feedBack/feedBack")
             },
             {
               path: "/debitManage/Maintenance",

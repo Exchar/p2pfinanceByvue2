@@ -1,20 +1,36 @@
 <template>
   <div>
     <h1>基本信息</h1>
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form
+      :model="ruleForm"
+      :rules="rules"
+      ref="ruleForm"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
       <!--文章标题-->
       <el-form-item class="title" label="文章标题 :" prop="title">
-        <el-input v-model="ruleForm.title" placeholder="请输入文章标题"></el-input>
+        <el-input
+          v-model="ruleForm.title"
+          placeholder="请输入文章标题"
+        ></el-input>
       </el-form-item>
       <!--来源-->
       <el-form-item class="source" label="来源 :" prop="source">
-        <el-input v-model="ruleForm.source" placeholder="请输入文章来源"></el-input>
+        <el-input
+          v-model="ruleForm.source"
+          placeholder="请输入文章来源"
+        ></el-input>
       </el-form-item>
       <!--更新时间-->
       <el-form-item class="time" label="更新时间 :" required>
         <el-col :span="11">
           <el-form-item prop="time">
-            <el-time-picker placeholder="点击选择时间" v-model="ruleForm.time" style="width: 100%;"></el-time-picker>
+            <el-time-picker
+              placeholder="点击选择时间"
+              v-model="ruleForm.time"
+              style="width: 100%;"
+            ></el-time-picker>
           </el-form-item>
         </el-col>
       </el-form-item>
@@ -31,29 +47,47 @@
       </el-form-item>
       <!--作者-->
       <el-form-item class="author" label="作者 :" prop="author">
-        <el-input v-model="ruleForm.author" placeholder="请输入文章作者"></el-input>
+        <el-input
+          v-model="ruleForm.author"
+          placeholder="请输入文章作者"
+        ></el-input>
       </el-form-item>
     </el-form>
     <h2>文章详情</h2>
     <!--上传图片-->
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form
+      :model="ruleForm"
+      :rules="rules"
+      ref="ruleForm"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
       <p class="face">活动封面 :</p>
       <el-upload
         class="upload-demo"
         drag
         action="https://jsonplaceholder.typicode.com/posts/"
-        multiple>
+        multiple
+      >
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        <div class="el-upload__tip" slot="tip">请上传JPG或PNG格式的新闻图片，且不超过500kb</div>
+        <div class="el-upload__tip" slot="tip">
+          请上传JPG或PNG格式的新闻图片，且不超过500kb
+        </div>
       </el-upload>
       <!--跳转链接-->
       <el-form-item class="jump" label="跳转链接 :" prop="link">
-        <el-input v-model="ruleForm.link" placeholder="请输入文章跳转链接"></el-input>
+        <el-input
+          v-model="ruleForm.link"
+          placeholder="请输入文章跳转链接"
+        ></el-input>
       </el-form-item>
       <!--介绍-->
       <el-form-item class="introduce" label="一句话介绍 :" prop="introduce">
-        <el-input v-model="ruleForm.introduce" placeholder="请输入一句话介绍"></el-input>
+        <el-input
+          v-model="ruleForm.introduce"
+          placeholder="请输入一句话介绍"
+        ></el-input>
       </el-form-item>
       <!--文章正文-->
       <el-form-item class="text" label="文章正文 :" prop="text">
@@ -61,10 +95,19 @@
       </el-form-item>
     </el-form>
     <h3>上架操作</h3>
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form
+      :model="ruleForm"
+      :rules="rules"
+      ref="ruleForm"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
       <!--排序-->
       <el-form-item class="order" label="排序 :" prop="number">
-        <el-input v-model="ruleForm.number" placeholder="请输入正整数,数字越大越靠前"></el-input>
+        <el-input
+          v-model="ruleForm.number"
+          placeholder="请输入正整数,数字越大越靠前"
+        ></el-input>
       </el-form-item>
       <!--状态-->
       <el-form-item class="state" label="状态 :" prop="state">
@@ -75,7 +118,9 @@
       </el-form-item>
       <!--提交或返回操作-->
       <el-form-item class="button">
-        <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')"
+          >提交</el-button
+        >
         <el-button @click="reverseForm('ruleForm')">返回</el-button>
       </el-form-item>
     </el-form>
@@ -90,94 +135,100 @@
 <script>
 export default {
   name: "addArticle",
-  data: function () {
+  data: function() {
     return {
-      radio: '1',
-      ruleForm:{
-        id:'',
-        title:'',
-        source:'',
-        time:'',
-        type:'',
-        author:'',
-        link:'',
-        introduce:'',
-        text:'',
-        number:'',
-        state:''
+      radio: "1",
+      ruleForm: {
+        id: "",
+        title: "",
+        source: "",
+        time: "",
+        type: "",
+        author: "",
+        link: "",
+        introduce: "",
+        text: "",
+        number: "",
+        state: ""
       },
-      rules:{
-        id:'',
-        title:'',
-        source:'',
-        time:'',
-        type:'',
-        author:'',
-        link:'',
-        introduce:'',
-        text:'',
-        number:'',
-        state:''
+      rules: {
+        id: "",
+        title: "",
+        source: "",
+        time: "",
+        type: "",
+        author: "",
+        link: "",
+        introduce: "",
+        text: "",
+        number: "",
+        state: ""
       }
-    }
+    };
   },
-  created () {
-    this.getArticleList()
+  created() {
+    this.getArticleList();
   },
-  methods:{
-    getArticleList: function () {
+  methods: {
+    getArticleList: function() {
       //向后端服务器去请求数据
-      this.$axios.post("http://172.16.5.177:8080/finance/essay/findByPage", {
-        page: 1,
-        limit: 7,
-      }).then((response) => {
-        console.log(response)
-        var result = response.data
-        if (result.code === "200") {
-          this.tableData = response.data.data
-          console.log(this.tableData)
-        } else {
-          this.$message.error(result.message)
-        }
-      }).catch((err) => {
-        console.log(err);
-      })
-    },
-    submitForm(){
-      //获取数据到服务器，进行添加,接收服务器响应
-      this.$axios.post('/markApi/finance/essay/add', {
-        title: this.ruleForm.title,
-        source: this.ruleForm.source,
-        time: this.ruleForm.time,
-        type: this.ruleForm.type,
-        author: this.ruleForm.author,
-        link: this.ruleForm.link,
-        introduce: this.ruleForm.introduce,
-        text: this.ruleForm.text,
-        number: this.ruleForm.number,
-        state: this.ruleForm.state
-      }).then((response) => {
-        console.log(response)
-        var result = response.data
-        console.log(result)
-        if (result.code === 200) {
-          this.$message.success(result.message)
-          if (result.msg === '添加成功') {
-            this.getArticleList()
+      this.$axios
+        .post("http://172.16.5.177:8080/finance/essay/findByPage", {
+          page: 1,
+          limit: 7
+        })
+        .then(response => {
+          console.log(response);
+          var result = response.data;
+          if (result.code === "200") {
+            this.tableData = response.data.data;
+            console.log(this.tableData);
+          } else {
+            this.$message.error(result.message);
           }
-        } else {
-          this.$message.error(result.message)
-        }
-      }).catch((error) => {
-        console.log(error)
-        // this.$message.error('请求出错')
-      })
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
-    reverseForm(){
-      this.$router.push('/articleManage')
+    submitForm() {
+      //获取数据到服务器，进行添加,接收服务器响应
+      this.$axios
+        .post("/markApi/finance/essay/add", {
+          title: this.ruleForm.title,
+          source: this.ruleForm.source,
+          time: this.ruleForm.time,
+          type: this.ruleForm.type,
+          author: this.ruleForm.author,
+          link: this.ruleForm.link,
+          introduce: this.ruleForm.introduce,
+          text: this.ruleForm.text,
+          number: this.ruleForm.number,
+          state: this.ruleForm.state
+        })
+        .then(response => {
+          console.log(response);
+          var result = response.data;
+          console.log(result);
+          if (result.code === 200) {
+            this.$message.success(result.message);
+            if (result.msg === "添加成功") {
+              this.getArticleList();
+            }
+          } else {
+            this.$message.error(result.message);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          // this.$message.error('请求出错')
+        });
+    },
+    reverseForm() {
+      this.$router.push("/articleManage");
     }
   }
-}
+};
 </script>
 <style scoped>
 body {
@@ -222,7 +273,7 @@ h2 {
 }
 .face {
   position: absolute;
-  top:240px;
+  top: 240px;
   left: 20px;
 }
 .upload-demo {

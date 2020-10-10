@@ -16,7 +16,7 @@
       </el-col>
       <el-col :span="6">
         <el-form-item label="确认登录密码:">
-          <el-input v-model="formLabelAlign.region" ></el-input>
+          <el-input v-model="formLabelAlign.region"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="24">

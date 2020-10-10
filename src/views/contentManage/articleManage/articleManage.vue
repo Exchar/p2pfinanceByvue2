@@ -5,14 +5,19 @@
     </div>
     <div class="demo-input-suffix">
       <el-input
-          placeholder="搜索文章标题"
-          prefix-icon="el-icon-search"
-          v-model="input"
-          @keyup.native="getArticleTitleList"
+        placeholder="搜索文章标题"
+        prefix-icon="el-icon-search"
+        v-model="input"
+        @keyup.native="getArticleTitleList"
       >
       </el-input>
     </div>
-    <el-select class="selected1" v-model="typeValue" placeholder="请选择" @change="getArticleTitleList">
+    <el-select
+      class="selected1"
+      v-model="typeValue"
+      placeholder="请选择"
+      @change="getArticleTitleList"
+    >
       <el-option label="全部分类" value=""></el-option>
       <el-option label="注册指南5" value="注册指南5"></el-option>
       <el-option label="关于我们" value="关于我们"></el-option>
@@ -20,7 +25,12 @@
       <el-option label="新活动上线" value="新活动上线"></el-option>
       <el-option label="签到有礼" value="签到有礼"></el-option>
     </el-select>
-    <el-select class="selected2" v-model="stateValue" placeholder="请选择" @change="getArticleTitleList">
+    <el-select
+      class="selected2"
+      v-model="stateValue"
+      placeholder="请选择"
+      @change="getArticleTitleList"
+    >
       <el-option label="全部状态" value=""></el-option>
       <el-option label="上架" value="0"></el-option>
       <el-option label="下架" value="1"></el-option>
@@ -29,21 +39,29 @@
     <el-table :data="tableData" stripe border style="width: 100%">
       <el-table-column prop="title" label="标题" width="260"></el-table-column>
       <el-table-column prop="type" label="分类" width="200"></el-table-column>
-      <el-table-column prop="time" label="发布时间" width="200"></el-table-column>
+      <el-table-column
+        prop="time"
+        label="发布时间"
+        width="200"
+      ></el-table-column>
       <el-table-column prop="number" label="排序" width="200"></el-table-column>
       <el-table-column prop="state" label="状态" width="200"></el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button
-              class="button1"
-              size="mini"
-              type="primary"
-              @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            class="button1"
+            size="mini"
+            type="primary"
+            @click="handleEdit(scope.$index, scope.row)"
+            >编辑</el-button
+          >
           <el-button
-              class="button2"
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.row)">删除</el-button>
+            class="button2"
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -63,7 +81,7 @@
           <el-input v-model="editform.number" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="状态" class="selStatus">
-          <br/>
+          <br />
           <el-select v-model="editform.state" autocomplete="off">
             <el-option label="上架" value="0"></el-option>
             <el-option label="下架" value="1"></el-option>
@@ -71,8 +89,12 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button class="cancel" @click="dialogFormEditVisible = false">取 消</el-button>
-        <el-button class="save" type="primary" @click="saveDept">保 存</el-button>
+        <el-button class="cancel" @click="dialogFormEditVisible = false"
+          >取 消</el-button
+        >
+        <el-button class="save" type="primary" @click="saveDept"
+          >保 存</el-button
+        >
       </div>
     </el-dialog>
     <!--分页-->
@@ -93,138 +115,152 @@
 <script>
 export default {
   name: "articleManage",
-  data: function () {
+  data: function() {
     return {
-      input: '',
-      typeValue: '',
-      stateValue: '',
+      input: "",
+      typeValue: "",
+      stateValue: "",
       currentPage4: 1,
       pageSize: 6,
       count: 6,
-      tableData:[{
-        id:'',
-        title:'',
-        type: '',
-        time:'',
-        number:'',
-        state:''
-      }],
+      tableData: [
+        {
+          id: "",
+          title: "",
+          type: "",
+          time: "",
+          number: "",
+          state: ""
+        }
+      ],
       dialogFormEditVisible: false,
       editform: {
-        id: '',
-        title: '',
-        type: '',
-        time: '',
-        number: '',
-        state: ''
+        id: "",
+        title: "",
+        type: "",
+        time: "",
+        number: "",
+        state: ""
       }
     };
   },
-  created () {
+  created() {
     this.getArticleList();
   },
   methods: {
     handleSizeChange(val) {
       this.pageSize = val;
-      this.getArticleTitleList()
+      this.getArticleTitleList();
     },
     handleCurrentChange(val) {
       this.currentPage4 = val;
-      this.getArticleTitleList()
+      this.getArticleTitleList();
     },
-    getArticleList: function () {
+    getArticleList: function() {
       //向后端服务器去请求数据
-      this.$axios.post("/markApi/finance/essay/findByPage",{
-        page: 7,
-        limit: 1,
-      }).then((response) => {
-        console.log(response)
-        var result = response.data
-        if (result.code === "200") {
-          this.tableData = response.data.data
-          console.log(this.tableData)
-        } else {
-          this.$alert(result.message)
-        }
-      }).catch((error) => {
-        console.log(error);
-      })
+      this.$axios
+        .post("/markApi/finance/essay/findByPage", {
+          page: 7,
+          limit: 1
+        })
+        .then(response => {
+          console.log(response);
+          var result = response.data;
+          if (result.code === "200") {
+            this.tableData = response.data.data;
+            console.log(this.tableData);
+          } else {
+            this.$alert(result.message);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    jump () {
-      this.$router.push('/addArticle')
+    jump() {
+      this.$router.push("/addArticle");
     },
     handleEdit(index, obj) {
-      this.dialogFormEditVisible = true
-      this.editform.id = obj.id
-      this.editform.title = obj.title
-      this.editform.type = obj.type
-      this.editform.time = obj.time
-      this.editform.number = obj.number
-      this.editform.state = obj.state
+      this.dialogFormEditVisible = true;
+      this.editform.id = obj.id;
+      this.editform.title = obj.title;
+      this.editform.type = obj.type;
+      this.editform.time = obj.time;
+      this.editform.number = obj.number;
+      this.editform.state = obj.state;
     },
-    saveDept: function () {
+    saveDept: function() {
       // 将修改的数据发给服务器，接收服务器的响应并进行处理
-      this.$axios.post('http://172.16.5.177:8080/finance/essay/update', {
-        id: this.editform.id,
-        title: this.editform.title,
-        type: this.editform.title,
-        time: this.editform.time,
-        number: this.editform.number,
-        state: this.editform.state
-      }).then((response) => {
-        var result = response.data
-        if (result.code === '200') {
-          this.$message.success("编辑成功")
-          this.getArticleList()
-          this.dialogFormEditVisible = false
-        } else {
-          this.$message.error(result.message)
-        }
-      }).catch((err) => {
-        console.log(err)
-        this.$message.error('请求出错')
-      })
+      this.$axios
+        .post("http://172.16.5.177:8080/finance/essay/update", {
+          id: this.editform.id,
+          title: this.editform.title,
+          type: this.editform.title,
+          time: this.editform.time,
+          number: this.editform.number,
+          state: this.editform.state
+        })
+        .then(response => {
+          var result = response.data;
+          if (result.code === "200") {
+            this.$message.success("编辑成功");
+            this.getArticleList();
+            this.dialogFormEditVisible = false;
+          } else {
+            this.$message.error(result.message);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.$message.error("请求出错");
+        });
     },
     handleDelete(val) {
       // 发起一个请求到服务器，让服务器删除这一条数据
-      this.$axios.post('http://172.16.5.177:8080/finance/essay/delete', {
-        id: val.id
-      }).then((response) => {
-        var result = response.data
-        console.log(response)
-        if (result.code === '200') {
-          if (result.msg === '删除成功') {
-            this.getArticleList()
+      this.$axios
+        .post("http://172.16.5.177:8080/finance/essay/delete", {
+          id: val.id
+        })
+        .then(response => {
+          var result = response.data;
+          console.log(response);
+          if (result.code === "200") {
+            if (result.msg === "删除成功") {
+              this.getArticleList();
+            } else {
+              this.$message.error(result.message);
+            }
           } else {
-            this.$message.error(result.message)
+            this.$message.error(result.message);
           }
-        } else {
-          this.$message.error(result.message)
-        }
-      }).catch(() => {
-        // this.$message.error('请求出错,请检查')
-      })
+        })
+        .catch(() => {
+          // this.$message.error('请求出错,请检查')
+        });
     },
-    getArticleTitleList: function () {
-      this.$axios.post('/markApi/finance/essay/findByPage', {
-        limit: this.currentPage4,
-        page: this.pageSize,
-        title: ""+this.input,
-        type: ""+this.typeValue,
-        state: ""+this.stateValue
-      }).then((response) => {
-        var result = response.data
-        console.log(response)
-        if (result.code === '200') {
-          this.tableData = result.data
-        } else {
-          this.$message.error(result.message)
-        }
-      }).catch((error) => {
-        console.log(error)
-        // this.$message.error('请求出错，请检查')
-      })
-    },
+    getArticleTitleList: function() {
+      this.$axios
+        .post("/markApi/finance/essay/findByPage", {
+          limit: this.currentPage4,
+          page: this.pageSize,
+          title: "" + this.input,
+          type: "" + this.typeValue,
+          state: "" + this.stateValue
+        })
+        .then(response => {
+          var result = response.data;
+          console.log(response);
+          if (result.code === "200") {
+            this.tableData = result.data;
+          } else {
+            this.$message.error(result.message);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          // this.$message.error('请求出错，请检查')
+        });
+    }
   }
 };
 </script>

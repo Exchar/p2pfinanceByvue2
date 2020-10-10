@@ -33,7 +33,7 @@
       <el-button plain @click="add">
         <router-link to="/luser3">新增用户</router-link>
       </el-button>
-<!--      新增弹出框-->
+      <!--      新增弹出框-->
     </el-col>
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column prop="usernumber" label="用户编号" width="180">
@@ -195,12 +195,10 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
     //新增用户
   }
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

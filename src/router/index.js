@@ -29,7 +29,6 @@ export function resetRouter() {
 }
 export const errorRoute = [
   {
-<<<<<<< HEAD
     path: "*",
     component: () => import("@/views/NotFound"),
     hidden: true,
@@ -37,14 +36,9 @@ export const errorRoute = [
     meta: { title: "页面不见啦" }
   },
   {
-    name:"login",
-    path:"/login",
-    component:()=>import("../views/Login")
-=======
     name: "login",
     path: "/login",
     component: () => import("../views/Login")
->>>>>>> ssj
   }
 ];
 export default index;

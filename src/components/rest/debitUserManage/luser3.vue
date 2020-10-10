@@ -1,6 +1,10 @@
 <template>
   <el-row>
-    <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
+    <el-form
+      :label-position="labelPosition"
+      label-width="80px"
+      :model="formLabelAlign"
+    >
       <div>
         <p>基本信息</p>
       </div>
@@ -18,7 +22,9 @@
       <el-col :span="12">
         <el-form-item label="用户类型:">
           <el-radio v-model="formLabelAlign.radio" label="1">企业用户</el-radio>
-          <el-radio v-model="formLabelAlign.radio" label="2"><router-link to="/luser4">个人用户</router-link></el-radio>
+          <el-radio v-model="formLabelAlign.radio" label="2"
+            ><router-link to="/luser4">个人用户</router-link></el-radio
+          >
         </el-form-item>
         <el-form-item label="税务登记:">
           <el-input v-model="formLabelAlign.one"></el-input>
@@ -49,27 +55,23 @@ export default {
   name: "BwUser1",
   data() {
     return {
-      labelPosition: 'right',
+      labelPosition: "right",
       formLabelAlign: {
         tel: "",
         name: "",
         type: "",
-        one:"",
-        tow:"",
-        three:"",
-        four:"",
+        one: "",
+        tow: "",
+        three: "",
+        four: "",
         radio: "1"
       }
     };
   },
   methods: {
-    onSubmit() {
-
-    }
+    onSubmit() {}
   }
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

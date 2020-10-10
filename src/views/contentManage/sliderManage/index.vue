@@ -50,13 +50,33 @@
     </el-select>
     <!--表格-->
     <el-table :data="tableData" stripe border style="width: 100%">
-      <el-table-column prop="picture" label="轮播图" width="260"></el-table-column>
+      <el-table-column
+        prop="picture"
+        label="轮播图"
+        width="260"
+      ></el-table-column>
       <el-table-column prop="title" label="标题" width="110"></el-table-column>
-      <el-table-column prop="position" label="轮播位置" width="140"></el-table-column>
-      <el-table-column prop="starttime" label="开始时间" width="140"></el-table-column>
-      <el-table-column prop="finishtime" label="结束时间" width="140"></el-table-column>
+      <el-table-column
+        prop="position"
+        label="轮播位置"
+        width="140"
+      ></el-table-column>
+      <el-table-column
+        prop="starttime"
+        label="开始时间"
+        width="140"
+      ></el-table-column>
+      <el-table-column
+        prop="finishtime"
+        label="结束时间"
+        width="140"
+      ></el-table-column>
       <el-table-column prop="number" label="排序" width="110"></el-table-column>
-      <el-table-column prop="province" label="区域" width="110"></el-table-column>
+      <el-table-column
+        prop="province"
+        label="区域"
+        width="110"
+      ></el-table-column>
       <el-table-column prop="state" label="状态" width="110"></el-table-column>
       <el-table-column label="操作" width="140">
         <template slot-scope="scope">
