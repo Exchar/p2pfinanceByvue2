@@ -46,10 +46,18 @@
           label="年利率化"
         >
         </el-table-column>
-        <el-table-column prop="repayment" label="还款方式"> </el-table-column>
+        <el-table-column
+          prop="repayment"
+          label="还款方式"
+          :formatter="repayType"
+        >
+        </el-table-column>
         <el-table-column prop="deadline" label="期限"> </el-table-column>
-        <el-table-column label="审核时间"> </el-table-column>
-        <el-table-column prop="state" label="状态"> </el-table-column>
+        <el-table-column prop="audittime" label="审核时间">
+          <span>{{ tableData.audittime | formatDate }}</span>
+        </el-table-column>
+        <el-table-column prop="state" label="状态" :formatter="markState">
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-link
@@ -86,6 +94,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import { mapMutations } from "vuex";
 export default {
   name: "MarkOn",
@@ -148,7 +157,41 @@ export default {
     },
     annualState(row) {
       return row.annual * 100 + "%";
+    },
+    markState(row) {
+      return row.state == 1
+        ? "待回款"
+        : row.state == 2
+        ? "已结算"
+        : row.state == 3
+        ? "撤标"
+        : row.state == 4
+        ? "流标"
+        : row.state == 5
+        ? "投资中"
+        : row.state == 6
+        ? "投资失败"
+        : "";
+    },
+    repayType(row) {
+      return row.state == 1
+        ? "一次性还款"
+        : row.state == 2
+        ? "等额本息"
+        : row.state == 3
+        ? "按月付息到期还本"
+        : row.state == 4
+        ? "按天还款"
+        : "";
     }
+  },
+  filters: {
+    formatDate: function(value) {
+      return moment(value).format("YYYY-MM-DD");
+    }
+  },
+  submit() {
+    console.log(moment(this.tableData.audittime).format("YYYY-MM-DD"));
   }
 };
 </script>

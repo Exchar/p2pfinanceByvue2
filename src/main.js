@@ -8,7 +8,6 @@ import Axios from "axios";
 import animated from "animate.css";
 import moment from "moment";
 import "@/router/permission";
-
 Vue.config.productionTip = false;
 Vue.use(ElementUi);
 Vue.prototype.$axios = Axios;

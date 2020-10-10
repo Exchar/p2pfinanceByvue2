@@ -43,11 +43,17 @@ export default {
       }
     },
     removeTab(targetName) {
-      this.delTabItem(targetName);
       //越界判断
-      // if (targetName === this.getNowAct) {
-      //
-      // }
+      let nowIndex = 0;
+      let oldTabs = [...this.getHeaderTabs];
+      oldTabs.forEach((v, i) => {
+        v.path === targetName ? (nowIndex = i) : "";
+      });
+      this.delTabItem(targetName);
+      if (targetName === this.getNowAct) {
+        this.$router.push(oldTabs[nowIndex - 1].path);
+        this.changeNowAct(oldTabs[nowIndex - 1].path);
+      }
     }
   }
 };
