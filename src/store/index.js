@@ -88,7 +88,8 @@ export default new Vuex.Store({
       shortDefaultChecked: [],
       token: ""
     },
-    maintenance: {},
+    bidInfo: {},
+    reexInfo: {},
     name: "",
     hasRoutes: false
   },
@@ -158,8 +159,11 @@ export default new Vuex.Store({
     saveToken(state, load) {
       state.index.token = load;
     },
-    saveMainten(state, load) {
-      state.maintenance = load;
+    saveBidInfo(state, load) {
+      state.bidInfo = load;
+    },
+    saveReexInfo(state, load) {
+      state.reexInfo = load;
     },
     setNoRefresh(state) {
       state.hasRoutes = true;
@@ -209,7 +213,7 @@ export default new Vuex.Store({
       return state.index.token;
     },
     getMainten(state) {
-      return { ...state.maintenance };
+      return { ...state.bidInfo, ...state.reexInfo };
     },
     getRoutes(state) {
       let newArr = [...state.home.routes];

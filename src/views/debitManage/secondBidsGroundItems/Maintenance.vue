@@ -15,7 +15,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="风险等级：">
-              <span>{{}}</span>
+              <span></span>
             </el-form-item>
           </div></el-col
         >
@@ -53,7 +53,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="资金用途：">
-              <span>{{}}</span>
+              <span></span>
             </el-form-item>
           </div></el-col
         >
@@ -72,7 +72,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="起息方式：">
-              <span>{{}}</span>
+              <span></span>
             </el-form-item>
           </div></el-col
         >
@@ -83,7 +83,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="还款方式：">
-              <span>{{}}</span>
+              <span>{{ getMainten.repayment }}</span>
             </el-form-item>
           </div></el-col
         >
@@ -91,7 +91,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="借款管理费：">
-              <span>{{}}</span>
+              <span></span>
             </el-form-item>
           </div></el-col
         >
@@ -102,7 +102,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="利息管理费：">
-              <span>{{}}</span>
+              <span></span>
             </el-form-item>
           </div></el-col
         >
@@ -110,7 +110,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="逾期罚息利率：">
-              <span>{{}}</span>
+              <span></span>
             </el-form-item>
           </div></el-col
         >
@@ -163,12 +163,18 @@
       </el-col>
     </el-row>
     <span class="title" :data="baseInfo">标的信息:</span>
-    <el-form label-width="120px">
+    <el-form
+      :model="ruleForm"
+      :rules="rules"
+      ref="ruleForm"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
       <el-row>
         <el-col :span="2"><div></div></el-col>
         <el-col :span="8">
           <div>
-            <el-form-item label="标名：" prop="entitle" required>
+            <el-form-item label="标名：" prop="entitle">
               <span>{{ getMainten.entitle }}</span>
             </el-form-item>
           </div>
@@ -177,7 +183,7 @@
         <el-col :span="8">
           <div>
             <el-form-item label="标签：" prop="label">
-              <el-select v-model="label" placeholder="请选择标签">
+              <el-select v-model="ruleForm.label" placeholder="请选择标签">
                 <el-option
                   v-for="item in tagList"
                   :key="item.id"
@@ -195,7 +201,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="标签类型：" prop="genre">
-              <el-select v-model="genre" placeholder="请选择标签">
+              <el-select v-model="ruleForm.genre" placeholder="请选择标签">
                 <el-option
                   v-for="item in markTypeList"
                   :key="item.id"
@@ -208,10 +214,10 @@
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="最低起投金额：" required prop="lowmoney">
+            <el-form-item label="最低起投金额：" prop="lowmoney">
               <el-input
                 placeholder="请输入0-99999999的整数"
-                v-model="lowmoney"
+                v-model="ruleForm.lowmoney"
               ></el-input>
             </el-form-item></div
         ></el-col>
@@ -222,7 +228,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="递增金额：" prop="addmoney">
-              <el-select v-model="money" placeholder="请选择">
+              <el-select v-model="ruleForm.addmoney" placeholder="请选择">
                 <el-option
                   v-for="item in increaseList"
                   :label="item.value"
@@ -235,10 +241,10 @@
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="最大可投金额：" prop="largemoney" required>
+            <el-form-item label="最大可投金额：" prop="largemoney">
               <el-input
                 placeholder="请输入>=最小可投金额,<=借款金额"
-                v-model="largemoney"
+                v-model="ruleForm.largemoney"
               ></el-input>
             </el-form-item></div
         ></el-col>
@@ -248,21 +254,19 @@
         <el-col :span="2"><div></div></el-col>
         <el-col :span="9"
           ><div>
-            <el-form-item label="投资计息方式：" required>
-              <el-radio v-model="manner" label="成交日"></el-radio>
-              <el-radio v-model="manner" label="T+1"></el-radio>
-              <el-radio v-model="manner" label="T+2"></el-radio>
-              <el-radio v-model="manner" label="成立计息"></el-radio>
+            <el-form-item label="投资计息方式：">
+              <el-radio v-model="ruleForm.manners" label="成交日"></el-radio>
+              <el-radio v-model="ruleForm.manners" label="T+1"></el-radio>
+              <el-radio v-model="ruleForm.manners" label="T+2"></el-radio>
+              <el-radio v-model="ruleForm.manners" label="成立计息"></el-radio>
             </el-form-item></div
         ></el-col>
         <el-col :span="3"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="上架渠道：" prop="ditch" required>
-              <el-checkbox-group v-model="ditch">
-                <el-checkbox label="PC" name="type"></el-checkbox>
-                <el-checkbox label="APP" name="type"></el-checkbox>
-              </el-checkbox-group>
+            <el-form-item label="上架渠道：" prop="ditchs">
+              <el-radio label="PC" v-model="ruleForm.ditchs"></el-radio>
+              <el-radio label="APP" v-model="ruleForm.ditchs"></el-radio>
             </el-form-item></div
         ></el-col>
         <el-col :span="2"><div></div></el-col>
@@ -271,18 +275,22 @@
         <el-col :span="2"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="新手专享：" required>
-              <el-radio v-model="sift" label="1">否</el-radio>
-              <el-radio v-model="sift" label="2">是</el-radio>
+            <el-form-item label="新手专享：" prop="sift">
+              <el-radio v-model="ruleForm.sift" label="1">否</el-radio>
+              <el-radio v-model="ruleForm.sift" label="2">是</el-radio>
             </el-form-item>
           </div></el-col
         >
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="设置精选：" required prop="noob">
-              <el-radio v-model="noob" label="1">否</el-radio>
-              <el-radio v-model="noob" label="2">是</el-radio>
+            <el-form-item label="设置精选：" prop="noob">
+              <el-radio v-model="ruleForm.noob" label="1" value="1"
+                >否</el-radio
+              >
+              <el-radio v-model="ruleForm.noob" label="2" value="0"
+                >是</el-radio
+              >
             </el-form-item>
           </div></el-col
         >
@@ -290,44 +298,30 @@
       </el-row>
       <el-row>
         <el-col :span="2"><div></div></el-col>
-        <el-col :span="8"><div></div></el-col>
-        <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="上架时间" required>
-              <el-col :span="11">
-                <el-date-picker
-                  type="date"
-                  placeholder="选择日期"
-                  v-model="putawaytime"
-                  style="width: 100%;"
-                ></el-date-picker>
-              </el-col>
+            <el-form-item label="上架时间">
+              <el-date-picker
+                type="date"
+                placeholder="选择日期"
+                v-model="ruleForm.putawaytime"
+                style="width: 100%;"
+              ></el-date-picker>
               <el-col class="line" :span="2"></el-col>
-              <el-col :span="11"> </el-col>
-            </el-form-item></div
-        ></el-col>
-        <el-col :span="2"><div></div></el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="2"><div></div></el-col>
-        <el-col :span="8"
-          ><div>
-            <el-form-item label="开售时间：" required>
-              <el-col :span="11">
-                <el-date-picker
-                  type="date"
-                  placeholder="选择日期"
-                  v-model="saletime"
-                  style="width: 100%;"
-                ></el-date-picker>
-              </el-col>
-              <el-col class="line" :span="2"></el-col>
-              <el-col :span="11"></el-col>
             </el-form-item></div
         ></el-col>
         <el-col :span="4"><div></div></el-col>
-        <el-col :span="8"><div></div></el-col>
+        <el-col :span="8"
+          ><div>
+            <el-form-item label="开售日期：">
+              <el-date-picker
+                type="date"
+                placeholder="选择日期"
+                v-model="ruleForm.saletime"
+                style="width: 100%;"
+              ></el-date-picker>
+            </el-form-item></div
+        ></el-col>
         <el-col :span="2"><div></div></el-col>
       </el-row>
     </el-form>
@@ -341,13 +335,13 @@
     </div>
     <div id="btn">
       <el-button type="danger" @click="submit">提交</el-button>
-      <el-button>返回</el-button>
+      <el-button @click="back">返回</el-button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "Maintenance",
   computed: {
@@ -355,53 +349,80 @@ export default {
   },
   data() {
     return {
+      ruleForm: {
+        label: "",
+        genre: "",
+        lowmoney: "",
+        addmoney: "",
+        largemoney: "",
+        manners: "",
+        ditchs: "",
+        sift: "",
+        noob: "",
+        putawaytime: "",
+        saletime: ""
+      },
       money: "",
       tagList: "",
       baseInfo: {},
       increaseList: "",
       markTypeList: "",
       num: "",
-      label: "",
-      genre: "",
-      lowmoney: "",
-      addmoney: "",
-      largemoney: "",
-      manner: "",
-      ditch: "",
-      sift: "",
-      noob: "",
-      raisedata: "",
-      timetype: "",
-      timevalue: "",
-      putawaytime: "",
-      saletime: "",
       introduce: "",
-      step: ""
+      step: "",
+      rules: {
+        manners: [
+          { required: true, message: "请选择活动资源", trigger: "change" }
+        ],
+        ditchs: [
+          { required: true, message: "请选择活动资源", trigger: "change" }
+        ],
+        sift: [
+          { required: true, message: "请选择活动资源", trigger: "change" }
+        ],
+        noob: [
+          { required: true, message: "请选择活动资源", trigger: "change" }
+        ],
+        lowmoney: [
+          { required: true, message: "金额不能为空", trigger: "blur" }
+        ],
+        largemoney: [
+          { required: true, message: "金额不能为空", trigger: "blur" }
+        ],
+        entitle: [
+          { required: true, message: "标名", trigger: "blur" },
+          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+        ],
+        putawaytime: [
+          {
+            type: "date",
+            required: true,
+            message: "请选择日期",
+            trigger: "change"
+          }
+        ],
+        saletime: [
+          {
+            type: "date",
+            required: true,
+            message: "请选择时间",
+            trigger: "change"
+          }
+        ],
+        interest: [
+          { required: true, message: "投资计息方式", trigger: "change" }
+        ]
+      }
     };
   },
-  rules: {
-    lowmoney: [
-      { required: true, message: "金额不能为空" },
-      { type: "number", message: "金额必须为数字值" }
-    ],
-    entitle: [
-      { required: true, message: "标名", trigger: "blur" },
-      { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
-    ],
-    putawaytime: [
-      { type: "date", required: true, message: "请选择日期", trigger: "change" }
-    ],
-    saletime: [
-      { type: "date", required: true, message: "请选择时间", trigger: "change" }
-    ],
-    interest: [{ required: true, message: "投资计息方式", trigger: "change" }]
-  },
+
   created() {
     this.getIncrease();
     this.getMarkType();
     this.getTag();
   },
   methods: {
+    ...mapMutations(["saveReexInfo"]),
     getIncrease() {
       this.$axios
         .post("/markApi/finance/pullMean/findAllAddMoney")
@@ -447,34 +468,49 @@ export default {
           console.log(error);
         });
     },
+    back() {
+      this.$router.push("/debitManage/secondBidsGroundItems");
+    },
     submit() {
-      console.log({
-        label: "" + this.label
-      });
+      let data = {
+        num: "" + this.ruleForm.num,
+        label: "" + this.ruleForm.label,
+        genre: "" + this.ruleForm.genre,
+        lowmoney: "" + this.ruleForm.lowmoney,
+        addmoney: "" + this.ruleForm.addmoney,
+        largemoney: "" + this.ruleForm.largemoney,
+        manners: "" + this.ruleForm.manners,
+        ditchs: "" + this.ruleForm.ditchs,
+        sift: "" + this.ruleForm.sift,
+        noob: "" + this.ruleForm.noob,
+        raisedata: "" + this.ruleForm.raisedata,
+        timetype: null,
+        timevalue: null,
+        introduce: "" + this.introduce,
+        step: "" + this.step,
+        putawaytime:
+          this.value2 && this.value2[0] && this.value2[0] != null
+            ? `${new Date(this.value2[0]).getFullYear()}-${Number(
+                new Date(this.value2[0]).getMonth() + 1
+              )}-${new Date(this.value2[0]).getDate()}`
+            : "",
+        saletime:
+          this.value2 && this.value2[1] && this.value2[1] != null
+            ? `${new Date(this.value2[1]).getFullYear()}-${Number(
+                new Date(this.value2[1]).getMonth() + 1
+              )}-${new Date(this.value2[1]).getDate()}`
+            : ""
+      };
+      console.log(data)
+
       this.$axios
-        .post("/markApi/finance/sign/insert", {
-          num: "" + this.num,
-          label: "" + this.label,
-          genre: "" + this.genre,
-          lowmoney: "" + this.lowmoney,
-          addmoney: "" + this.addmoney,
-          largemoney: "" + this.largemoney,
-          manner: "" + this.manner,
-          ditch: "" + this.ditch,
-          sift: "" + this.sift,
-          noob: "" + this.noob,
-          raisedata: "" + this.raisedata,
-          timetype: null,
-          timevalue: null,
-          putawaytime: "" + this.putawaytime,
-          saletime: "" + this.saletime,
-          introduce: "" + this.introduce,
-          step: "" + this.step
-        })
+        .post("/markApi/finance/sign/insert", data)
         .then(response => {
           console.log(response);
           if (response.data.code == 200) {
+            this.saveReexInfo(data);
             this.tagList = response.data.data;
+            this.$router.push("/debitManage/secondBidsGroundItems");
           } else {
             this.$message(response.data.msg);
           }
