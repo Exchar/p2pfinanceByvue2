@@ -261,15 +261,14 @@ export default {
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 .message {
+  box-sizing: border-box;
   padding: 6px 30px 30px 30px;
   font-weight: 500 !important;
-  margin-left: 10px;
+  height: 200px;
+  width: 100%;
 }
 .contentMain > div > .el-row {
-  background-color: #ffffff;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
   box-sizing: border-box;
-  padding: 6px 30px 30px 10px;
 }
 .contentMain > div > .el-row:not(:first-of-type) {
   margin-top: 10px;
@@ -281,7 +280,5 @@ export default {
   padding: 2px 2px 2px 10px;
 }
 .message {
-  height: 200px;
-  width: 100%;
 }
 </style>

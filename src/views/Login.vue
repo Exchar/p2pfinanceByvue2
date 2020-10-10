@@ -424,7 +424,10 @@ export default {
       console.log(this.reSetPwd.code, this.reSetPwd.newPwd);
       if (this.reSetPwd.code.length > 0 && this.reSetPwd.newPwd.length > 0) {
         this.$axios
-          .post("/markApi/finance/check/forget")
+          .post("/markApi/finance/check/forget", {
+            authCode: this.reSetPwd.code,
+            password: this.reSetPwd.newPwd
+          })
           .then(res => {
             console.log(res);
             if (res.data.code === 505) {
