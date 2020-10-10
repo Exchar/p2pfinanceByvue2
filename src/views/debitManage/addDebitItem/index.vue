@@ -68,7 +68,7 @@
                   >
                   </el-table-column>
                   <el-table-column property="options" label="操作">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                       <el-link
                         type="primary"
                         :underline="false"

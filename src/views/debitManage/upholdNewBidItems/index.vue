@@ -110,7 +110,7 @@
         >
         </el-table-column>
         <el-table-column prop="id" label="操作">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-link type="primary" :underline="false">编辑</el-link>
             |
             <el-link

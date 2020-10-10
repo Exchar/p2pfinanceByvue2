@@ -137,21 +137,6 @@ export default {
       }
     };
   },
-  created() {
-    this.$axios
-      .post("/markApi/finance/moneyRecord/selectAll", {
-        limit: 5,
-        page: 1
-      })
-      .then(req => {
-        console.log(req);
-        this.tableData = req.data.data;
-        console.log(this.tableData);
-      })
-      .catch(req => {
-        console.log(req);
-      });
-  },
   methods: {
     DateFormatterState: function(row) {
       return new Date(row.subtime).toLocaleDateString();

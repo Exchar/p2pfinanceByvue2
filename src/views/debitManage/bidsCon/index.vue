@@ -73,7 +73,7 @@
         <el-table-column prop="state" :formatter="loanState" label="状态">
         </el-table-column>
         <el-table-column prop="operation" label="操作">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-link
               type="primary"
               :underline="false"

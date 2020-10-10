@@ -79,9 +79,13 @@
         </el-table-column>
         <el-table-column label="还款方式" width="180" align="center">
           <template slot-scope="scope">
-            <p v-if="debitltemsData[scope.$index].repayment == 1">一次性还款</p>
-            <p v-if="debitltemsData[scope.$index].repayment == 2">等额本息</p>
-            <p v-if="debitltemsData[scope.$index].repayment == 3">
+            <p v-if="Number(debitltemsData[scope.$index].repayment) === 1">
+              一次性还款
+            </p>
+            <p v-if="Number(debitltemsData[scope.$index].repayment) === 2">
+              等额本息
+            </p>
+            <p v-if="Number(debitltemsData[scope.$index].repayment) === 3">
               按月付息到期还本
             </p>
             <p v-if="debitltemsData[scope.$index].repayment == 4">按天还款</p>
@@ -119,12 +123,27 @@
         </el-table-column>
         <el-table-column label="状态" width="180" align="center">
           <template slot-scope="scope">
-            <p v-if="debitltemsData[scope.$index].state == 1">待回款</p>
-            <p v-if="debitltemsData[scope.$index].state == 2">已结算</p>
-            <p v-if="debitltemsData[scope.$index].state == 3">撤标</p>
-            <p v-if="debitltemsData[scope.$index].state == 4">流标</p>
-            <p v-if="debitltemsData[scope.$index].state == 5">投资中</p>
-            <p v-if="debitltemsData[scope.$index].state == 6">投资失败</p>
+            <p v-if="Number(debitltemsData[scope.$index].state) === 1">
+              进行中
+            </p>
+            <p v-if="Number(debitltemsData[scope.$index].state) === 2">
+              满标状态
+            </p>
+            <p v-if="Number(debitltemsData[scope.$index].state) === 3">
+              初审未通过
+            </p>
+            <p v-if="Number(debitltemsData[scope.$index].state) === 4">
+              待上架
+            </p>
+            <p v-if="Number(debitltemsData[scope.$index].state) === 50">
+              已下架
+            </p>
+            <p v-if="Number(debitltemsData[scope.$index].state) === 60">
+              新标草稿
+            </p>
+            <p v-if="Number(debitltemsData[scope.$index].state) === 100">
+              复审下架
+            </p>
           </template> </el-table-column
         ><el-table-column
           label="操作"
@@ -171,10 +190,12 @@
                   <span>{{ form.annual ? form.annual * 100 + "%" : "" }}</span>
                 </el-form-item>
                 <el-form-item label="还款方式：" :label-width="formLabelWidth">
-                  <span v-if="form.repayment == 1">一次性还款</span>
-                  <span v-if="form.repayment == 2">等额本息</span>
-                  <span v-if="form.repayment == 3">按月付息到期还本</span>
-                  <span v-if="form.repayment == 4">按天还款</span>
+                  <span v-if="Number(form.repayment) === 1">一次性还款</span>
+                  <span v-if="Number(form.repayment) === 2">等额本息</span>
+                  <span v-if="Number(form.repayment) === 3">
+                    按月付息到期还本
+                  </span>
+                  <span v-if="Number(form.repayment) === 4">按天还款</span>
                 </el-form-item>
                 <el-form-item label="期限：" :label-width="formLabelWidth">
                   <span>{{ form.deadline }}</span>
@@ -205,12 +226,12 @@
                   <span>{{ form.speed }}</span>
                 </el-form-item>
                 <el-form-item label="状态：" :label-width="formLabelWidth">
-                  <span v-if="form.state == 1">待回款</span>
-                  <span v-if="form.state == 2">已结算</span>
-                  <span v-if="form.state == 3">撤标</span>
-                  <span v-if="form.state == 4">流标</span>
-                  <span v-if="form.state == 5">投资中</span>
-                  <span v-if="form.state == 6">投资失败</span>
+                  <span v-if="Number(form.state) === 1">待回款</span>
+                  <span v-if="Number(form.state) === 2">已结算</span>
+                  <span v-if="Number(form.state) === 3">撤标</span>
+                  <span v-if="Number(form.state) === 4">流标</span>
+                  <span v-if="Number(form.state) === 5">投资中</span>
+                  <span v-if="Number(form.state) === 6">投资失败</span>
                 </el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer">
@@ -280,12 +301,12 @@
                   <span>{{ form1.investime | formatDate }}</span>
                 </el-form-item>
                 <el-form-item label="投资状态" :label-width="formLabelWidth">
-                  <span v-if="form.state == 1">待回款</span>
-                  <span v-if="form1.state == 2">已结算</span>
-                  <span v-if="form1.state == 3">撤标</span>
-                  <span v-if="form1.state == 4">流标</span>
-                  <span v-if="form1.state == 5">投资中</span>
-                  <span v-if="form1.state == 6">投资失败</span>
+                  <span v-if="Number(form1.state) === 1">待回款</span>
+                  <span v-if="Number(form1.state) === 2">已结算</span>
+                  <span v-if="Number(form1.state) === 3">撤标</span>
+                  <span v-if="Number(form1.state) === 4">流标</span>
+                  <span v-if="Number(form1.state) === 5">投资中</span>
+                  <span v-if="Number(form1.state) === 6">投资失败</span>
                 </el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer">
@@ -384,8 +405,8 @@
                   }}</span>
                 </el-form-item>
                 <el-form-item label="是否逾期" :label-width="formLabelWidth">
-                  <span v-if="form2.backtime == 0">是</span>
-                  <span v-if="form2.backtime == 1">否</span>
+                  <span v-if="Number(form2.backtime) === 0">是</span>
+                  <span v-if="Number(form2.backtime) === 1">否</span>
                 </el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer">
@@ -493,9 +514,10 @@ export default {
         .then(response => {
           console.log(response.data);
           var result = response.data;
-          if (result.code == 200) {
+          if (Number(result.code) === 200) {
             this.debitltemsData = result.data;
             this.total = response.data.count;
+            console.log(result.data);
             this.loading = false;
           } else {
             this.$alert(result.message);
@@ -555,7 +577,7 @@ export default {
           count: this.total
         })
         .then(response => {
-          if (response.data.code == 200) {
+          if (Number(response.data.code) === 200) {
             this.debitltemsData = response.data.data;
             console.log(response.data.data);
             this.total = response.data.count;
@@ -578,7 +600,7 @@ export default {
           num: "" + obj.num
         })
         .then(response => {
-          if (response.data.code == 200) {
+          if (Number(response.data.code) === 200) {
             if (response.data.data.length > 0) {
               this.form1 = response.data.data[0];
             } else {
@@ -604,7 +626,7 @@ export default {
           num: "" + obj.num
         })
         .then(response => {
-          if (response.data.code == 200) {
+          if (Number(response.data.code) === 200) {
             if (response.data.data.length > 0) {
               this.form2 = response.data.data[0];
             } else {
