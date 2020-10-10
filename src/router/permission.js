@@ -39,6 +39,12 @@ router.beforeEach(async (to, from, next) => {
           let extraRoutes = [
             //在这里写额外的路由
             {
+              path: "/index",
+              component: () => import("@/views/memberManage/debitUserManage/index"),
+              meta: { title: "工作台" },
+              name: "index",
+            },
+            {
               path: "/",
               name: "sliderManage",
               meta: { title: "轮播管理" },
@@ -87,6 +93,31 @@ router.beforeEach(async (to, from, next) => {
               component: () => import("@/views/home/index"),
               meta: { title: "工作台" },
               name: "index"
+            },
+            {
+              path: "/Pwd",
+              name: "Pwd",
+              meta: { title: "密码管理" },
+              component: () =>
+                import("@/components/rest/investUserManage/Pwd.vue")
+            },
+            {
+              path: "/luser3",
+              name: "luser3",
+              component: () =>
+                import("@/components/rest/debitUserManage/luser3")
+            },
+            {
+              path: "/Modify",
+              name: "Modify",
+              component: () =>
+                import("@/components/rest/investUserManage/Modify")
+            },
+            {
+              path: "/luser4",
+              name: "luser4",
+              component: () =>
+                import("@/components/rest/debitUserManage/luser4")
             }
           ];
           changedRoutes.push(...extraRoutes);
