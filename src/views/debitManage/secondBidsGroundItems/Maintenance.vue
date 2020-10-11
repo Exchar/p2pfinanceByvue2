@@ -16,9 +16,8 @@
           ><div>
             <el-form-item label="风险等级：">
               <span></span>
-            </el-form-item>
-          </div></el-col
-        >
+            </el-form-item></div
+        ></el-col>
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -54,9 +53,8 @@
           ><div>
             <el-form-item label="资金用途：">
               <span></span>
-            </el-form-item>
-          </div></el-col
-        >
+            </el-form-item></div
+        ></el-col>
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -73,9 +71,8 @@
           ><div>
             <el-form-item label="起息方式：">
               <span></span>
-            </el-form-item>
-          </div></el-col
-        >
+            </el-form-item></div
+        ></el-col>
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -92,9 +89,8 @@
           ><div>
             <el-form-item label="借款管理费：">
               <span></span>
-            </el-form-item>
-          </div></el-col
-        >
+            </el-form-item></div
+        ></el-col>
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -103,17 +99,15 @@
           ><div>
             <el-form-item label="利息管理费：">
               <span></span>
-            </el-form-item>
-          </div></el-col
-        >
+            </el-form-item></div
+        ></el-col>
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
             <el-form-item label="逾期罚息利率：">
               <span></span>
-            </el-form-item>
-          </div></el-col
-        >
+            </el-form-item></div
+        ></el-col>
         <el-col :span="2"><div></div></el-col>
       </el-row>
     </el-form>
@@ -501,7 +495,7 @@ export default {
               )}-${new Date(this.value2[1]).getDate()}`
             : ""
       };
-      console.log(data)
+      console.log(data);
 
       this.$axios
         .post("/markApi/finance/sign/insert", data)

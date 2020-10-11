@@ -1,6 +1,68 @@
 <template>
   <div class="contentMain">
     <div>
+      <el-row class="dataShow" :gutter="20">
+        <h3 class="actionNorTit">项目概况</h3>
+        <el-row class="dataState">
+          <el-col :span="6">
+            <el-row>
+              <p>注册用户（人）</p>
+              <p>9857</p>
+              <p>昨日新增：5人</p>
+            </el-row>
+          </el-col>
+          <el-col :span="6">
+            <el-row>
+              <p>投资总额（万元）</p>
+              <p>9857.02</p>
+              <p>昨日新增：5万元</p>
+            </el-row>
+          </el-col>
+          <el-col :span="6">
+            <el-row>
+              <p>借款总额（万元）</p>
+              <p>5324.99</p>
+              <p>昨日新增：5万元</p>
+            </el-row>
+          </el-col>
+          <el-col :span="6">
+            <el-row>
+              <p>用户累计收益（万元）</p>
+              <p>6589.25</p>
+              <p>昨日新增：5万元</p>
+            </el-row>
+          </el-col>
+        </el-row>
+      </el-row>
+      <el-row class="dataShow">
+        <h3 class="actionNorTit">待办事项</h3>
+        <el-row class="dataState">
+          <el-col :span="4">
+            <p>新标待审</p>
+            <p>10</p>
+          </el-col>
+          <el-col :span="4">
+            <p>新标待上架</p>
+            <p>16</p>
+          </el-col>
+          <el-col :span="4">
+            <p>满标复审</p>
+            <p>16</p>
+          </el-col>
+          <el-col :span="4">
+            <p>今日待还款</p>
+            <p>25</p>
+          </el-col>
+          <el-col :span="4">
+            <p>提现待审</p>
+            <p>30</p>
+          </el-col>
+          <el-col :span="4">
+            <p>提现待处理</p>
+            <p>50</p>
+          </el-col>
+        </el-row>
+      </el-row>
       <el-row class="actionMenu" :gutter="20">
         <h3 class="actionNorTit">常用功能</h3>
         <el-col
@@ -47,7 +109,7 @@
       </el-row>
       <el-row class="mainContent" :gutter="20">
         <el-col :span="17" class="indexChart">
-          <h3 class="actionNorTit">项目概况</h3>
+          <h3 class="actionNorTit">数据情况</h3>
           <div style="width: 100%">
             <!--          echart图-->
             <el-row>
@@ -98,6 +160,7 @@
           <el-button type="primary" @click="subBtnClick">确 定</el-button>
         </span>
       </el-dialog>
+
     </div>
   </div>
 </template>
@@ -240,8 +303,19 @@ export default {
   height: 50%;
   font-size: 1.4em;
 }
+.dataShow{
+  margin: 0 -10px;
+  padding-left: 24px;
+}
 .actionMenu {
   padding: 2px 20px 2px 20px;
+}
+.dataState{
+  padding: 12px 10px;
+}
+.dataState>.el-col>p:last-of-type{
+  color: rgb(204, 112, 0);
+  font-size: 1.4em;
 }
 .iconBot {
   font-size: 0.9em;
@@ -254,9 +328,9 @@ export default {
   font-weight: 600 !important;
   margin-left: 10px;
 }
-.contentMain > div > .el-row:first-of-type,
+.contentMain > div > .el-row:nth-of-type(3),
 .indexChart,
-.message {
+.message ,.dataShow{
   background-color: #ffffff;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
 }
@@ -277,8 +351,18 @@ export default {
   padding: 0 8px 0 8px;
 }
 .indexChart {
-  padding: 2px 2px 2px 10px;
+  padding: 2px 2px 2px 24px !important;
 }
 .message {
+}
+.dataState .el-row>p:nth-of-type(1){
+  font-size: 1.2em;
+}
+.dataState .el-row>p:nth-of-type(2){
+  font-size: 1.6em;
+  color: rgb(204,102,0);
+}
+.dataState .el-row>p:nth-of-type(3){
+  color: rgb(153,169,201);
 }
 </style>
