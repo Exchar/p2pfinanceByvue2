@@ -123,13 +123,6 @@
         >
       </el-row>
     </div>
-    <div style="height: 100vh; ">
-      <el-scrollbar style="height: 100%;">
-        <div style="height: 50opx;width: 100%;background: red;"></div>
-        <div style="height: 50opx;width: 100%;background: yellowgreen;"></div>
-        <div style="height: 50opx;width: 100%; background: blueviolet; "></div>
-      </el-scrollbar>
-    </div>
   </div>
 </template>
 <script>

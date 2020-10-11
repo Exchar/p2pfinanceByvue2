@@ -1,5 +1,4 @@
 <template>
-  <div class="scroll">
     <el-row :gutter="20">
       <el-form
         :model="ruleForm"
@@ -265,7 +264,6 @@
         </el-col>
       </el-form>
     </el-row>
-  </div>
 </template>
 
 <script>
@@ -555,11 +553,6 @@ export default {
 </script>
 
 <style scoped>
-.scroll {
-  height: 600px;
-  overflow: scroll;
-  overflow-x: hidden;
-}
 .el-row {
   margin-bottom: 20px;
 }
