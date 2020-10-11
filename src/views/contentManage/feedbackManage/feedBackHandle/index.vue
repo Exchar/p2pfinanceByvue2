@@ -22,7 +22,11 @@
       <el-table-column prop="phone" label="反馈者手机" width="130"></el-table-column>
       <el-table-column prop="type" label="手机型号" width="130"></el-table-column>
       <el-table-column prop="source" label="来源" width="130"></el-table-column>
-      <el-table-column prop="time" label="提交时间" width="200"></el-table-column>
+      <el-table-column prop="time" label="提交时间" width="200">
+        <template slot-scope="scope">
+          {{ formatDate(scope.row.time) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="reply" label="回复" width="130"></el-table-column>
       <el-table-column prop="state" label="状态" width="130"></el-table-column>
       <el-table-column label="操作" width="180">
@@ -51,7 +55,7 @@
           <el-input v-model="editform.source" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="提交时间">
-          <el-input v-model="editform.time" autocomplete="off"></el-input>
+          <el-input v-model="time" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="回复">
           <el-input v-model="editform.reply" autocomplete="off"></el-input>
@@ -85,6 +89,8 @@
   </div>
 </template>
 <script>
+import moment from "moment";
+
 export default {
   name: "feedBack",
   data: function () {
@@ -94,33 +100,19 @@ export default {
       currentPage4: 1,
       pageSize: 6,
       count: 6,
-      tableData:[{
-        id: '',
-        idea: '',
-        phone: '',
-        type: '',
-        source: '',
-        time: '',
-        reply: '',
-        state: ''
-      }],
+      time: "",
+      tableData:[],
       dialogFormEditVisible: false,
-      editform: {
-        id: '',
-        idea: '',
-        phone: '',
-        type: '',
-        source: '',
-        time: '',
-        reply: '',
-        state: ''
-      }
+      editform: {}
     };
   },
   created() {
     this.getfeedBackList();
   },
   methods:{
+    formatDate: function (value) {
+      return moment(value).format('YYYY-MM-DD');
+    },
     handleSizeChange(val) {
       this.pageSize = val;
       this.getfeedBackKeywords()
@@ -149,24 +141,19 @@ export default {
     },
     handle(index, obj) {
       this.dialogFormEditVisible = true
-      this.editform.id = obj.id
-      this.editform.idea = obj.idea
-      this.editform.phone = obj.phone
-      this.editform.type = obj.type
-      this.editform.source = obj.source
-      this.editform.time = obj.time
-      this.editform.reply = obj.reply
-      this.editform.state = obj.state
+      this.editform = {...obj};
+      let priTime = obj.time;
+      this.time = moment(priTime).format("YYYY-MM-DD");
     },
     saveDept: function () {
       // 将修改的数据发给服务器，接收服务器的响应并进行处理
-      this.$axios.post('http://172.16.5.177:8080/finance/idea/update', {
+      this.$axios.post('/markApi/finance/idea/update', {
         id: this.editform.id,
         idea: this.editform.idea,
         phone: this.editform.phone,
         type: this.editform.type,
         source: this.editform.source,
-        time: this.editform.time,
+        time: Date.parse(new Date(this.time)),
         reply: this.editform.reply,
         state: this.editform.state
       }).then((response) => {

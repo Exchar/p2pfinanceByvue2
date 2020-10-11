@@ -50,13 +50,24 @@
     </el-select>
     <!--表格-->
     <el-table :data="tableData" stripe border style="width: 100%">
-      <el-table-column prop="picture" label="轮播图" width="260"></el-table-column>
+      <el-table-column prop="picture" label="轮播图" width="260">
+      </el-table-column>
       <el-table-column prop="title" label="标题" width="110"></el-table-column>
-      <el-table-column prop="position" label="轮播位置" width="140"></el-table-column>
-      <el-table-column prop="starttime" label="开始时间" width="140"></el-table-column>
-      <el-table-column prop="finishtime" label="结束时间" width="140"></el-table-column>
+      <el-table-column prop="position" label="轮播位置" width="140">
+      </el-table-column>
+      <el-table-column prop="starttime" label="开始时间" width="140">
+        <template slot-scope="scope">
+          {{ formatDate(scope.row.starttime) }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="finishtime" label="结束时间" width="140">
+        <template slot-scope="scope">
+          {{ formatDate(scope.row.finishtime) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="number" label="排序" width="110"></el-table-column>
-      <el-table-column prop="province" label="区域" width="110"></el-table-column>
+      <el-table-column prop="province" label="区域" width="110">
+      </el-table-column>
       <el-table-column prop="state" label="状态" width="110"></el-table-column>
       <el-table-column label="操作" width="140">
         <template slot-scope="scope">
@@ -90,10 +101,10 @@
           <el-input v-model="editform.position" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="开始时间">
-          <el-input v-model="editform.starttime" autocomplete="off"></el-input>
+          <el-input v-model="starttime" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="结束时间">
-          <el-input v-model="editform.finishtime" autocomplete="off"></el-input>
+          <el-input v-model="endtime" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="排序">
           <el-input v-model="editform.number" autocomplete="off"></el-input>
@@ -134,6 +145,7 @@
   </div>
 </template>
 <script>
+import moment from "moment";
 export default {
   name: "rotationManage",
   data: function() {
@@ -145,37 +157,20 @@ export default {
       currentPage4: 1,
       pageSize: 6,
       count: 6,
-      tableData: [
-        {
-          id: "",
-          picture: "",
-          title: "",
-          position: "",
-          starttime: "",
-          finishtime: "",
-          number: "",
-          province: "",
-          state: ""
-        }
-      ],
+      starttime: "",
+      endtime: "",
+      tableData: [],
       dialogFormEditVisible: false,
-      editform: {
-        id: "",
-        picture: "",
-        title: "",
-        position: "",
-        starttime: "",
-        finishtime: "",
-        number: "",
-        province: "",
-        state: ""
-      }
+      editform: {}
     };
   },
   created() {
     this.getSliderTitleList();
   },
   methods: {
+    formatDate: function(value) {
+      return moment(value).format("YYYY-MM-DD");
+    },
     handleSizeChange(val) {
       this.pageSize = val;
       this.getSliderTitleList();
@@ -207,30 +202,26 @@ export default {
         });
     },
     jump() {
-      this.$router.push("/addSlider");
+      this.$router.push("/sliderManage/sliderManage/addSlider");
     },
     handleEdit(index, obj) {
       this.dialogFormEditVisible = true;
-      this.editform.id = obj.id;
-      this.editform.picture = obj.picture;
-      this.editform.title = obj.title;
-      this.editform.position = obj.position;
-      this.editform.starttime = obj.starttime;
-      this.editform.finishtime = obj.finishtime;
-      this.editform.number = obj.number;
-      this.editform.province = obj.province;
-      this.editform.state = obj.state;
+      this.editform = { ...obj };
+      let priTime = obj.starttime;
+      this.starttime = moment(priTime).format("YYYY-MM-DD");
+      let nextTime = obj.finishtime;
+      this.endtime = moment(nextTime).format("YYYY-MM-DD");
     },
     saveDept: function() {
       // 将修改的数据发给服务器，接收服务器的响应并进行处理
       this.$axios
-        .post("http://172.16.5.177:8080/finance/ad/update", {
+        .post("/markApi/finance/ad/update", {
           id: this.editform.id,
           picture: this.editform.picture,
           title: this.editform.title,
           position: this.editform.position,
-          starttime: this.editform.starttime,
-          finishtime: this.editform.finishtime,
+          starttime: Date.parse(new Date(this.starttime)),
+          finishtime: Date.parse(new Date(this.endtime)),
           number: this.editform.number,
           province: this.editform.province,
           state: this.editform.state
@@ -253,7 +244,7 @@ export default {
     handleDelete(val) {
       // 发起一个请求到服务器，让服务器删除这一条数据
       this.$axios
-        .post("http://172.16.5.177:8080/finance/ad/delete", {
+        .post("/markApi/finance/ad/delete", {
           id: val.id
         })
         .then(response => {
@@ -261,7 +252,7 @@ export default {
           console.log(response);
           if (result.code === "200") {
             if (result.msg === "删除成功") {
-              this.getSliderList();
+              this.getSliderTitleList();
             } else {
               this.$message.error(result.message);
             }

@@ -29,7 +29,11 @@
     <el-table :data="tableData" stripe border style="width: 100%">
       <el-table-column prop="title" label="标题" width="260"></el-table-column>
       <el-table-column prop="type" label="分类" width="200"></el-table-column>
-      <el-table-column prop="time" label="发布时间" width="200"></el-table-column>
+      <el-table-column prop="time" label="发布时间" width="200">
+        <template slot-scope="scope">
+          {{ formatDate(scope.row.time) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="number" label="排序" width="200"></el-table-column>
       <el-table-column prop="state" label="状态" width="200"></el-table-column>
       <el-table-column label="操作" width="200">
@@ -57,7 +61,7 @@
           <el-input v-model="editform.type" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="发布时间">
-          <el-input v-model="editform.time" autocomplete="off"></el-input>
+          <el-input v-model="time" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="排序">
           <el-input v-model="editform.number" autocomplete="off"></el-input>
@@ -91,6 +95,8 @@
   </div>
 </template>
 <script>
+import moment from "moment";
+
 export default {
   name: "articleManage",
   data: function () {
@@ -101,29 +107,19 @@ export default {
       currentPage4: 1,
       pageSize: 6,
       count: 6,
-      tableData:[{
-        id:'',
-        title:'',
-        type: '',
-        time:'',
-        number:'',
-        state:''
-      }],
+      time: "",
+      tableData:[],
       dialogFormEditVisible: false,
-      editform: {
-        id: '',
-        title: '',
-        type: '',
-        time: '',
-        number: '',
-        state: ''
-      }
+      editform: {}
     };
   },
   created () {
     this.getArticleList();
   },
   methods: {
+    formatDate: function (value) {
+      return moment(value).format('YYYY-MM-DD')
+    },
     handleSizeChange(val) {
       this.pageSize = val;
       this.getArticleTitleList()
@@ -151,24 +147,21 @@ export default {
       })
     },
     jump () {
-      this.$router.push('/addArticle')
+      this.$router.push('/articleManage/articleManage/addArticle')
     },
     handleEdit(index, obj) {
       this.dialogFormEditVisible = true
-      this.editform.id = obj.id
-      this.editform.title = obj.title
-      this.editform.type = obj.type
-      this.editform.time = obj.time
-      this.editform.number = obj.number
-      this.editform.state = obj.state
+      this.editform = {...obj};
+      let priTime = obj.time;
+      this.time = moment(priTime).format("YYYY-MM-DD");
     },
     saveDept: function () {
       // 将修改的数据发给服务器，接收服务器的响应并进行处理
-      this.$axios.post('http://172.16.5.177:8080/finance/essay/update', {
+      this.$axios.post('/markApi/finance/essay/update', {
         id: this.editform.id,
         title: this.editform.title,
         type: this.editform.title,
-        time: this.editform.time,
+        time: Date.parse(new Date(this.time)),
         number: this.editform.number,
         state: this.editform.state
       }).then((response) => {
@@ -187,7 +180,7 @@ export default {
     },
     handleDelete(val) {
       // 发起一个请求到服务器，让服务器删除这一条数据
-      this.$axios.post('http://172.16.5.177:8080/finance/essay/delete', {
+      this.$axios.post('/markApi/finance/essay/delete', {
         id: val.id
       }).then((response) => {
         var result = response.data

@@ -39,34 +39,22 @@ router.beforeEach(async (to, from, next) => {
           let extraRoutes = [
             //在这里写额外的路由
             {
-              path: "/",
-              name: "sliderManage",
-              meta: { title: "轮播管理" },
-              component: () => import("../views/contentManage/sliderManage/index")
-            },
-            {
-              path: "/",
+              path: "/sliderManage/sliderManage/addSlider",
               name: "sliderManage",
               meta: { title: "新增轮播" },
-              component: () => import("../views/contentManage/sliderManage/addSlider")
+              component: () => import("../views/contentManage/sliderManage/sliderManage/addSlider")
             },
             {
-              path: "/",
-              name: "articleManage",
-              meta: { title: "文章管理" },
-              component: () => import("../views/contentManage/articleManage/articleManage")
-            },
-            {
-              path: "/",
+              path: "/articleManage/articleManage/addArticle",
               name: "articleManage",
               meta: { title: "新增文章" },
-              component: () => import("../views/contentManage/articleManage/addArticle")
+              component: () => import("../views/contentManage/articleManage/articleManage/addArticle")
             },
             {
-              path: "/",
-              name: "feedBack",
+              path: "/feedbackManage/feedBackHandle/index",
+              name: "articleManage",
               meta: { title: "意见反馈" },
-              component: () => import("../views/contentManage/feedBack/feedBack")
+              component: () => import("../views/contentManage/feedbackManage/feedBackHandle/index")
             },
             {
               path: "/debitManage/Maintenance",
