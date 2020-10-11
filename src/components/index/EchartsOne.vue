@@ -23,7 +23,7 @@ export default {
       // 配置
       let option = {
         title: {
-          text: "所有标的审核情况",
+          text: "访问来源",
           left: "left"
         },
         tooltip: {
