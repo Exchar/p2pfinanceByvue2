@@ -65,6 +65,7 @@
                     property="registration"
                     label="添加时间"
                     width="140"
+                    :formatter="timeState"
                   >
                   </el-table-column>
                   <el-table-column property="options" label="操作">
@@ -286,7 +287,7 @@
             <el-button type="primary" @click="submitForm('ruleForm')"
               >提交审核</el-button
             >
-            <el-button>保存</el-button>
+            <el-button @click="toHome">返回首页</el-button>
           </el-form-item>
         </el-col>
       </el-form>
@@ -331,6 +332,8 @@ export default {
         materials: "",
         pledge: ""
       },
+      currentPage: 1,
+      pageSize: 5,
       loading: true,
       // 借款人
       borrowers: "",
@@ -382,6 +385,29 @@ export default {
     };
   },
   methods: {
+    // 返回首页
+    toHome: function() {
+      this.$router.push("/#/home");
+    },
+    // 时间戳转换函数
+    timestampToTime: function(timestamp) {
+      // 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      let date = new Date(timestamp);
+      let Y = date.getFullYear() + "-";
+      let M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      let D = date.getDate() + " ";
+      // let h = date.getHours() + ":";
+      // let m = date.getMinutes() + ":";
+      // let s = date.getSeconds();
+      return (timestamp = Y + M + D);
+    },
+    // 添加时间转换
+    timeState: function(row) {
+      return this.timestampToTime(row.registration);
+    },
     // 用户状态转换
     sockState: function(row) {
       return row.sock == 1 ? "正常" : row.sock == 0 ? "锁定" : "";
@@ -474,7 +500,7 @@ export default {
           }
           let pledge = 1;
           if (this.ruleForm.pledge == "无") {
-            pledge = 0;
+            pledge = 4;
           } else if (this.ruleForm.pledge == "房抵品") {
             pledge = 1;
           } else if (this.ruleForm.pledge == "车抵品") {
@@ -549,7 +575,10 @@ export default {
     getBorrowersList: function() {
       this.dialogTableVisible = true;
       this.$axios
-        .post("/markApi/finance/loanUser/select", { page: 1, limit: 5 })
+        .post("/markApi/finance/loanUser/select", {
+          page: this.currentPage,
+          limit: this.pageSize
+        })
         .then(res => {
           if (res.data.code == "200") {
             this.gridData = res.data.data;
@@ -605,5 +634,8 @@ export default {
 }
 .bg-purple {
   background: #d3dce6;
+}
+.marginTop {
+  margin-top: 20px;
 }
 </style>

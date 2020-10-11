@@ -1,57 +1,59 @@
 <template>
   <div>
-    <div>
-      <el-row :gutter="20">
-        <el-col :span="4">
-          <el-input
-            size="max"
-            placeholder="搜索借款名称"
-            suffix-icon="el-icon-search"
-            v-model="entitle"
-            @keyup.native="getQueryLoanList"
-          >
-          </el-input>
-        </el-col>
-        <el-col :span="4">
-          <el-input
-            size="max"
-            placeholder="搜索借款方"
-            suffix-icon="el-icon-search"
-            v-model="borrower"
-            @keyup.native="getQueryLoanList"
-          >
-          </el-input>
-        </el-col>
-        <el-col :span="4">
-          <el-input
-            size="max"
-            placeholder="搜索借款人手机"
-            suffix-icon="el-icon-search"
-            v-model="phone"
-            @keyup.native="getQueryLoanList"
-          >
-          </el-input>
-        </el-col>
-        <el-col :span="4">
-          <el-select
-            v-model="queryState"
-            placeholder="请选择"
-            style="width: 100%"
-            @change="getQueryLoanList"
-          >
-            <el-option
-              v-for="item in stateList"
-              :label="item.sname"
-              :key="item.id"
-              :value="item.id"
-              style="width: 100%"
+    <div class="navBg">
+      <div class="navBox">
+        <el-row :gutter="20">
+          <el-col :span="4">
+            <el-input
+              size="max"
+              placeholder="搜索借款名称"
+              suffix-icon="el-icon-search"
+              v-model="entitle"
+              @keyup.native="getQueryLoanList"
             >
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
+            </el-input>
+          </el-col>
+          <el-col :span="4">
+            <el-input
+              size="max"
+              placeholder="搜索借款方"
+              suffix-icon="el-icon-search"
+              v-model="borrower"
+              @keyup.native="getQueryLoanList"
+            >
+            </el-input>
+          </el-col>
+          <el-col :span="4">
+            <el-input
+              size="max"
+              placeholder="搜索借款人手机"
+              suffix-icon="el-icon-search"
+              v-model="phone"
+              @keyup.native="getQueryLoanList"
+            >
+            </el-input>
+          </el-col>
+          <el-col :span="4">
+            <el-select
+              v-model="queryState"
+              placeholder="请选择"
+              style="width: 100%"
+              @change="getQueryLoanList"
+            >
+              <el-option
+                v-for="item in stateList"
+                :label="item.sname"
+                :key="item.id"
+                :value="item.id"
+                style="width: 100%"
+              >
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+      </div>
     </div>
-    <div>
+    <div class="main">
       <el-table
         :data="tableData"
         stripe
@@ -64,7 +66,8 @@
         </el-table-column>
         <el-table-column prop="phone" label="借款人手机" width="180px">
         </el-table-column>
-        <el-table-column prop="entitle" label="标名"> </el-table-column>
+        <el-table-column prop="entitle" label="标名" width="120px">
+        </el-table-column>
         <el-table-column
           prop="guarantee"
           label="担保机构"
@@ -100,7 +103,12 @@
         >
         </el-table-column>
         <el-table-column prop="deadline" label="期限"> </el-table-column>
-        <el-table-column prop="created" label="添加时间" width="140px">
+        <el-table-column
+          prop="created"
+          label="添加时间"
+          width="140px"
+          :formatter="timeState"
+        >
         </el-table-column>
         <el-table-column
           prop="state"
@@ -111,8 +119,6 @@
         </el-table-column>
         <el-table-column prop="id" label="操作">
           <template scope="scope">
-            <el-link type="primary" :underline="false">编辑</el-link>
-            |
             <el-link
               type="primary"
               :underline="false"
@@ -122,25 +128,25 @@
           </template>
         </el-table-column>
       </el-table>
-    </div>
-    <div class="marginTop">
-      <el-row :gutter="20">
-        <el-col :offset="6" style="text-align:center">
-          <el-pagination
-            background
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[5, 10, 20, 30]"
-            :page-size="pageSize"
-            :total="total"
-            layout="sizes, total, jumper ,prev, pager, next"
-            prev-text="上一页"
-            next-text="下一页"
-          >
-          </el-pagination>
-        </el-col>
-      </el-row>
+      <div class="footer">
+        <el-row :gutter="20">
+          <el-col :offset="6" style="text-align:center">
+            <el-pagination
+              background
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-sizes="[5, 10, 20, 30]"
+              :page-size="pageSize"
+              :total="total"
+              layout="sizes, total, jumper ,prev, pager, next"
+              prev-text="上一页"
+              next-text="下一页"
+            >
+            </el-pagination>
+          </el-col>
+        </el-row>
+      </div>
     </div>
   </div>
 </template>
@@ -179,6 +185,25 @@ export default {
     };
   },
   methods: {
+    // 时间戳转换函数
+    timestampToTime: function(timestamp) {
+      // 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      let date = new Date(timestamp);
+      let Y = date.getFullYear() + "-";
+      let M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      let D = date.getDate() + " ";
+      // let h = date.getHours() + ":";
+      // let m = date.getMinutes() + ":";
+      // let s = date.getSeconds();
+      return (timestamp = Y + M + D);
+    },
+    // 添加时间转换
+    timeState: function(row) {
+      return this.timestampToTime(row.created);
+    },
     //借款金额转换
     moneyState: function(row) {
       return "￥" + row.money;
@@ -332,10 +357,25 @@ export default {
 </script>
 
 <style scoped>
-.el-row {
-  margin-bottom: 20px;
+.navBg {
+  margin: 20px auto;
+  height: 80px;
+  background-color: #ffffff;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
 }
-.marginTop {
+.navBg .el-input,
+.navBg .el-select {
   margin-top: 20px;
+}
+.navBox {
+  margin-left: 5px;
+}
+.main {
+  background-color: #ffffff;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
+}
+.footer {
+  margin-top: 20px;
+  padding-bottom: 20px;
 }
 </style>
