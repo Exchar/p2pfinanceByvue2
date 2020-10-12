@@ -143,14 +143,6 @@
         <el-col :span="2"><div></div></el-col>
       </el-row>
     </el-form>
-    <el-form>
-      <el-form-item label="借款资料" class="title">
-        <el-image
-          :src="'http://39.97.101.196:8080/' + formData.datum"
-          :lazy="true"
-        ></el-image>
-      </el-form-item>
-    </el-form>
     <span class="title" :data="baseInfo">标的信息:</span>
     <el-form
       :model="ruleForm"
