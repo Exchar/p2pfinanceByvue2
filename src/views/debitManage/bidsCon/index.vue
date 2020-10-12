@@ -1,76 +1,108 @@
 <template>
   <div>
-    <div>
-      <el-row :gutter="20">
-        <el-col :span="4">
-          <el-input
-            size="max"
-            placeholder="搜索借款方"
-            suffix-icon="el-icon-search"
-            @keyup.native="getQueryLoanList"
-            v-model="borrower"
-          >
-          </el-input>
-        </el-col>
-        <el-col :span="4">
-          <el-input
-            size="max"
-            placeholder="搜索借款人手机"
-            suffix-icon="el-icon-search"
-            @keyup.native="getQueryLoanList"
-            v-model="phone"
-          >
-          </el-input>
-        </el-col>
-        <el-col :span="4">
-          <el-select
-            v-model="pledge"
-            placeholder="请选择"
-            @change="getQueryLoanList"
-            style="width: 100%"
-          >
-            <el-option
-              v-for="item in stateList"
-              :label="item.name"
-              :key="item.id"
-              :value="item.id"
+    <div class="main">
+      <div class="navBox">
+        <el-row :gutter="20">
+          <el-col :span="4">
+            <el-input
+              size="max"
+              placeholder="搜索借款方"
+              suffix-icon="el-icon-search"
+              @keyup.native="getQueryLoanList"
+              v-model="borrower"
             >
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
-    </div>
-    <div>
+            </el-input>
+          </el-col>
+          <el-col :span="4">
+            <el-input
+              size="max"
+              placeholder="搜索借款人手机"
+              suffix-icon="el-icon-search"
+              @keyup.native="getQueryLoanList"
+              v-model="phone"
+            >
+            </el-input>
+          </el-col>
+          <el-col :span="4">
+            <el-select
+              v-model="pledge"
+              placeholder="请选择"
+              @change="getQueryLoanList"
+              style="width: 100%"
+            >
+              <el-option
+                v-for="item in stateList"
+                :label="item.name"
+                :key="item.id"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+      </div>
       <el-table
         v-loading="loading"
         :data="tableData"
-        stripe
         style="width: 100%"
       >
-        <el-table-column prop="num" label="编号"> </el-table-column>
+        <el-table-column prop="num" label="编号" width="240px">
+        </el-table-column>
         <el-table-column v-if="false" prop="id" label="ID"> </el-table-column>
-        <el-table-column prop="borrower" label="借款方"> </el-table-column>
-        <el-table-column prop="phone" label="借款人手机"> </el-table-column>
-        <el-table-column prop="entitle" label="标名"> </el-table-column>
+        <el-table-column prop="borrower" label="借款方" width="120px">
+        </el-table-column>
+        <el-table-column prop="phone" label="借款人手机" width="180px">
+        </el-table-column>
+        <el-table-column prop="entitle" label="标名" width="120px">
+        </el-table-column>
         <el-table-column
           prop="guarantee"
           label="担保机构"
           :formatter="guaranteeState"
+          width="200px"
         >
         </el-table-column>
-        <el-table-column prop="type" label="类型" :formatter="typeState">
+        <el-table-column
+          prop="type"
+          label="类型"
+          :formatter="typeState"
+          width="120px"
+        >
         </el-table-column>
-        <el-table-column prop="money" label="借款金额"> </el-table-column>
-        <el-table-column prop="annual" label="年化利率"> </el-table-column>
+        <el-table-column
+          prop="money"
+          label="借款金额"
+          :formatter="moneyState"
+          width="120px"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="annual"
+          label="年化利率"
+          :formatter="annualState"
+        >
+        </el-table-column>
         <el-table-column
           prop="repayment"
           :formatter="repaymentState"
           label="还款方式"
+          width="100px"
         >
         </el-table-column>
         <el-table-column prop="deadline" label="期限"> </el-table-column>
-        <el-table-column prop="created" label="添加时间"> </el-table-column>
-        <el-table-column prop="state" :formatter="loanState" label="状态">
+        <el-table-column
+          prop="created"
+          label="添加时间"
+          :formatter="timeState"
+          width="140px"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="state"
+          :formatter="loanState"
+          label="状态"
+          width="100px"
+        >
         </el-table-column>
         <el-table-column prop="operation" label="操作">
           <template slot-scope="scope">
@@ -83,6 +115,19 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination
+                background
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage"
+                :page-sizes="[5, 10, 20, 30]"
+                :page-size="pageSize"
+                :total="total"
+                layout="sizes, total, jumper ,prev, pager, next"
+                prev-text="上一页"
+                next-text="下一页"
+              >
+              </el-pagination>
     </div>
     <!--    审核详情-->
     <el-dialog
@@ -190,7 +235,12 @@
                 <el-input v-model="formData.guarantee" readonly="readonly">
                 </el-input>
               </el-form-item>
-              <el-form-item label="抵押材料"> </el-form-item>
+              <el-form-item label="抵押材料">
+                <el-image
+                  :src="'http://39.97.101.196:8080/' + formData.materials"
+                  :lazy="true"
+                ></el-image>
+              </el-form-item>
             </el-col>
             <el-col :span="1"
               ><div class="grid-content bg-purple-dark"></div
@@ -203,7 +253,12 @@
               ><div class="grid-content bg-purple-dark"></div
             ></el-col>
             <el-col :span="11">
-              <el-form-item label="借款资料"> </el-form-item>
+              <el-form-item label="借款资料">
+                <el-image
+                  :src="'http://39.97.101.196:8080/' + formData.datum"
+                  :lazy="true"
+                ></el-image>
+              </el-form-item>
             </el-col>
             <!--        审核-->
             <el-col :span="24">
@@ -238,27 +293,6 @@
         </el-row>
       </el-form>
     </el-dialog>
-    <div class="marginTop">
-      <el-row :gutter="20">
-        <el-col :offset="6" style="text-align:center">
-          <div class="block">
-            <el-pagination
-              background
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-sizes="[5, 10, 20, 30]"
-              :page-size="pageSize"
-              :total="total"
-              layout="sizes, total, jumper ,prev, pager, next"
-              prev-text="上一页"
-              next-text="下一页"
-            >
-            </el-pagination>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
   </div>
 </template>
 
@@ -319,52 +353,138 @@ export default {
         pass: "0",
         deadline: "",
         desc: "",
-        num: ""
+        num: "",
+        datum: "",
+        materials: ""
       },
       dialogFormVisible: false,
       loadings: false
     };
   },
   methods: {
+    // 时间戳转换函数
+    timestampToTime: function(timestamp) {
+      // 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      let date = new Date(timestamp);
+      let Y = date.getFullYear() + "-";
+      let M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      let D = date.getDate() + " ";
+      // let h = date.getHours() + ":";
+      // let m = date.getMinutes() + ":";
+      // let s = date.getSeconds();
+      return (timestamp = Y + M + D);
+    },
+    // 添加时间转换
+    timeState: function(row) {
+      return this.timestampToTime(row.created);
+    },
+    // 风险等级转换
+    gradeState: function(row) {
+      return row.grade === 1
+        ? "极低"
+        : row.grade === 2
+        ? "较低"
+        : row.grade === 3
+        ? "中等"
+        : row.grade === 4
+        ? "中高"
+        : row.grade === 5
+        ? "高"
+        : row.grade;
+    },
+    // 资金用途转换
+    purposeState: function(row) {
+      return row.purpose === 1
+        ? "短期周转"
+        : row.purpose === 2
+        ? "生意周转"
+        : row.purpose === 3
+        ? "购物消费"
+        : row.purpose === 4
+        ? "长期周转"
+        : row.purpose === 5
+        ? "其他用途"
+        : row.purpose;
+    },
+    // 借款金额转换
+    moneyState: function(row) {
+      return "￥" + row.money;
+    },
+    // 年化利率转换
+    annualState: function(row) {
+      return row.annual * 100 + "%";
+    },
+    // 借款管理费月率转换
+    monthlyState: function(row) {
+      return row.monthly * 100 + "%";
+    },
+    // 逾期罚息率转换
+    penaltyState: function(row) {
+      return row.penalty * 100 + "%";
+    },
     // 担保机构转换
     guaranteeState: function(row) {
-      return row.guarantee == 1
+      return row.guarantee === 1
         ? "上海泽润典当有限公司"
-        : row.guarantee == 2
+        : row.guarantee === 2
         ? "成都京东金融有限公司"
-        : row.guarantee == 3
+        : row.guarantee === 3
         ? "杭州阿里金融有限公司"
-        : row.guarantee == 4
+        : row.guarantee === 4
         ? "北京联想金融有限公司"
-        : row.guarantee == 5
+        : row.guarantee === 5
         ? "重庆勒花花金融有限公司"
         : row.guarantee;
     },
     // 借款类型转换
     typeState: function(row) {
-      return row.type == 1
+      return row.type === 1
         ? "新增"
-        : row.type == 2
+        : row.type === 2
         ? "续贷"
-        : row.type == 3
+        : row.type === 3
         ? "资产处理"
         : row.type;
     },
     // 借款标状态转换
     loanState: function(row) {
-      return row.state == 1 ? "待审核" : "未知状态";
+      return row.state === 1 ? "待审核" : row.state;
+    },
+    // 是否担保转换
+    assureState: function(row) {
+      if (row.assure === 0) {
+        row.assure = "否";
+      } else {
+        row.assure = "是";
+      }
+      return row.assure;
     },
     // 还款方式转换
     repaymentState: function(row) {
-      return row.repayment == 1
+      return row.repayment === 1
         ? "一次性还款"
-        : row.repayment == 2
+        : row.repayment === 2
         ? "等额本息"
-        : row.repayment == 3
+        : row.repayment === 3
         ? "按月付息到期还本"
-        : row.repayment == 4
+        : row.repayment === 4
         ? "按天还款"
-        : "未知状态";
+        : row.repayment;
+    },
+    // 抵押类型转换
+    pledgeState: function(row) {
+      return row.pledge === 4
+        ? "无"
+        : row.pledge === 1
+        ? "房抵品"
+        : row.pledge === 2
+        ? "车抵品"
+        : row.pledge === 3
+        ? "民品抵押"
+        : row.pledge;
     },
     //获取列表数据
     getLoanList: function() {
@@ -390,7 +510,7 @@ export default {
     getQueryLoanList: function() {
       this.loading = true;
       let indexPledge = this.pledge;
-      if (indexPledge == 0) {
+      if (indexPledge === 0) {
         indexPledge = "";
       }
       this.$axios
@@ -433,6 +553,18 @@ export default {
         .then(res => {
           if (res.data.code === "200") {
             this.formData = res.data.data[0];
+            this.formData.money = this.moneyState(this.formData);
+            this.formData.guarantee = this.guaranteeState(this.formData);
+            this.formData.annual = this.annualState(this.formData);
+            this.formData.type = this.typeState(this.formData);
+            this.formData.repayment = this.repaymentState(this.formData);
+            this.formData.monthly = this.monthlyState(this.formData);
+            this.formData.penalty = this.penaltyState(this.formData);
+            this.formData.grade = this.gradeState(this.formData);
+            this.formData.purpose = this.purposeState(this.formData);
+            this.formData.way = "成立计息";
+            this.formData.assure = this.assureState(this.formData);
+            this.formData.pledge = this.pledgeState(this.formData);
             this.loadings = false;
           }
           console.log(this.formData);
@@ -474,10 +606,17 @@ export default {
 </script>
 
 <style scoped>
-.el-row {
-  margin-bottom: 20px;
+.navBg {
+  margin: 20px auto;
+  height: 80px;
+  background-color: #ffffff;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
 }
-.marginTop {
+.navBg .el-input,
+.navBg .el-select {
   margin-top: 20px;
+}
+.navBox {
+  margin-left: 5px;
 }
 </style>

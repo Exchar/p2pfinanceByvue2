@@ -16,9 +16,8 @@
           ><div>
             <el-form-item label="风险等级：">
               <span></span>
-            </el-form-item>
-          </div></el-col
-        >
+            </el-form-item></div
+        ></el-col>
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -54,9 +53,8 @@
           ><div>
             <el-form-item label="资金用途：">
               <span></span>
-            </el-form-item>
-          </div></el-col
-        >
+            </el-form-item></div
+        ></el-col>
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -73,9 +71,8 @@
           ><div>
             <el-form-item label="起息方式：">
               <span></span>
-            </el-form-item>
-          </div></el-col
-        >
+            </el-form-item></div
+        ></el-col>
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -84,17 +81,15 @@
           ><div>
             <el-form-item label="还款方式：">
               <span></span>
-            </el-form-item>
-          </div></el-col
-        >
+            </el-form-item></div
+        ></el-col>
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
             <el-form-item label="借款管理费：">
               <span></span>
-            </el-form-item>
-          </div></el-col
-        >
+            </el-form-item></div
+        ></el-col>
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -103,17 +98,15 @@
           ><div>
             <el-form-item label="利息管理费：">
               <span></span>
-            </el-form-item>
-          </div></el-col
-        >
+            </el-form-item></div
+        ></el-col>
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
             <el-form-item label="逾期罚息利率：">
               <span></span>
-            </el-form-item>
-          </div></el-col
-        >
+            </el-form-item></div
+        ></el-col>
         <el-col :span="2"><div></div></el-col>
       </el-row>
     </el-form>
@@ -297,9 +290,9 @@
         <el-col :span="2"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="是否通过：" required prop="passed">
-              <el-radio v-model="passed" label="1">否</el-radio>
-              <el-radio v-model="passed" label="2">是</el-radio>
+            <el-form-item label="是否通过：" required prop="passs">
+              <el-radio v-model="passs" label="1">否</el-radio>
+              <el-radio v-model="passs" label="2">是</el-radio>
             </el-form-item>
           </div></el-col
         >
@@ -328,12 +321,12 @@ import { mapGetters } from "vuex";
 export default {
   name: "Maintenance",
   computed: {
-    ...mapGetters(["getMainten"])
+    ...mapGetters(["getMainten", "getReex"])
   },
   data() {
     return {
       remarks: "",
-      passed: "",
+      passs: "",
       baseInfo: {},
       interest: "",
       radio: 1,
@@ -391,19 +384,18 @@ export default {
   },
   methods: {
     back() {
-      this.$router.push("/debitManage/RecheckAction");
+      this.$router.push("/debitManage/reexAuditItems");
     },
     submit() {
-      this.$router.push("/debitManage/RecheckAction");
       this.$axios
         .post("/markApi/finance/loan/fullupdate", {
-          num: "" + this.num,
-          pass: "" + this.pass,
-          remark: "" + this.remark
+          num: this.getReex.num,
+          passs: this.passs,
+          remarks: this.remarks
         })
         .then(response => {
-          console.log(response);
           if (response.data.code == 200) {
+            this.$router.push("/debitManage/reexAuditItems");
             this.tagList = response.data.data;
           } else {
             this.$message(response.data.msg);

@@ -123,6 +123,13 @@
         >
       </el-row>
     </div>
+    <div style="height: 100vh; ">
+      <el-scrollbar style="height: 100%;">
+        <div style="height: 50opx;width: 100%;background: red;"></div>
+        <div style="height: 50opx;width: 100%;background: yellowgreen;"></div>
+        <div style="height: 50opx;width: 100%; background: blueviolet; "></div>
+      </el-scrollbar>
+    </div>
   </div>
 </template>
 <script>
@@ -137,12 +144,13 @@ export default {
   },
   created() {
     this.$axios
-      .post("/markApi/finance/rechargeRecord/selectAll", {
+      .post("/markApi//finance/audit/updateByPrimaryKey", {
         limit: 5,
         page: 1
       })
       .then(req => {
         console.log(req.data);
+        console.log(1656512);
       })
       .catch(req => {
         console.log(req);
@@ -161,5 +169,5 @@ export default {
 el-input {
   width: 500px;
   height: 500px;
-}</style
->>
+}</style>
+
