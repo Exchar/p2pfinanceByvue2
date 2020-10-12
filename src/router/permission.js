@@ -39,21 +39,6 @@ router.beforeEach(async (to, from, next) => {
           let extraRoutes = [
             //在这里写额外的路由
             {
-              path: "/debitManage/Maintenance",
-              name: "Maintenance",
-              meta: { title: "上架复审" },
-              component: () =>
-                import("../views/debitManage/secondBidsGroundItems/Maintenance")
-            },
-
-            {
-              path: "/debitManage/RecheckAction",
-              name: "RecheckAction",
-              meta: { title: "复审" },
-              component: () =>
-                import("../views/debitManage/reexAuditItems/RecheckAction")
-            },
-            {
               path: "/",
               component: () => import("@/views/home/index"),
               meta: { title: "工作台" },

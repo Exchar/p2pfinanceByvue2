@@ -6,6 +6,7 @@
           placeholder="搜索用户手机"
           prefix-icon="el-icon-search"
           v-model="input1"
+          @change="search1"
         ></el-input>
         <div class="grid-content bg-purple"></div
       ></el-col>
@@ -14,11 +15,12 @@
           placeholder="搜索账户名"
           prefix-icon="el-icon-search"
           v-model="input2"
+          @change="search1"
         ></el-input>
         <div class="grid-content bg-purple"></div
       ></el-col>
       <el-col :span="3"
-        ><el-select v-model="value" placeholder="全部状态"
+        ><el-select v-model="value3" placeholder="全部状态" @change="search1"
           ><el-option
             v-for="item in options"
             :key="item.value"
@@ -51,25 +53,42 @@
         <div class="grid-content bg-purple"></div
       ></el-col>
     </el-row>
-    <el-table
-    :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)">
+    <el-table :data="tableData">
       <el-table-column prop="bankaccount" label="银行账号" width="150">
       </el-table-column>
-      <el-table-column prop="bankuser" label="银行名称" width="100">
+      <el-table-column
+        prop="bankuser"
+        label="银行名称"
+        width="100"
+        :formatter="formatRole"
+      >
       </el-table-column>
-      <el-table-column prop="id" label="id" width="100">
-      </el-table-column>
-      <el-table-column prop="name" label="姓名" width="100">
-      </el-table-column>
+      <el-table-column prop="id" label="id" width="100"> </el-table-column>
+      <el-table-column prop="name" label="姓名" width="100"> </el-table-column>
       <el-table-column prop="phone" label="电话号" width="180">
       </el-table-column>
       <el-table-column prop="record" label="提现单号" width="180">
       </el-table-column>
-      <el-table-column prop="state" label="状态" width="120">
+      <el-table-column
+        prop="state"
+        label="状态"
+        width="120"
+        :formatter="formatRoles"
+      >
       </el-table-column>
-      <el-table-column prop="subtime" label="提交时间" width="180" :formatter="DateFormatterState">
+      <el-table-column
+        prop="subtime"
+        label="提交时间"
+        width="180"
+        :formatter="DateFormatterState"
+      >
       </el-table-column>
-      <el-table-column prop="type" label="类型" width="120">
+      <el-table-column
+        prop="type"
+        label="类型"
+        width="120"
+        :formatter="formatRoless"
+      >
       </el-table-column>
     </el-table>
     <div class="blocks">
@@ -77,51 +96,43 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
-        :page-sizes="[2, 10, 20, 40]"
+        :page-sizes="[5, 10, 20, 40]"
         :page-size="pagesize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="tableData.length"
+        :total="total"
       >
         <!--//这是显示总共有多少数据，-->
       </el-pagination>
-    </div>
-    <div style="height: 100vh; ">
-      <el-scrollbar style="height: 100%;">
-        <div style="height: 50opx;width: 100%;background: red;"></div>
-        <div style="height: 50opx;width: 100%;background: yellowgreen;"></div>
-        <div style="height: 50opx;width: 100%; background: blueviolet; "></div>
-      </el-scrollbar>
     </div>
   </div>
 </template>
 <script>
 export default {
-  created() {
-    this.$axios
-      .post("/markApi/finance/moneyRecord/selectAll", {
-        limit: 5,
-        page: 1
-      })
-      .then(req => {
-        console.log(req);
-        this.tableData = req.data.data;
-        console.log(this.tableData);
-      })
-      .catch(req => {
-        console.log(req);
-      });
-  },
   data() {
     return {
       value1: "",
       value2: "",
       input1: "",
       input2: "",
-      options: [],
+      options: [
+        {
+          value: "选项1",
+          label: "建设银行"
+        },
+        {
+          value: "选项2",
+          label: "招商银行"
+        },
+        {
+          value: "选项4",
+          label: "其他银行"
+        }
+      ],
+      total: 0,
       currentPage: 1, //初始页
-      pagesize: 2,
+      pagesize: 5,
       tableData: [],
-      value: "",
+      value3: "",
       pickerOptions: {
         shortcuts: [
           {
@@ -164,6 +175,7 @@ export default {
       .then(req => {
         console.log(req);
         this.tableData = req.data.data;
+        this.total = req.data.count;
         console.log(this.tableData);
       })
       .catch(req => {
@@ -171,15 +183,24 @@ export default {
       });
   },
   methods: {
-    DateFormatterState: function (row) {
-      return new Date(row.subtime).toLocaleDateString()
-    },
-    forma: function (row) {
-      return row.state == "0"
-        ? "微信"
-        : row.state == "1"
-        ? "支付宝" 
-        : "aaa";
+    formatRole: function(row) {
+      return row.bankuser == "0"
+        ? "招商银行"
+        : row.bankuser == "1"
+        ? "建设银行"
+        : row.bankuser == "2"
+        ? "农业银行"
+        : "aa";
+    },
+    formatRoles: function(row) {
+      return row.state == "0" ? "未审核" : row.state == "1" ? "已通过" : "aa";
+    },
+    formatRoless: function(row) {
+      return row.state == "0" ? "到账" : row.state == "1" ? "未到账" : "aa";
+    },
+    // 时间状态
+    DateFormatterState: function(row) {
+      return new Date(row.subtime).toLocaleDateString();
     },
     handleSizeChange: function(size) {
       this.pagesize = size;
@@ -190,12 +211,22 @@ export default {
       console.log(this.currentPage); //点击第几页
     },
     search1() {
-      this.$axios.post("/markApi/finance/moneyRecord/selectAll", {
-        name: "" + this.input2,
-        phone: "" + this.input1,
-        limit: 5,
-        page: 1
-      });
+      console.log(this.input1);
+      this.$axios
+        .post("/markApi//finance/moneyRecord/selectKey", {
+          name: this.input2,
+          phone: this.input1,
+          type: this.value3,
+          limit: 5,
+          page: 1
+        })
+        .then(res => {
+          this.tableData = res.data.data;
+          console.log(this.tableData);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

@@ -41,13 +41,7 @@
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="a">个人信息维护</el-dropdown-item>
                 <el-dropdown-item command="b">帮助</el-dropdown-item>
-                <el-dropdown-item
-                  command="c"
-                  v-loading.fullscreen.lock="fullscreenLoading"
-                  element-loading-text="正在注销"
-                  element-loading-background="rgba(0,0,0,.7)"
-                  >注销</el-dropdown-item
-                >
+                <el-dropdown-item command="c">注销</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <el-avatar :size="40" icon="el-icon-user-solid"></el-avatar>
@@ -68,13 +62,11 @@ export default {
   },
   methods: {
     ...mapMutations(["changeNowAct"]),
-    async dropClick(e) {
+    dropClick(e) {
       switch (e) {
         case "c":
-          this.fullscreenLoading = true;
-          await localStorage.clear();
-          await this.$router.push("/login");
-          this.fullscreenLoading = false;
+          localStorage.clear();
+          this.$router.push("/login");
           this.$router.history.go(0);
       }
     },
@@ -115,8 +107,7 @@ export default {
     return {
       username: "用户名",
       restaurants: [],
-      state2: "",
-      fullscreenLoading: false
+      state2: ""
     };
   },
   mounted() {

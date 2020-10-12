@@ -21,7 +21,7 @@
           <h1>一切都是为了更好的沟通</h1>
         </el-card>
       </div>
-      <div class="rightCard" id="formArea">
+      <div class="rightCard">
         <el-card class="box-card">
           <div slot="header" class="clearfix" style="text-align: center">
             <span>{{ transData.title }}</span>
@@ -202,16 +202,6 @@ export default {
     openFullScreen1() {
       this.fullscreenLoading = true;
     },
-    //局部loading
-    createLoading(domId) {
-      let loading = this.$loading({
-        lock: true,
-        text: "加载中",
-        background: "rgba(0, 0, 0, 0.7)",
-        target: document.querySelector("#" + domId)
-      });
-      return loading;
-    },
     ...mapMutations([
       "saveLeftMenu",
       "saveToken",
@@ -279,7 +269,7 @@ export default {
     },
     //登录时的相关处理
     loginReq() {
-      let loading = this.createLoading("formArea");
+      this.openFullScreen1();
       let msgObj = { userName: "用户名", userPwd: "密码" };
       let isLogin = true;
       try {
@@ -291,7 +281,7 @@ export default {
               duration: 500
             });
             isLogin = false;
-            loading.close();
+            this.fullscreenLoading = false;
             throw new Error("EndIterative");
           }
         });
@@ -309,16 +299,26 @@ export default {
               password: "" + this.formData.userPwd
             })
             .then(res => {
-              console.log(res.data);
-              if (res.data.code !== "200") {
+              console.log(res);
+              if (res.data.code != 200) {
                 this.$message({
                   type: "error",
                   duration: 500,
                   message: "用户名或密码错误"
                 });
                 this.failed = true;
-                loading.close();
-              } else if (res.data.code === "200") {
+                this.fullscreenLoading = false;
+              } else if (res.data.code == 200) {
+                //  console.log(res.data.menu);
+                // this.$message.success("登录成功");
+                // let newA = [...res.data.menu];
+                // this.reCon(newA);
+                // console.log(newA);
+                // this.saveLeftMenu(res.data.menu);
+                // this.saveToken(res.data.token);
+                // this.setRefresh();
+                // this.$router.push("/home");
+
                 console.log(res.data);
                 this.$message.success("登录成功");
                 let newA = [...res.data.menu];
@@ -367,10 +367,8 @@ export default {
                 // console.log(filtShort());
                 this.saveShortcutsAll(filtShort());
                 //跳转到主页
-                loading.close();
+                this.fullscreenLoading = false;
                 this.$router.push("/home");
-              } else {
-                this.$message.error("服务器开小差了");
               }
             })
         : "";
@@ -380,9 +378,9 @@ export default {
         if (v.children == null) {
           v.children = [];
         }
-        if (v.path === "/home") {
+        if (v.path == "/home") {
           v.component = "/Layout/Home";
-        } else if (v.children === null) {
+        } else if (v.children == null) {
           v.component = v.path + "/index";
         } else if (v.children && v.children.length > 0) {
           v.component = "/Layout/Home";
@@ -395,53 +393,11 @@ export default {
     },
     //点击忘记密码提交按钮
     forgetBtnHandle() {
-      let loading = this.createLoading("formArea");
-      this.$axios
-        .post("/markApi/finance/check/authCode", {
-          username: this.formData.forgetName,
-          email: this.formData.email
-        })
-        .then(res => {
-          console.log(res.data);
-          if (res.data.code === "200") {
-            this.defaultState = false;
-            this.$message.success("验证码已发送");
-            loading.close();
-          } else {
-            loading.close();
-            this.$message.warning(res.data.msg);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          loading.close();
-          this.$message.error("服务器开小差了");
-        });
+      this.defaultState = false;
     },
     //修改密码提交按钮
     changePwdHandle() {
-      let loading = this.createLoading("formArea");
-      console.log(this.reSetPwd.code, this.reSetPwd.newPwd);
-      if (this.reSetPwd.code.length > 0 && this.reSetPwd.newPwd.length > 0) {
-        this.$axios
-          .post("/markApi/finance/check/forget")
-          .then(res => {
-            console.log(res);
-            if (res.data.code === 505) {
-              this.$message.warning(res.data.msg);
-              loading.close();
-            } else {
-              this.$message.success("修改密码成功！");
-              loading.close();
-              this.conSuccess = true;
-            }
-          })
-          .catch(err => {
-            console.log(err);
-            this.$message.error("服务器开小差了");
-            loading.close();
-          });
-      }
+      this.conSuccess = true;
     }
   },
   created() {

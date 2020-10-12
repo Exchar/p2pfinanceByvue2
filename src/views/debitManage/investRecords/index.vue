@@ -149,19 +149,24 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      background
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage4"
-      :page-sizes="[5, 10, 20, 30]"
-      :page-size="pageSize"
-      layout="sizes,total,  jumper ,prev, pager, next"
-      :total="total"
-      prev-text="上一页"
-      next-text="下一页"
-    >
-    </el-pagination>
+    <el-row :gutter="20">
+      <el-col :offset="6" style="text-align:center"
+        ><div class="block">
+          <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage4"
+            :page-sizes="[5, 10, 20, 30]"
+            :page-size="pageSize"
+            layout="sizes,total,  jumper ,prev, pager, next"
+            :total="total"
+            prev-text="上一页"
+            next-text="下一页"
+          >
+          </el-pagination></div
+      ></el-col>
+    </el-row>
   </div>
 </template>
 <script>
@@ -254,6 +259,25 @@ export default {
       console.log(index, row);
     },
     investSearch() {
+      console.log({
+        limit: this.currentPage4,
+        page: this.pageSize,
+        phone: this.input1,
+        entitle: this.input2,
+        state: this.value,
+        startDate:
+          this.value2 && this.value2[0] && this.value2[0] != null
+            ? `${new Date(this.value2[0]).getFullYear()}-${Number(
+                new Date(this.value2[0]).getMonth() + 1
+              )}-${new Date(this.value2[0]).getDate()}`
+            : "",
+        endDate:
+          this.value2 && this.value2[1] && this.value2[1] != null
+            ? `${new Date(this.value2[1]).getFullYear()}-${Number(
+                new Date(this.value2[1]).getMonth() + 1
+              )}-${new Date(this.value2[1]).getDate()}`
+            : ""
+      });
       this.loading = true;
       this.$axios
         .post("/markApi/finance/investment/findAllPage", {
@@ -309,11 +333,6 @@ export default {
 }
 .el-col {
   border-radius: 4px solid;
-}
-.el-pagination {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
 }
 .searchLan {
   margin-bottom: 10px;

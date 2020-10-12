@@ -281,49 +281,28 @@
         <el-col :span="2"><div></div></el-col>
       </el-row>
     </el-form>
-    <span class="title">审核</span>
-    <div>
-      <el-form>
-        <el-col :span="2"><div></div></el-col>
-        <el-col :span="8"
-          ><div>
-            <el-form-item label="是否通过：" required prop="passed">
-              <el-radio v-model="passed" label="1">否</el-radio>
-              <el-radio v-model="passed" label="2">是</el-radio>
-            </el-form-item>
-          </div></el-col
-        >
-        <el-col :span="14"><div></div></el-col>
-      </el-form>
-    </div>
-    <div class="remark">
-      <el-form>
-        <el-col :span="24">
-          <el-form-item label="备注:" prop="remarks" required>
-            <el-input type="textarea" v-model="remarks"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-form>
-    </div>
-
     <div id="btn">
-      <el-button type="danger" @click="submit">提交</el-button>
-      <el-button>返回</el-button>
+      <SubmitButton msg="提交"></SubmitButton>
+      <BackButton msg="返回"></BackButton>
     </div>
   </div>
 </template>
 
 <script>
+import SubmitButton from "../../../components/common/SubmitButton";
+import BackButton from "../../../components/common/BackButton";
 import { mapGetters } from "vuex";
 export default {
   name: "Maintenance",
   computed: {
     ...mapGetters(["getMainten"])
   },
+  components: {
+    SubmitButton,
+    BackButton
+  },
   data() {
     return {
-      remarks: "",
-      passed: 2,
       baseInfo: {},
       interest: "",
       radio: 1,
@@ -349,7 +328,6 @@ export default {
     };
   },
   rules: {
-    remarks: [{ required: true, message: "请填写理由", trigger: "blur" }],
     money: [
       { required: true, message: "金额不能为空" },
       { type: "number", message: "金额必须为数字值" }
@@ -380,24 +358,21 @@ export default {
     console.log(this.getMainten);
   },
   methods: {
-    submit() {
-      this.$axios
-        .post("/markApi/finance/loan/fullupdate", {
-          num: "" + this.num,
-          pass: "" + this.pass,
-          remark: "" + this.remark
-        })
-        .then(response => {
-          console.log(response);
-          if (response.data.code == 200) {
-            this.tagList = response.data.data;
-          } else {
-            this.$message(response.data.msg);
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
+    onSubmit() {
+      console.log("submit!");
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     }
   }
 };
@@ -469,13 +444,5 @@ export default {
 .contain {
   overflow: scroll;
   height: 600px;
-}
-.remark {
-  margin: auto;
-  width: 80%;
-  height: 100px;
-}
-.el-button {
-  height: 40px;
 }
 </style>

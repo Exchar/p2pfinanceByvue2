@@ -57,7 +57,7 @@
         >
         </el-table-column>
         <el-table-column prop="deadline" label="期限"> </el-table-column>
-        <el-table-column prop="created" label="添加时间"> </el-table-column>
+        <el-tale-column prop="created" label="添加时间"> </el-tale-column>
         <el-table-column prop="state" :formatter="loanState" label="状态">
         </el-table-column>
         <el-table-column prop="operation" label="操作"> </el-table-column>
@@ -102,17 +102,17 @@ export default {
   methods: {
     // 借款标状态转换
     loanState: function(row) {
-      return row.state === 1 ? "待审核" : "未知状态";
+      return row.state == 1 ? "待审核" : "未知状态";
     },
     // 还款方式转换
     repaymentState: function(row) {
-      return row.repayment === 1
+      return row.repayment == 1
         ? "一次性还款"
-        : row.repayment === 2
+        : row.repayment == 2
         ? "等额本息"
-        : row.repayment === 3
+        : row.repayment == 3
         ? "按月付息到期还本"
-        : row.repayment === 4
+        : row.repayment == 4
         ? "按天还款"
         : "未知状态";
     },
@@ -136,7 +136,7 @@ export default {
     // 多条件查询
     getQueryLoanList: function() {
       let indexPledge = this.pledge;
-      if (indexPledge === 0) {
+      if (indexPledge == 0) {
         indexPledge = "";
       }
       this.$axios

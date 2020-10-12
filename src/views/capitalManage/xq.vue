@@ -144,12 +144,13 @@ export default {
   },
   created() {
     this.$axios
-      .post("/markApi/finance/rechargeRecord/selectAll", {
+      .post("/markApi//finance/audit/updateByPrimaryKey", {
         limit: 5,
         page: 1
       })
       .then(req => {
         console.log(req.data);
+        console.log(1656512);
       })
       .catch(req => {
         console.log(req);
@@ -168,5 +169,5 @@ export default {
 el-input {
   width: 500px;
   height: 500px;
-}</style
->>
+}</style>
+

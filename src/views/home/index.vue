@@ -45,8 +45,9 @@
           </div>
         </el-col>
       </el-row>
+
       <el-row class="mainContent" :gutter="20">
-        <el-col :span="17" class="indexChart">
+        <el-col :span="16" class="indexChart">
           <h3 class="actionNorTit">项目概况</h3>
           <div style="width: 100%">
             <!--          echart图-->
@@ -59,7 +60,7 @@
             </el-row>
           </div>
         </el-col>
-        <el-col :span="7" style="padding-right: 0">
+        <el-col :span="8" style="padding-right: 0">
           <div class="message">
             <el-row>
               <p class="actionNorTit">消息通知</p>
@@ -205,7 +206,6 @@ export default {
     this.value = [...this.getShortDefaultChecked];
   },
   mounted() {
-    //拉取图表数据
     // this.$axios.post("/testApi/indexInfo").then((res)=>{
     //   console.log(res.data);
     //   this.$message({
@@ -268,8 +268,6 @@ export default {
 .contentMain > div > .el-row {
   background-color: #ffffff;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
-  box-sizing: border-box;
-  padding: 6px 30px 30px 10px;
 }
 .contentMain > div > .el-row:not(:first-of-type) {
   margin-top: 10px;

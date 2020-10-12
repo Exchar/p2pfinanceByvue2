@@ -1,9 +1,9 @@
 <template lang="yi">
   <div>
   <el-row :gutter="8">
-  <el-col :span="3"><el-input  placeholder="搜索用户手机" prefix-icon="el-icon-search" v-model="input1"  @keyup.enter.native="search1()"></el-input><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="3"><el-input  placeholder="搜索账户名" prefix-icon="el-icon-search" v-model="input2"  @keyup.enter.native="search1()"></el-input><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="3"><el-select  v-model="value" placeholder="银行名称"><el-option v-for="item in options" :key="item.value" :label="item.label":value="item.value"></el-option></el-select><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="3"><el-input  placeholder="搜索用户手机" prefix-icon="el-icon-search" v-model="input1"   @change="search1"></el-input><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="3"><el-input  placeholder="搜索账户名" prefix-icon="el-icon-search" v-model="input2"   @change="search1"></el-input><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="3"><el-select  v-model="value" @keyup.native="formatRole " placeholder="银行名称" @change="search1"><el-option v-for="item in options" :key="item.value" :label="item.label":value="item.value"></el-option></el-select><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="13"><el-date-picker
       v-model="value2"
       type="daterange"
@@ -17,7 +17,7 @@
   <el-col :span="2"><el-row class="but"><el-button plain>导出</el-button></el-row><div class="grid-content bg-purple"></div></el-col>
 </el-row>
   <el-table
-    :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)">
+    :data="tableData">
     <el-table-column
       prop="record"
       label="提现单号"
@@ -61,7 +61,7 @@
     <el-table-column
       prop="bankuser"
       label="银行名称"
-      width="120">
+      width="120" :formatter="formatRole">
     </el-table-column>
     <el-table-column
       prop="subtime"
@@ -71,17 +71,11 @@
     <el-table-column
       prop="state"
       label="状态"
-      :formatter="formatRole"
-      width="120">
-      <!-- <template :type="change(row.state)" slot-scope="row.state">
-        <span>
-        </span>
-      </template> -->
+      width="120"  :formatter="formatRoles">
     </el-table-column>
     <el-table-column
       prop="sh"
       label="审核"
-      width="120">
       <el-button type="primary">审核</el-button>
     </el-table-column>
   </el-table>
@@ -90,19 +84,12 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="currentPage"
-      :page-sizes="[2, 10, 20, 40]" 
+      :page-sizes="[5, 10, 20, 40]" 
       :page-size="pagesize"         
       layout="total, sizes, prev, pager, next, jumper"
-      :total="tableData.length">   <!--//这是显示总共有多少数据，-->
+      :total="total">   <!--//这是显示总共有多少数据，-->
     </el-pagination>
   </div>
-  <div style="height: 100vh; ">
-<el-scrollbar style="height: 100%;">
-<div style="height: 50opx;width: 100%;background: red;"></div>
-<div style="height: 50opx;width: 100%;background: yellowgreen;"></div>
-<div style="height: 50opx;width: 100%; background: blueviolet; "></div>
-</el-scrollbar>
-</div>
   </div>
 </template>
 <script>
@@ -116,7 +103,8 @@ export default {
       .then(req => {
         console.log(req);
         this.tableData = req.data.data;
-        console.log(this.tableData);
+        this.total = req.data.count,
+         console.log(this.tableData);
       })
       .catch(req => {
         console.log(req);
@@ -124,24 +112,24 @@ export default {
   },
   methods: {
     search1() {
-      console.log( {
-          name: "" + this.input2,
-          phone: "" + this.input1,
-          limit: 5,
-          page: 1
-        })
+      console.log({
+        name: this.input2,
+        phone: this.input1,
+        limit: 5,
+        page: 1
+      });
       this.$axios
         .post("/markApi/finance/audit/selectAll", {
-          name:this.input2,
-          phone:this.input1,
+          phone: this.input1,
+          bankuser: this.value,
+          name: this.input2,
           limit: 5,
           page: 1
         })
         .then(req => {
-          console.log("打字");
-          console.log(req);
-          this.tableData = req.data.data;
-          console.log(req.data);
+          console.log(req),
+            this.tableData = req.data.data,
+            console.log(req.data.data);
           console.log(this.tableData);
         })
         .catch(req => {
@@ -149,12 +137,21 @@ export default {
         });
     },
     formatRole: function(row) {
+      return row.bankuser == "0"
+        ? "建设银行"
+        : row.bankuser == "1"
+        ? "招商银行"
+        : row.bankuser == "2"
+        ? "农业银行"
+        : "aaa";
+    },
+    formatRoles: function(row) {
       return row.state == "0"
-        ? "未审核"
+        ? "审核中"
         : row.state == "1"
-        ? "已通过"
+        ? "已审核"
         : row.state == "2"
-        ? "未通过"
+        ? "待审核"
         : "aaa";
     },
     handleSizeChange: function(size) {
@@ -199,17 +196,15 @@ export default {
           }
         ]
       },
-      tableData: [
-        {
-          sh: "审核"
-        }
-      ],
+      total: 0,
+      tableData: [],
       input1: "",
       input2: "",
-      value1:"",
-      value2:"",
+      value1: "",
+      value2: "",
+      value: "",
       currentPage: 1, //初始页
-      pagesize: 2,
+      pagesize: 5,
       options: [
         {
           value: "选项1",
@@ -221,10 +216,9 @@ export default {
         },
         {
           value: "选项4",
-          label: "其他银行"
+          label: "农业银行"
         }
-      ],
-      value: ""
+      ]
     };
   }
 };
