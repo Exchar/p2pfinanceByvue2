@@ -1,5 +1,5 @@
 <template>
-  <div class="viewMain">
+  <div class="viewMainCHild">
     <div class="viewMain1">
       <el-row :gutter="20" class="searchLine">
         <el-col :span="4"
@@ -689,11 +689,6 @@ input.el-input__inner {
 }
 .el-col-12 {
   height: 30px !important;
-}
-.el-pagination {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
 }
 .el-table {
   margin-bottom: 30px;

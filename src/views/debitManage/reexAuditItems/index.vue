@@ -76,24 +76,16 @@
       </el-table>
     </div>
     <div id="page">
-      <el-row>
-        <el-col :span="6"><div></div></el-col>
-        <el-col :span="6"><div></div></el-col>
-        <el-col :span="10"
-          ><div>
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-sizes="[2, 3, 5, 10]"
-              :page-size="pageSize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="total"
-            >
-            </el-pagination></div
-        ></el-col>
-        <el-col :span="2"><div></div></el-col>
-      </el-row>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[2, 3, 5, 10]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
     </div>
   </div>
 </template>

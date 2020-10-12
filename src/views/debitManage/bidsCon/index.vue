@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="navBg">
+    <div class="main">
       <div class="navBox">
         <el-row :gutter="20">
           <el-col :span="4">
@@ -41,12 +41,9 @@
           </el-col>
         </el-row>
       </div>
-    </div>
-    <div class="main">
       <el-table
         v-loading="loading"
         :data="tableData"
-        stripe
         style="width: 100%"
       >
         <el-table-column prop="num" label="编号" width="240px">
@@ -118,11 +115,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="footer">
-        <el-row :gutter="20">
-          <el-col :offset="6" style="text-align:center">
-            <div class="block">
-              <el-pagination
+      <el-pagination
                 background
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
@@ -135,10 +128,6 @@
                 next-text="下一页"
               >
               </el-pagination>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
     </div>
     <!--    审核详情-->
     <el-dialog
@@ -385,29 +374,29 @@ export default {
     },
     // 风险等级转换
     gradeState: function(row) {
-      return row.grade == 1
+      return row.grade === 1
         ? "极低"
-        : row.grade == 2
+        : row.grade === 2
         ? "较低"
-        : row.grade == 3
+        : row.grade === 3
         ? "中等"
-        : row.grade == 4
+        : row.grade === 4
         ? "中高"
-        : row.grade == 5
+        : row.grade === 5
         ? "高"
         : row.grade;
     },
     // 资金用途转换
     purposeState: function(row) {
-      return row.purpose == 1
+      return row.purpose === 1
         ? "短期周转"
-        : row.purpose == 2
+        : row.purpose === 2
         ? "生意周转"
-        : row.purpose == 3
+        : row.purpose === 3
         ? "购物消费"
-        : row.purpose == 4
+        : row.purpose === 4
         ? "长期周转"
-        : row.purpose == 5
+        : row.purpose === 5
         ? "其他用途"
         : row.purpose;
     },
@@ -429,35 +418,35 @@ export default {
     },
     // 担保机构转换
     guaranteeState: function(row) {
-      return row.guarantee == 1
+      return row.guarantee === 1
         ? "上海泽润典当有限公司"
-        : row.guarantee == 2
+        : row.guarantee === 2
         ? "成都京东金融有限公司"
-        : row.guarantee == 3
+        : row.guarantee === 3
         ? "杭州阿里金融有限公司"
-        : row.guarantee == 4
+        : row.guarantee === 4
         ? "北京联想金融有限公司"
-        : row.guarantee == 5
+        : row.guarantee === 5
         ? "重庆勒花花金融有限公司"
         : row.guarantee;
     },
     // 借款类型转换
     typeState: function(row) {
-      return row.type == 1
+      return row.type === 1
         ? "新增"
-        : row.type == 2
+        : row.type === 2
         ? "续贷"
-        : row.type == 3
+        : row.type === 3
         ? "资产处理"
         : row.type;
     },
     // 借款标状态转换
     loanState: function(row) {
-      return row.state == 1 ? "待审核" : row.state;
+      return row.state === 1 ? "待审核" : row.state;
     },
     // 是否担保转换
     assureState: function(row) {
-      if (row.assure == 0) {
+      if (row.assure === 0) {
         row.assure = "否";
       } else {
         row.assure = "是";
@@ -466,25 +455,25 @@ export default {
     },
     // 还款方式转换
     repaymentState: function(row) {
-      return row.repayment == 1
+      return row.repayment === 1
         ? "一次性还款"
-        : row.repayment == 2
+        : row.repayment === 2
         ? "等额本息"
-        : row.repayment == 3
+        : row.repayment === 3
         ? "按月付息到期还本"
-        : row.repayment == 4
+        : row.repayment === 4
         ? "按天还款"
         : row.repayment;
     },
     // 抵押类型转换
     pledgeState: function(row) {
-      return row.pledge == 4
+      return row.pledge === 4
         ? "无"
-        : row.pledge == 1
+        : row.pledge === 1
         ? "房抵品"
-        : row.pledge == 2
+        : row.pledge === 2
         ? "车抵品"
-        : row.pledge == 3
+        : row.pledge === 3
         ? "民品抵押"
         : row.pledge;
     },
@@ -512,7 +501,7 @@ export default {
     getQueryLoanList: function() {
       this.loading = true;
       let indexPledge = this.pledge;
-      if (indexPledge == 0) {
+      if (indexPledge === 0) {
         indexPledge = "";
       }
       this.$axios
@@ -620,13 +609,5 @@ export default {
 }
 .navBox {
   margin-left: 5px;
-}
-.main {
-  background-color: #ffffff;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
-}
-.footer {
-  margin-top: 20px;
-  padding-bottom: 20px;
 }
 </style>

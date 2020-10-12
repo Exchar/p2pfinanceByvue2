@@ -32,11 +32,18 @@ html {
   margin: 0;
   height: 100%;
 }
+.viewMain > .el-scrollbar__bar.is-horizontal {
+  display: none;
+}
+.viewMain > .el-scrollbar__wrap {
+  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
-
 #nav a.router-link-exact-active {
   color: #42b983;
 }
@@ -49,5 +56,14 @@ html {
 }
 body {
   overflow: hidden;
+}
+.el-table {
+  min-height: 420px !important;
+}
+.el-pagination{
+  text-align: center !important;
+}
+.el-table::before{
+  height: 0 !important;
 }
 </style>

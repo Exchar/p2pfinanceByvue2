@@ -160,7 +160,6 @@
           <el-button type="primary" @click="subBtnClick">确 定</el-button>
         </span>
       </el-dialog>
-
     </div>
   </div>
 </template>
@@ -303,17 +302,17 @@ export default {
   height: 50%;
   font-size: 1.4em;
 }
-.dataShow{
+.dataShow {
   margin: 0 -10px;
   padding-left: 24px;
 }
 .actionMenu {
   padding: 2px 20px 2px 20px;
 }
-.dataState{
+.dataState {
   padding: 12px 10px;
 }
-.dataState>.el-col>p:last-of-type{
+.dataState > .el-col > p:last-of-type {
   color: rgb(204, 112, 0);
   font-size: 1.4em;
 }
@@ -330,7 +329,8 @@ export default {
 }
 .contentMain > div > .el-row:nth-of-type(3),
 .indexChart,
-.message ,.dataShow{
+.message,
+.dataShow {
   background-color: #ffffff;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
 }
@@ -355,14 +355,14 @@ export default {
 }
 .message {
 }
-.dataState .el-row>p:nth-of-type(1){
+.dataState .el-row > p:nth-of-type(1) {
   font-size: 1.2em;
 }
-.dataState .el-row>p:nth-of-type(2){
+.dataState .el-row > p:nth-of-type(2) {
   font-size: 1.6em;
-  color: rgb(204,102,0);
+  color: rgb(204, 102, 0);
 }
-.dataState .el-row>p:nth-of-type(3){
-  color: rgb(153,169,201);
+.dataState .el-row > p:nth-of-type(3) {
+  color: rgb(153, 169, 201);
 }
 </style>

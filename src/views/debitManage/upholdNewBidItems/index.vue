@@ -128,25 +128,19 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="footer">
-        <el-row :gutter="20">
-          <el-col :offset="6" style="text-align:center">
-            <el-pagination
-              background
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-sizes="[5, 10, 20, 30]"
-              :page-size="pageSize"
-              :total="total"
-              layout="sizes, total, jumper ,prev, pager, next"
-              prev-text="上一页"
-              next-text="下一页"
-            >
-            </el-pagination>
-          </el-col>
-        </el-row>
-      </div>
+      <el-pagination
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[5, 10, 20, 30]"
+        :page-size="pageSize"
+        :total="total"
+        layout="sizes, total, jumper ,prev, pager, next"
+        prev-text="上一页"
+        next-text="下一页"
+      >
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -360,8 +354,6 @@ export default {
 .navBg {
   margin: 20px auto;
   height: 80px;
-  background-color: #ffffff;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 .navBg .el-input,
 .navBg .el-select {
@@ -369,10 +361,6 @@ export default {
 }
 .navBox {
   margin-left: 5px;
-}
-.main {
-  background-color: #ffffff;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 .footer {
   margin-top: 20px;
