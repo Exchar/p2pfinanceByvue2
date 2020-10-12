@@ -43,21 +43,28 @@
         <el-table-column prop="borrower" label="借款方"> </el-table-column>
         <el-table-column prop="phone" label="借款人手机"> </el-table-column>
         <el-table-column prop="entitle" label="借款名称"> </el-table-column>
-        <el-table-column prop="money" label="借款金额"> </el-table-column>
+        <el-table-column prop="money" label="借款金额">
+          <template slot-scope="scope">
+            <span>{{ "￥" + scope.row.money }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           prop="annual"
           label="年利率化"
           :formatter="annualState"
         >
         </el-table-column>
-        <el-table-column
-          prop="repayment"
-          label="还款方式"
-          :formatter="repayType"
-        >
+        <el-table-column prop="repayment" label="还款方式">
+          <template slot-scope="scope">
+            <span>{{ repayType(scope.row.repayment) }}</span>
+          </template>
         </el-table-column>
         <el-table-column prop="deadline" label="期限"> </el-table-column>
-        <el-table-column prop="paymoney" label="募集资金"> </el-table-column>
+        <el-table-column prop="paymoney" label="募集资金">
+          <template slot-scope="scope">
+            <span>{{ "￥" + scope.row.paymoney }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="speed" label="投资进度" :formatter="invest">
         </el-table-column>
         <el-table-column prop="saletime" label="开售时间">
@@ -180,14 +187,14 @@ export default {
         ? "复审下架"
         : "";
     },
-    repayType(row) {
-      return row.state == 1
+    repayType(state) {
+      return state == 1
         ? "一次性还款"
-        : row.state == 2
+        : state == 2
         ? "等额本息"
-        : row.state == 3
+        : state == 3
         ? "按月付息到期还本"
-        : row.state == 4
+        : state == 4
         ? "按天还款"
         : "";
     },
