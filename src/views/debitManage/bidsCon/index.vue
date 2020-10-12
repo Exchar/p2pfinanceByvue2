@@ -248,7 +248,7 @@
               </el-form-item>
               <el-form-item label="抵押材料">
                 <el-image
-                  :src="'http://39.97.101.196:8080/' + formData.materials"
+                  :src="'/markApi/' + formData.materials"
                   :lazy="true"
                 ></el-image>
               </el-form-item>
@@ -266,7 +266,7 @@
             <el-col :span="11">
               <el-form-item label="借款资料">
                 <el-image
-                  :src="'http://39.97.101.196:8080/' + formData.datum"
+                  :src="'/markApi/' + formData.datum"
                   :lazy="true"
                 ></el-image>
               </el-form-item>
