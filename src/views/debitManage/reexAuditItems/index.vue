@@ -142,8 +142,8 @@ export default {
     getData: function() {
       this.$axios
         .post("/markApi/finance/loan/findFinishByPage", {
-          phone: "" + this.peopleList.phone,
-          borrower: "" + this.peopleList.borrower,
+          phone: "" + this.tableData.phone,
+          borrower: "" + this.tableData.borrower,
           limit: +this.currentPage,
           page: +this.pageSize,
           total: this.count
@@ -165,17 +165,21 @@ export default {
     },
     markState(row) {
       return row.state == 1
-        ? "待回款"
+        ? "进行中"
         : row.state == 2
-        ? "已结算"
+        ? "满标状态"
         : row.state == 3
-        ? "撤标"
+        ? "初审未通过"
         : row.state == 4
-        ? "流标"
-        : row.state == 5
-        ? "投资中"
-        : row.state == 6
-        ? "投资失败"
+        ? "待上架"
+        : row.state == 40
+        ? "已上架"
+        : row.state == 50
+        ? "已下架"
+        : row.state == 60
+        ? "新标草稿"
+        : row.state == 100
+        ? "复审下架"
         : "";
     },
     repayType(row) {
@@ -213,6 +217,5 @@ export default {
 }
 #table {
   width: 100%;
-  height: 470px;
 }
 </style>
