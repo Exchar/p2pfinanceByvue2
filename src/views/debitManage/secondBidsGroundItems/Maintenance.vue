@@ -149,19 +149,11 @@
         <el-col :span="2"><div></div></el-col>
       </el-row>
     </el-form>
-    <span class="title">借款资料:</span>
-    <el-row>
-      <el-col
-        :span="8"
-        v-for="(o, index) in 2"
-        :key="o"
-        :offset="index > 0 ? 2 : 0"
-      >
-        <el-card :body-style="{ padding: '0px' }">
-          <div style="padding: 14px;"></div>
-        </el-card>
-      </el-col>
-    </el-row>
+        <el-form>
+          <el-form-item label="借款资料" class="title">
+            <el-image :src="'http://39.97.101.196:8080/'+formData.datum" :lazy="true"></el-image>
+          </el-form-item>
+        </el-form>
     <span class="title" :data="baseInfo">标的信息:</span>
     <el-form
       :model="ruleForm"
@@ -345,7 +337,7 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "Maintenance",
   computed: {
-    ...mapGetters(["getMainten"])
+    ...mapGetters(["getMainten","getBid"])
   },
   data() {
     return {
@@ -440,7 +432,7 @@ export default {
     },
     getMarkType() {
       this.$axios
-        .post("/markApi/finance/category/findAll")
+        .post("/markApi/finance/pullMean/findAllCategory")
         .then(response => {
           console.log(response);
           if (response.data.code == 200) {
@@ -473,7 +465,7 @@ export default {
     },
     submit() {
       let data = {
-        num: "" + this.ruleForm.num,
+        num: "" + this.getBid.num,
         label: "" + this.ruleForm.label,
         genre: "" + this.ruleForm.genre,
         lowmoney: "" + this.ruleForm.lowmoney,
@@ -501,12 +493,12 @@ export default {
               )}-${new Date(this.value2[1]).getDate()}`
             : ""
       };
-      console.log(data)
+     /* console.log(data)*/
 
       this.$axios
         .post("/markApi/finance/sign/insert", data)
         .then(response => {
-          console.log(response);
+          // console.log(response);
           if (response.data.code == 200) {
             this.saveReexInfo(data);
             this.tagList = response.data.data;

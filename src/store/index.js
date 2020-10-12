@@ -212,6 +212,9 @@ export default new Vuex.Store({
     getToken(state) {
       return state.index.token;
     },
+    getBid(state) {
+      return state.bidInfo
+    },
     getMainten(state) {
       return { ...state.bidInfo, ...state.reexInfo };
     },

@@ -49,7 +49,10 @@
           label="担保机构"
           :formatter="gType"
         ></el-table-column>
-        <el-table-column prop="type" label="类型" :formatter="debtType">
+        <el-table-column prop="type" label="类型">
+          <template slot-scope="scope">
+            <span>{{debtType(scope.row.type)}}</span>
+          </template>
         </el-table-column>
         <el-table-column prop="money" label="借款金额">
           <template slot-scope="scope">
@@ -65,8 +68,10 @@
         <el-table-column
           prop="repayment"
           label="还款方式"
-          :formatter="repayType"
         >
+          <template slot-scope="scope">
+            <span>{{ repayType(scope.row.repayment)}}</span>
+          </template>
         </el-table-column>
         <el-table-column prop="deadline" label="期限"> </el-table-column>
         <el-table-column prop="audittime" label="审核时间">
@@ -181,25 +186,28 @@ export default {
     },
     markState(row) {
       return row.state == 1
-        ? "待回款"
-        : row.state == 2
-        ? "已结算"
-        : row.state == 3
-        ? "撤标"
-        : row.state == 4
-        ? "流标"
-        : row.state == 5
-        ? "投资中"
-        : row.state == 6
-        ? "投资失败"
-        : "";
+              ? "进行中"
+              : row.state == 2
+                      ? "满标状态"
+                      : row.state == 3
+                              ? "初审未通过"
+                              : row.state == 4
+                                      ? "待上架"
+                                      : row.state == 40
+                                              ? "已上架"
+                                              : row.state == 50
+                                                      ? "已下架"
+                                                      :row.state == 60                                            ? "新标草稿"
+                                                              :row.state == 100
+                                                                      ? "复审下架"
+                                                                      : "";
     },
-    debtType(row) {
-      return row.state == 1
+    debtType(state) {
+      return state == 1
         ? "新增"
-        : row.state == 2
+        : state == 2
         ? "续贷"
-        : row.state == 3
+        : state == 3
         ? "资产处理"
         : "";
     },
@@ -216,14 +224,14 @@ export default {
         ? "重庆乐花花金融有限公式"
         : "";
     },
-    repayType(row) {
-      return row.state == 1
+    repayType(state) {
+      return state == 1
         ? "一次性还款"
-        : row.state == 2
+        : state == 2
         ? "等额本息"
-        : row.state == 3
+        : state == 3
         ? "按月付息到期还本"
-        : row.state == 4
+        : state == 4
         ? "按天还款"
         : "";
     }
@@ -248,6 +256,9 @@ export default {
 }
 #table {
   width: 100%;
-  height: 470px;
+}
+#page{
+  width: 800px;
+  height: 50px;
 }
 </style>
