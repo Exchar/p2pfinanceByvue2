@@ -75,7 +75,7 @@
     </el-table-column>
     <el-table-column
       prop="sh"
-      label="审核"
+      label="审核">
       <el-button type="primary">审核</el-button>
     </el-table-column>
   </el-table>
@@ -103,8 +103,7 @@ export default {
       .then(req => {
         console.log(req);
         this.tableData = req.data.data;
-        this.total = req.data.count,
-         console.log(this.tableData);
+        (this.total = req.data.count), console.log(this.tableData);
       })
       .catch(req => {
         console.log(req);
@@ -128,7 +127,7 @@ export default {
         })
         .then(req => {
           console.log(req),
-            this.tableData = req.data.data,
+            (this.tableData = req.data.data),
             console.log(req.data.data);
           console.log(this.tableData);
         })

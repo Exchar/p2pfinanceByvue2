@@ -10,7 +10,11 @@
         ></el-input
       ></el-col>
       <el-col :span="3">
-        <el-select v-model="value1" placeholder="全部充值方式" @change="search1">
+        <el-select
+          v-model="value1"
+          placeholder="全部充值方式"
+          @change="search1"
+        >
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -140,8 +144,8 @@ export default {
           page: 1
         })
         .then(res => {
-           this.tableData = res.data.data;
-           console.log(res.data.data);
+          this.tableData = res.data.data;
+          console.log(res.data.data);
           console.log(res.data);
         })
         .catch(res => {

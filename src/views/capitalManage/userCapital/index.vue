@@ -100,16 +100,16 @@
 <script>
 export default {
   created() {
-    this.$axios 
+    this.$axios
       .post("/markApi/finance/userMoney/selectAll", {
         limit: 5,
         page: 1
       })
       .then(req => {
-          console.log(req);
-           this.tableData = req.data.data;
-           this.total = req.data.count;
-           console.log(req.data.data);
+        console.log(req);
+        this.tableData = req.data.data;
+        this.total = req.data.count;
+        console.log(req.data.data);
       })
       .catch(req => {
         console.log(req);
@@ -137,12 +137,11 @@ export default {
           renumber: this.input1,
           limit: 5,
           page: 1
-          
         })
         .then(req => {
           console.log(req);
           this.tableData = req.data.data;
-          
+
           console.log(this.tableData);
         })
         .catch(req => {
@@ -189,7 +188,7 @@ export default {
           label: "投资用户"
         }
       ],
-      count:0,
+      count: 0,
       value: "",
       input1: "",
       input2: "",
