@@ -313,9 +313,7 @@ export default {
   border-radius: 4px solid;
 }
 .el-pagination {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
+ margin-top: 20px;
 }
 .searchLan {
   margin-bottom: 10px;

@@ -52,7 +52,10 @@
           </el-option>
         </el-select>
       </el-col>
-      <el-table :data="tableData" border style="width: 100%">
+    </el-row>
+    <div id="div1"></div>
+    <el-row>
+      <el-table :data="tableData" border style="width: 100%" id="table1">
         <el-table-column prop="usernumber" label="用户编号" width="180">
         </el-table-column>
         <el-table-column prop="name" label="姓名" width="180">
@@ -68,12 +71,16 @@
         </el-table-column>
         <el-table-column prop="logintime" label="最近登陆"> </el-table-column>
         <el-table-column prop="usersource" label="用户来源"> </el-table-column>
-        <el-table-column prop="fuck" label="操作">
+        <el-table-column prop="fuck" label="操作" width="250">
           <template slot-scope="scope">
-            <el-button-group>
-              <el-button @click="editform(scope.row)">查看资料</el-button>
-              <el-button @click="pwdMa(scope.row)">密码管理</el-button>
-            </el-button-group>
+            <span>
+              <el-button @click="editform(scope.row)" class="button1"
+                >查看资料</el-button
+              >
+              <el-button @click="pwdMa(scope.row)" class="button1"
+                >密码管理</el-button
+              >
+            </span>
           </template>
         </el-table-column>
       </el-table>
@@ -205,7 +212,7 @@ export default {
           label: "未认证"
         }
       ],
-      realname: 0,
+      realname: "",
       options1: [
         {
           value1: 2,
@@ -410,18 +417,24 @@ export default {
       // console.log(this.input.phone);
       // console.log(this.queryInfo.pagenum);
       // console.log(this.queryInfo.pagesize);
+      let realname = this.realname;
+      if (realname == "全部实名状态") {
+        realname = "";
+      }
       console.log(this.realname);
+      console.log(this.input.name);
       this.$axios
         .post("/markApi/finance/invest/byname", {
           name: "" + this.input.name,
           sock: "" + this.sock,
-          realname: "" + this.realname,
+          realname: "" + realname,
           usersource: "" + this.usersource,
           phone: "" + this.input.phone,
           page: this.queryInfo.pagenum,
           limit: this.queryInfo.pagesize
         })
         .then(response => {
+          console.log(response);
           this.tableData = response.data.data;
           console.log("搜索" + this.tableData);
         })
@@ -433,4 +446,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#div1 {
+  height: 20px;
+}
+</style>

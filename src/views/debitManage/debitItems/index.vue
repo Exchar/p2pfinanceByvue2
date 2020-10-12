@@ -1,5 +1,5 @@
 <template>
-  <div class="viewMain">
+  <div class="viewMainCHild">
     <div class="viewMain1">
       <el-row :gutter="20" class="searchLine">
         <el-col :span="4"
@@ -118,7 +118,7 @@
         </el-table-column>
         <el-table-column label="投资进度" width="180" align="center">
           <template slot-scope="scope">
-            <span>{{ scope.row.speed * 100 + "%" }}</span>
+            <span>{{ scope.row.speed.toFixed(2) * 100 + "%" }}</span>
           </template>
         </el-table-column>
         <el-table-column label="状态" width="180" align="center">
@@ -134,6 +134,9 @@
             </p>
             <p v-if="Number(debitltemsData[scope.$index].state) === 4">
               待上架
+            </p>
+            <p v-if="Number(debitltemsData[scope.$index].state) === 40">
+              已上架
             </p>
             <p v-if="Number(debitltemsData[scope.$index].state) === 50">
               已下架
@@ -223,15 +226,19 @@
                   <span>{{ form.saletime | formatDate }}</span>
                 </el-form-item>
                 <el-form-item label="投资进度：" :label-width="formLabelWidth">
-                  <span>{{ form.speed }}</span>
+                  <span>{{
+                    parseFloat(form.speed).toFixed(2) * 100 + "%"
+                  }}</span>
                 </el-form-item>
                 <el-form-item label="状态：" :label-width="formLabelWidth">
-                  <span v-if="Number(form.state) === 1">待回款</span>
-                  <span v-if="Number(form.state) === 2">已结算</span>
-                  <span v-if="Number(form.state) === 3">撤标</span>
-                  <span v-if="Number(form.state) === 4">流标</span>
-                  <span v-if="Number(form.state) === 5">投资中</span>
-                  <span v-if="Number(form.state) === 6">投资失败</span>
+                  <span v-if="Number(form.state) === 1">进行中</span>
+                  <span v-if="Number(form.state) === 2">满标状态</span>
+                  <span v-if="Number(form.state) === 3">初审未通过</span>
+                  <span v-if="Number(form.state) === 4">待上架</span>
+                  <span v-if="Number(form.state) === 40">已上架</span>
+                  <span v-if="Number(form.state) === 50">已下架</span>
+                  <span v-if="Number(form.state) === 60">新标草稿</span>
+                  <span v-if="Number(form.state) === 100">复审下架</span>
                 </el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer">
@@ -689,11 +696,6 @@ input.el-input__inner {
 }
 .el-col-12 {
   height: 30px !important;
-}
-.el-pagination {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
 }
 .el-table {
   margin-bottom: 30px;

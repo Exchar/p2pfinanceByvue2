@@ -75,18 +75,21 @@
         <el-table-column prop="borrower" label="借款方"> </el-table-column>
         <el-table-column prop="phone" label="借款人手机"> </el-table-column>
         <el-table-column prop="entitle" label="标名"> </el-table-column>
-        <el-table-column prop="money" label="借款金额"> </el-table-column>
+        <el-table-column prop="money" label="借款金额">
+          <template slot-scope="scope">
+            <span>{{ "￥" + scope.row.money }}</span>
+          </template></el-table-column
+        >
         <el-table-column
           prop="annual"
           label="年利率化"
           :formatter="annualState"
         >
         </el-table-column>
-        <el-table-column
-          prop="repayment"
-          label="还款方式"
-          :formatter="repayType"
-        >
+        <el-table-column prop="repayment" label="还款方式">
+          <template slot-scope="scope">
+            <span>{{ repayType(scope.row.repayment) }}</span>
+          </template>
         </el-table-column>
         <el-table-column prop="deadline" label="期限"> </el-table-column>
         <el-table-column prop="putawaytime" label="上架时间">
@@ -95,7 +98,11 @@
         <el-table-column prop="saletime" label="开售时间">
           <span>{{ tableData.saletime | formatDate }}</span>
         </el-table-column>
-        <el-table-column prop="paymoney" label="已投金额"> </el-table-column>
+        <el-table-column prop="paymoney" label="已投金额">
+          <template slot-scope="scope">
+            <span>{{ "￥" + scope.row.paymoney }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="speed" label="投资进度" :formatter="invest">
         </el-table-column>
         <el-table-column
@@ -114,24 +121,16 @@
     </div>
     <!--分页-->
     <div id="page">
-      <el-row>
-        <el-col :span="6"><div></div></el-col>
-        <el-col :span="6"><div></div></el-col>
-        <el-col :span="10"
-          ><div>
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-sizes="[2, 3, 5, 10]"
-              :page-size="pageSize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="total"
-            >
-            </el-pagination></div
-        ></el-col>
-        <el-col :span="2"><div></div></el-col>
-      </el-row>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[2, 3, 5, 10]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
     </div>
     <!--下架弹窗-->
     <el-dialog
@@ -144,7 +143,7 @@
         >标下架后，投资款项全部返还至投资者账户中，只能获得返还的本金，无法获得利息</span
       >
       <el-form>
-        <el-form-item label="活动形式:" prop="remarks" required>
+        <el-form-item label="备注:" prop="remarks" required>
           <el-input type="textarea" v-model="remarks"></el-input>
         </el-form-item>
       </el-form>
@@ -320,27 +319,31 @@ export default {
     },
     markState(row) {
       return row.state == 1
-        ? "待回款"
+        ? "进行中"
         : row.state == 2
-        ? "已结算"
+        ? "满标状态"
         : row.state == 3
-        ? "撤标"
+        ? "初审未通过"
         : row.state == 4
-        ? "流标"
-        : row.state == 5
-        ? "投资中"
-        : row.state == 6
-        ? "投资失败"
+        ? "待上架"
+        : row.state == 40
+        ? "已上架"
+        : row.state == 50
+        ? "已下架"
+        : row.state == 60
+        ? "新标草稿"
+        : row.state == 100
+        ? "复审下架"
         : "";
     },
-    repayType(row) {
-      return row.state == 1
+    repayType(state) {
+      return state == 1
         ? "一次性还款"
-        : row.state == 2
+        : state == 2
         ? "等额本息"
-        : row.state == 3
+        : state == 3
         ? "按月付息到期还本"
-        : row.state == 4
+        : state == 4
         ? "按天还款"
         : "";
     },
@@ -348,7 +351,7 @@ export default {
       return row.annual * 100 + "%";
     },
     invest(row) {
-      return row.speed * 100 + "%";
+      return row.speed.toFixed(2) * 100 + "%";
     }
   },
   filters: {
@@ -373,7 +376,6 @@ export default {
 }
 #table {
   width: 100%;
-  height: 470px;
 }
 #red {
   color: red;

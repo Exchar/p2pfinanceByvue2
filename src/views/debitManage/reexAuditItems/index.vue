@@ -11,7 +11,7 @@
                   suffix-icon="el-icon-search"
                   clearable
                   @change="getData"
-                  v-model="tableData.borrower"
+                  v-model="peopleList.borrower"
                 >
                 </el-input></div
             ></el-col>
@@ -22,7 +22,7 @@
                   suffix-icon="el-icon-search"
                   clearable
                   @change="getData"
-                  v-model="tableData.phone"
+                  v-model="peopleList.phone"
                 >
                 </el-input></div
             ></el-col>
@@ -70,30 +70,27 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-link type="primary" @click="recheck(scope.row)">复审</el-link>
+            <el-link
+              type="primary"
+              @click="recheck(scope.row)"
+              :underline="false"
+              >复审</el-link
+            >
           </template>
         </el-table-column>
       </el-table>
     </div>
     <div id="page">
-      <el-row>
-        <el-col :span="6"><div></div></el-col>
-        <el-col :span="6"><div></div></el-col>
-        <el-col :span="10"
-          ><div>
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-sizes="[2, 3, 5, 10]"
-              :page-size="pageSize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="total"
-            >
-            </el-pagination></div
-        ></el-col>
-        <el-col :span="2"><div></div></el-col>
-      </el-row>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[2, 3, 5, 10]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -126,10 +123,10 @@ export default {
     this.getData();
   },
   methods: {
-    ...mapMutations(["saveBidInfo"]),
+    ...mapMutations(["saveBidInfo", "saveReex"]),
     async recheck(row) {
       await this.saveBidInfo(row);
-      this.$router.push("/debitManage/RecheckAction");
+      this.saveReex(row), this.$router.push("/debitManage/RecheckAction");
     },
     handleSizeChange(value) {
       this.pageSize = value;
@@ -153,6 +150,7 @@ export default {
           if (response.data.code == 200) {
             this.tableData = response.data.data;
             this.total = response.data.count;
+            this.saveReex(response.data.data);
             console.log(response.data);
             this.loading = false;
           } else {
@@ -165,17 +163,21 @@ export default {
     },
     markState(row) {
       return row.state == 1
-        ? "待回款"
+        ? "进行中"
         : row.state == 2
-        ? "已结算"
+        ? "满标状态"
         : row.state == 3
-        ? "撤标"
+        ? "初审未通过"
         : row.state == 4
-        ? "流标"
-        : row.state == 5
-        ? "投资中"
-        : row.state == 6
-        ? "投资失败"
+        ? "待上架"
+        : row.state == 40
+        ? "已上架"
+        : row.state == 50
+        ? "已下架"
+        : row.state == 60
+        ? "新标草稿"
+        : row.state == 100
+        ? "复审下架"
         : "";
     },
     repayType(row) {
@@ -193,7 +195,7 @@ export default {
       return row.annual * 100 + "%";
     },
     invest(row) {
-      return row.speed * 100 + "%";
+      return row.speed.toFixed(2) * 100 + "%";
     }
   },
   filters: {
@@ -213,6 +215,5 @@ export default {
 }
 #table {
   width: 100%;
-  height: 470px;
 }
 </style>
