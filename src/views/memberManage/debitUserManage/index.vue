@@ -1,74 +1,100 @@
 <template>
-  <el-row :gutter="20">
-    <el-col :span="4">
-      <el-input
-        placeholder="搜索姓名"
-        prefix-icon="el-icon-search"
-        @change="search"
-        v-model="input.name"
-      >
-      </el-input>
-    </el-col>
-    <el-col :span="4">
-      <el-input
-        placeholder="手机/用户名"
-        prefix-icon="el-icon-search"
-        @change="search"
-        v-model="input.phone"
-      >
-      </el-input>
-    </el-col>
-    <el-col :span="4">
-      <el-select v-model="sock" placeholder="请选择" @change="search">
-        <el-option
-          v-for="item in options1"
-          :key="item.value1"
-          :label="item.label1"
-          :value="item.value1"
+  <div>
+    <el-row :gutter="20">
+      <el-col :span="4">
+        <el-input
+          placeholder="搜索姓名"
+          prefix-icon="el-icon-search"
+          @change="search"
+          v-model="input.name"
         >
-        </el-option>
-      </el-select>
-    </el-col>
-    <el-col :span="4">
-      <el-button plain @click="add">
-        <router-link to="/luser3">新增用户</router-link>
-      </el-button>
-<!--      新增弹出框-->
-    </el-col>
-    <el-table :data="tableData" border style="width: 100%">
-      <el-table-column prop="usernumber" label="用户编号" width="180">
-      </el-table-column>
-      <el-table-column prop="username" label="姓名" width="180">
-      </el-table-column>
-      <el-table-column prop="company" label="公司名称" width="180">
-      </el-table-column>
-      <el-table-column prop="phone" label="手机/用户名"> </el-table-column>
-      <el-table-column prop="email" label="借款人邮箱"> </el-table-column>
-      <el-table-column prop="sock" label="锁定状态"> </el-table-column>
-      <el-table-column prop="registration" label="注册时间"> </el-table-column>
-      <el-table-column prop="logintime" label="最近登陆"> </el-table-column>
-      <el-table-column prop="usersource" label="用户来源"> </el-table-column>
-      <el-table-column prop="fuck" label="操作">
-        <el-button-group>
-          <el-button @click="find">查看资料</el-button>
-          <el-button @click="pwdMa">密码管理</el-button>
-        </el-button-group>
-      </el-table-column>
-    </el-table>
-    <!--分页区域-->
-    <div class="block">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="queryInfo.pagenum"
-        :page-sizes="[1, 2, 5, 10]"
-        :page-size="queryInfo.pagesize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
-      >
-      </el-pagination>
-    </div>
-  </el-row>
+        </el-input>
+      </el-col>
+      <el-col :span="4">
+        <el-input
+          placeholder="手机/用户名"
+          prefix-icon="el-icon-search"
+          @change="search"
+          v-model="input.phone"
+        >
+        </el-input>
+      </el-col>
+      <el-col :span="4">
+        <el-select v-model="sock" placeholder="请选择" @change="search">
+          <el-option
+            v-for="item in options1"
+            :key="item.value1"
+            :label="item.label1"
+            :value="item.value1"
+          >
+          </el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="4">
+        <el-button plain @click="add">
+          <router-link to="/luser3">新增用户</router-link>
+        </el-button>
+        <!--      新增弹出框-->
+      </el-col>
+    </el-row>
+    <div id="div1"></div>
+    <el-row>
+      <el-table :data="tableData" border style="width: 100%">
+        <el-table-column
+          prop="usernumber"
+          label="用户编号"
+          width="180"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="username"
+          label="姓名"
+          width="180"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="company"
+          label="公司名称"
+          width="180"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column prop="phone" label="手机/用户名" align="center">
+        </el-table-column>
+        <el-table-column prop="email" label="借款人邮箱" align="center">
+        </el-table-column>
+        <el-table-column prop="sock" label="锁定状态" align="center">
+        </el-table-column>
+        <el-table-column prop="registration" label="注册时间" align="center">
+        </el-table-column>
+        <el-table-column prop="logintime" label="最近登陆" align="center">
+        </el-table-column>
+        <el-table-column prop="usersource" label="用户来源" align="center">
+        </el-table-column>
+        <el-table-column prop="fuck" label="操作" width="250">
+          <span>
+            <el-button @click="find" class="button1">查看资料</el-button>
+            <el-button @click="pwdMa" class="button1">密码管理</el-button>
+          </span>
+        </el-table-column>
+      </el-table>
+      <!--分页区域-->
+      <div class="block">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="queryInfo.pagenum"
+          :page-sizes="[1, 2, 5, 10]"
+          :page-size="queryInfo.pagesize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+        >
+        </el-pagination>
+      </div>
+    </el-row>
+  </div>
   <!--新增弹出框-->
 </template>
 
@@ -195,12 +221,17 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
     //新增用户
   }
 };
 </script>
 
 <style scoped>
-
+#div1 {
+  height: 20px;
+}
+.button1 {
+  display: inline-block;
+}
 </style>
