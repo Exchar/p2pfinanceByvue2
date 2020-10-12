@@ -255,8 +255,4 @@ export default {
 #table {
   width: 100%;
 }
-#page {
-  width: 800px;
-  height: 50px;
-}
 </style>

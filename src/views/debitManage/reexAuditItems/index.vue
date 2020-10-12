@@ -11,7 +11,7 @@
                   suffix-icon="el-icon-search"
                   clearable
                   @change="getData"
-                  v-model="tableData.borrower"
+                  v-model="peopleList.borrower"
                 >
                 </el-input></div
             ></el-col>
@@ -22,7 +22,7 @@
                   suffix-icon="el-icon-search"
                   clearable
                   @change="getData"
-                  v-model="tableData.phone"
+                  v-model="peopleList.phone"
                 >
                 </el-input></div
             ></el-col>
@@ -70,7 +70,12 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-link type="primary" @click="recheck(scope.row)">复审</el-link>
+            <el-link
+              type="primary"
+              @click="recheck(scope.row)"
+              :underline="false"
+              >复审</el-link
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -126,10 +131,10 @@ export default {
     this.getData();
   },
   methods: {
-    ...mapMutations(["saveBidInfo"]),
+    ...mapMutations(["saveBidInfo", "saveReex"]),
     async recheck(row) {
       await this.saveBidInfo(row);
-      this.$router.push("/debitManage/RecheckAction");
+      this.saveReex(row), this.$router.push("/debitManage/RecheckAction");
     },
     handleSizeChange(value) {
       this.pageSize = value;
@@ -142,8 +147,8 @@ export default {
     getData: function() {
       this.$axios
         .post("/markApi/finance/loan/findFinishByPage", {
-          phone: "" + this.tableData.phone,
-          borrower: "" + this.tableData.borrower,
+          phone: "" + this.peopleList.phone,
+          borrower: "" + this.peopleList.borrower,
           limit: +this.currentPage,
           page: +this.pageSize,
           total: this.count
@@ -153,6 +158,7 @@ export default {
           if (response.data.code == 200) {
             this.tableData = response.data.data;
             this.total = response.data.count;
+            this.saveReex(response.data.data);
             console.log(response.data);
             this.loading = false;
           } else {
@@ -197,7 +203,7 @@ export default {
       return row.annual * 100 + "%";
     },
     invest(row) {
-      return row.speed * 100 + "%";
+      return row.speed.toFixed(2) * 100 + "%";
     }
   },
   filters: {

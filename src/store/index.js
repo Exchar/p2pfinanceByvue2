@@ -90,6 +90,7 @@ export default new Vuex.Store({
     },
     bidInfo: {},
     reexInfo: {},
+    reex: {},
     name: "",
     hasRoutes: false
   },
@@ -162,6 +163,9 @@ export default new Vuex.Store({
     saveBidInfo(state, load) {
       state.bidInfo = load;
     },
+    saveReex(state, load) {
+      state.reex = load;
+    },
     saveReexInfo(state, load) {
       state.reexInfo = load;
     },
@@ -214,6 +218,9 @@ export default new Vuex.Store({
     },
     getBid(state) {
       return state.bidInfo;
+    },
+    getReex(state) {
+      return state.reex;
     },
     getMainten(state) {
       return { ...state.bidInfo, ...state.reexInfo };
