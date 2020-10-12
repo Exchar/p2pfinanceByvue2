@@ -151,7 +151,7 @@
         >标下架后，投资款项全部返还至投资者账户中，只能获得返还的本金，无法获得利息</span
       >
       <el-form>
-        <el-form-item label="备注:" prop="remarks" required>
+        <el-form-item label="备注:" prop="remarks">
           <el-input type="textarea" v-model="remarks"></el-input>
         </el-form-item>
       </el-form>

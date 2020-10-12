@@ -15,9 +15,14 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="风险等级：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span v-if="getMainten.grade == 1">极低</span>
+              <span v-if="getMainten.grade == 2">较低</span>
+              <span v-if="getMainten.grade == 3">中等</span>
+              <span v-if="getMainten.grade == 4">中高</span>
+              <span v-if="getMainten.grade == 5">高</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -33,7 +38,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="借款总金额：">
-              <span>{{ getMainten.money }}</span>
+              <span>{{ getMainten.money.toFixed(2) }}元</span>
             </el-form-item>
           </div></el-col
         >
@@ -44,7 +49,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="年利率：">
-              <span>{{ getMainten.annual }}</span>
+              <span>{{ getMainten.annual * 100 + "%" }}</span>
             </el-form-item>
           </div></el-col
         >
@@ -52,9 +57,14 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="资金用途：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span v-if="getMainten.purpose == 1">短期周转</span>
+              <span v-if="getMainten.purpose == 2">生意周转</span>
+              <span v-if="getMainten.purpose == 3">购物消费</span>
+              <span v-if="getMainten.purpose == 4">长期周转</span>
+              <span v-if="getMainten.purpose == 5">其他用途</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -70,9 +80,10 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="起息方式：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span v-if="getMainten.way == 1">成立计息</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -80,16 +91,21 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="还款方式：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span v-if="getMainten.repayment == 1">一次性还款</span>
+              <span v-if="getMainten.repayment == 2">等额本息</span>
+              <span v-if="getMainten.repayment == 3">按月付息到期还本</span>
+              <span v-if="getMainten.repayment == 4">按天还款</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="借款管理费：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+            <el-form-item label="借款管理月费：">
+              <span>{{ getMainten.managerfee.toFixed(2) }}元</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -97,16 +113,18 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="利息管理费：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span>{{ getMainten.monfee.toFixed(2) }}元</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
             <el-form-item label="逾期罚息利率：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span>{{ getMainten.penalty * 100 + "%" }}</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
     </el-form>
@@ -117,16 +135,25 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="是否担保：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span v-if="getMainten.assure == 1">是</span>
+              <span v-if="getMainten.assure == 0">否</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
             <el-form-item label="担保机构：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span v-if="getMainten.guarantee == 1">上海泽润典当有限公司</span>
+              <span v-if="getMainten.guarantee == 2">成都京东金融有限公司</span>
+              <span v-if="getMainten.guarantee == 3">杭州阿里金融有限公司</span>
+              <span v-if="getMainten.guarantee == 4">北京联想金融有限公司</span>
+              <span v-if="getMainten.guarantee == 5"
+                >重庆乐花花金融有限公司</span
+              >
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -134,27 +161,16 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="是否抵押：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span v-if="getMainten.pledge == 4">否</span>
+              <span v-if="getMainten.pledge != 4">是</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"><div></div></el-col>
         <el-col :span="2"><div></div></el-col>
       </el-row>
     </el-form>
-    <span class="title">借款资料:</span>
-    <el-row>
-      <el-col
-        :span="8"
-        v-for="(o, index) in 2"
-        :key="o"
-        :offset="index > 0 ? 2 : 0"
-      >
-        <el-card :body-style="{ padding: '0px' }">
-          <div style="padding: 14px;"></div>
-        </el-card>
-      </el-col>
-    </el-row>
     <span class="title">标的信息:</span>
     <el-form label-width="120px">
       <el-row>
@@ -170,7 +186,12 @@
         <el-col :span="8">
           <div>
             <el-form-item label="标签：" prop="tag" required>
-              <span>{{ getMainten.label }}</span>
+              <span v-if="getMainten.label == 1">高收益</span>
+              <span v-if="getMainten.label == 2">低风险</span>
+              <span v-if="getMainten.label == 3">官方标</span>
+              <span v-if="getMainten.label == 4">红包可用</span>
+              <span v-if="getMainten.label == 5">新用户仅限一次</span>
+              <span v-if="getMainten.label == 6">限时抢投</span>
             </el-form-item>
           </div>
         </el-col>
@@ -181,7 +202,12 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="标签类型：" prop="markType" required>
-              <span>{{ getMainten.genre }}</span>
+              <span v-if="getMainten.genre == 2">车贷宝</span>
+              <span v-if="getMainten.genre == 3">典当宝</span>
+              <span v-if="getMainten.genre == 4">企业贷</span>
+              <span v-if="getMainten.genre == 9">车贷</span>
+              <span v-if="getMainten.genre == 13">人人贷</span>
+              <span v-if="getMainten.genre == 17">车车贷</span>
             </el-form-item>
           </div></el-col
         >
@@ -200,7 +226,12 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="递增金额：" prop="addmoney" required>
-              <span>{{ getMainten.addmoney }}</span>
+              <span v-if="getMainten.addmoney == 1">100元</span>
+              <span v-if="getMainten.addmoney == 2">200元</span>
+              <span v-if="getMainten.addmoney == 3">500元</span>
+              <span v-if="getMainten.addmoney == 4">1000元</span>
+              <span v-if="getMainten.addmoney == 5">2000元</span>
+              <span v-if="getMainten.addmoney == 6">5000元</span>
             </el-form-item>
           </div></el-col
         >
@@ -238,7 +269,8 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="新手专享：" prop="sift" required>
-              <span>{{ getMainten.sift }}</span>
+              <span v-if="getMainten.sift == 1">否</span>
+              <span v-if="getMainten.sift == 0">是</span>
             </el-form-item>
           </div></el-col
         >
@@ -246,7 +278,8 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="设置精选：" required prop="noob">
-              <span>{{ getMainten.noob }}</span>
+              <span v-if="getMainten.noob == 0">是</span>
+              <span v-if="getMainten.noob == 1">否</span>
             </el-form-item>
           </div></el-col
         >

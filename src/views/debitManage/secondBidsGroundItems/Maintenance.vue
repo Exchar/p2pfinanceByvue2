@@ -15,9 +15,14 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="风险等级：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span v-if="getMainten.grade == 1">极低</span>
+              <span v-if="getMainten.grade == 2">较低</span>
+              <span v-if="getMainten.grade == 3">中等</span>
+              <span v-if="getMainten.grade == 4">中高</span>
+              <span v-if="getMainten.grade == 5">高</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -33,7 +38,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="借款总金额：">
-              <span>{{ getMainten.money }}</span>
+              <span>{{ getMainten.money.toFixed(2) }}元</span>
             </el-form-item>
           </div></el-col
         >
@@ -44,7 +49,7 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="年利率：">
-              <span>{{ getMainten.annual }}</span>
+              <span>{{ getMainten.annual * 100 + "%" }}</span>
             </el-form-item>
           </div></el-col
         >
@@ -52,9 +57,14 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="资金用途：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span v-if="getMainten.purpose == 1">短期周转</span>
+              <span v-if="getMainten.purpose == 2">生意周转</span>
+              <span v-if="getMainten.purpose == 3">购物消费</span>
+              <span v-if="getMainten.purpose == 4">长期周转</span>
+              <span v-if="getMainten.purpose == 5">其他用途</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -70,9 +80,10 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="起息方式：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span v-if="getMainten.way == 1">成立计息</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -80,17 +91,21 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="还款方式：">
-              <span>{{ getMainten.repayment }}</span>
+              <span v-if="getMainten.repayment == 1">一次性还款</span>
+              <span v-if="getMainten.repayment == 2">等额本息</span>
+              <span v-if="getMainten.repayment == 3">按月付息到期还本</span>
+              <span v-if="getMainten.repayment == 4">按天还款</span>
             </el-form-item>
           </div></el-col
         >
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
-            <el-form-item label="借款管理费：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+            <el-form-item label="借款管理月费：">
+              <span>{{ getMainten.managerfee.toFixed(2) }}元</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -98,16 +113,18 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="利息管理费：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span>{{ getMainten.monfee.toFixed(2) }}元</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
             <el-form-item label="逾期罚息利率：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span>{{ getMainten.penalty * 100 + "%" }}</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
     </el-form>
@@ -118,16 +135,25 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="是否担保：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span v-if="getMainten.assure == 1">是</span>
+              <span v-if="getMainten.assure == 0">否</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"
           ><div>
             <el-form-item label="担保机构：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span v-if="getMainten.guarantee == 1">上海泽润典当有限公司</span>
+              <span v-if="getMainten.guarantee == 2">成都京东金融有限公司</span>
+              <span v-if="getMainten.guarantee == 3">杭州阿里金融有限公司</span>
+              <span v-if="getMainten.guarantee == 4">北京联想金融有限公司</span>
+              <span v-if="getMainten.guarantee == 5"
+                >重庆乐花花金融有限公司</span
+              >
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="2"><div></div></el-col>
       </el-row>
       <el-row>
@@ -135,9 +161,11 @@
         <el-col :span="8"
           ><div>
             <el-form-item label="是否抵押：">
-              <span></span>
-            </el-form-item></div
-        ></el-col>
+              <span v-if="getMainten.pledge == 4">否</span>
+              <span v-if="getMainten.pledge != 4">是</span>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="4"><div></div></el-col>
         <el-col :span="8"><div></div></el-col>
         <el-col :span="2"><div></div></el-col>
@@ -285,7 +313,7 @@
               <el-date-picker
                 type="date"
                 placeholder="选择日期"
-                v-model="ruleForm.putawaytime"
+                v-model="value2"
                 style="width: 100%;"
               ></el-date-picker>
               <el-col class="line" :span="2"></el-col>
@@ -298,7 +326,7 @@
               <el-date-picker
                 type="date"
                 placeholder="选择日期"
-                v-model="ruleForm.saletime"
+                v-model="value3"
                 style="width: 100%;"
               ></el-date-picker>
             </el-form-item></div
@@ -339,10 +367,10 @@ export default {
         manners: "",
         ditchs: "",
         sift: "",
-        noob: "",
-        putawaytime: "",
-        saletime: ""
+        noob: ""
       },
+      value2: "",
+      value3: "",
       money: "",
       tagList: "",
       baseInfo: {},
@@ -464,9 +492,6 @@ export default {
         ditchs: "" + this.ruleForm.ditchs,
         sift: "" + this.ruleForm.sift,
         noob: "" + this.ruleForm.noob,
-        raisedata: "" + this.ruleForm.raisedata,
-        timetype: null,
-        timevalue: null,
         introduce: "" + this.introduce,
         step: "" + this.step,
         putawaytime:
@@ -476,15 +501,12 @@ export default {
               )}-${new Date(this.value2[0]).getDate()}`
             : "",
         saletime:
-          this.value2 && this.value2[1] && this.value2[1] != null
-            ? `${new Date(this.value2[1]).getFullYear()}-${Number(
-                new Date(this.value2[1]).getMonth() + 1
-              )}-${new Date(this.value2[1]).getDate()}`
+          this.value3 && this.value3[0] && this.value3[0] != null
+            ? `${new Date(this.value3[0]).getFullYear()}-${Number(
+                new Date(this.value3[0]).getMonth() + 1
+              )}-${new Date(this.value3[0]).getDate()}`
             : ""
       };
-      console.log(data);
-      /* console.log(data)*/
-
       this.$axios
         .post("/markApi/finance/sign/insert", data)
         .then(response => {
