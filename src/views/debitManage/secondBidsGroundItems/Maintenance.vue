@@ -568,10 +568,6 @@ export default {
   height: 150px;
   margin: auto;
 }
-.contain {
-  overflow: scroll;
-  height: 600px;
-}
 .el-button {
   height: 40px;
 }

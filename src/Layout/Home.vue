@@ -88,12 +88,11 @@ export default {
       if (this.getNowAct === "/home") {
         viewPort.style.height = "91%";
         viewMain.style.backgroundColor = "rgb(240,240,242)";
-        viewMain.style.boxShadow = "none !important";
+        viewMain.classList.remove("shadow");
       } else {
         viewPort.style.height = "86%";
         viewMain.style.backgroundColor = "#ffffff";
-        viewMain.style.boxShadow =
-          " 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04) !important";
+        viewMain.classList.add("shadow");
       }
       this.$nextTick(() => {
         this.breadRefresh = true;
@@ -103,8 +102,8 @@ export default {
     outerHeight: function() {
       let appView = this.$refs.appView;
       let view = this.$refs.view;
-      appView.style.height = window.outerHeight + "px";
-      view.style.height = window.outerHeight + "px";
+      appView.style.height = document.documentElement.clientHeight + "px";
+      view.style.height = document.documentElement.clientHeight + "px";
       let mainBody = this.$refs.mainBody.$el;
       console.log(
         parseFloat(appView.style.height) -
@@ -112,8 +111,7 @@ export default {
       );
       mainBody.style.height =
         parseFloat(appView.style.height) -
-        parseFloat(window.getComputedStyle(this.$refs.header.$el).height) -
-        22 +
+        parseFloat(window.getComputedStyle(this.$refs.header.$el).height) +
         "px";
     }
   },
@@ -131,8 +129,7 @@ export default {
     );
     mainBody.style.height =
       parseFloat(appView.style.height) -
-      parseFloat(this.$refs.header.$el.style.height) -
-      22 +
+      parseFloat(this.$refs.header.$el.style.height)  +
       "px";
 
     //定义窗口大小改变监听事件
@@ -146,9 +143,12 @@ export default {
 </script>
 <style scoped>
 .viewMain {
-  height: 100% !important;
+  height: 99% !important;
   background-color: rgb(240, 240, 242);
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
+  padding: 10px 0;
+}
+.shadow{
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04) !important;
 }
 .viewMain > div {
   transition: all 10s;
