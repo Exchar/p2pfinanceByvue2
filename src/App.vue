@@ -61,17 +61,18 @@ body {
   min-height: 420px !important;
   margin-top: 10px;
 }
-.el-table td,.el-table td.is-center{
+.el-table td,
+.el-table td.is-center {
   text-align: center !important;
 }
-.el-table th{
+.el-table th {
   text-align: center !important;
 }
-.el-pagination{
+.el-pagination {
   text-align: center !important;
   margin-top: 20px;
 }
-.el-table::before{
+.el-table::before {
   height: 0 !important;
 }
 </style>

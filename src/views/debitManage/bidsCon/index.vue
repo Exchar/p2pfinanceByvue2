@@ -41,11 +41,7 @@
           </el-col>
         </el-row>
       </div>
-      <el-table
-        v-loading="loading"
-        :data="tableData"
-        style="width: 100%"
-      >
+      <el-table v-loading="loading" :data="tableData" style="width: 100%">
         <el-table-column prop="num" label="编号" width="240px">
         </el-table-column>
         <el-table-column v-if="false" prop="id" label="ID"> </el-table-column>
@@ -116,17 +112,17 @@
         </el-table-column>
       </el-table>
       <el-pagination
-                background
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-sizes="[5, 10, 20, 30]"
-                :page-size="pageSize"
-                :total="total"
-                layout="sizes, total, jumper ,prev, pager, next"
-                prev-text="上一页"
-                next-text="下一页"
-              >
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[5, 10, 20, 30]"
+        :page-size="pageSize"
+        :total="total"
+        layout="sizes, total, jumper ,prev, pager, next"
+        prev-text="上一页"
+        next-text="下一页"
+      >
       </el-pagination>
     </div>
     <!--    审核详情-->

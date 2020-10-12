@@ -93,6 +93,7 @@
     </el-table>
     <div class="blocks">
       <el-pagination
+        background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -100,6 +101,8 @@
         :page-size="pagesize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
+        prev-text="上一页"
+        next-text="下一页"
       >
         <!--//这是显示总共有多少数据，-->
       </el-pagination>

@@ -169,5 +169,5 @@ export default {
 el-input {
   width: 500px;
   height: 500px;
-}</style>
-
+}
+</style>

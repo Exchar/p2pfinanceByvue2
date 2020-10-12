@@ -138,6 +138,7 @@
     </el-dialog>
     <!--分页-->
     <el-pagination
+      background
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="currentPage4"

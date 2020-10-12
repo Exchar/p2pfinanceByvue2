@@ -1,95 +1,109 @@
-<template lang="yi">
+<template>
   <div>
-  <el-row :gutter="8">
-  <el-col :span="3"><el-input  placeholder="搜索用户手机" prefix-icon="el-icon-search" v-model="input1"   @change="search1"></el-input><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="3"><el-input  placeholder="搜索账户名" prefix-icon="el-icon-search" v-model="input2"   @change="search1"></el-input><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="3"><el-select  v-model="value" @keyup.native="formatRole " placeholder="银行名称" @change="search1"><el-option v-for="item in options" :key="item.value" :label="item.label":value="item.value"></el-option></el-select><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="13"><el-date-picker
-      v-model="value2"
-      type="daterange"
-      align="right"
-      unlink-panels
-      range-separator="至"
-      start-placeholder="开始日期"
-      end-placeholder="结束日期"
-      :picker-options="pickerOptions">
-    </el-date-picker><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="2"><el-row class="but"><el-button plain>导出</el-button></el-row><div class="grid-content bg-purple"></div></el-col>
-</el-row>
-  <el-table
-    :data="tableData">
-    <el-table-column
-      prop="record"
-      label="提现单号"
-      width="150">
-    </el-table-column>
-    <el-table-column
-      prop="phone"
-      label="用户手机"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="真实姓名"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="usertype"
-      label="用户类型"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="money"
-      label="提现金额"
-      width="100">
-    </el-table-column>
-    <el-table-column
-      prop="fee"
-      label="提现手续费"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="accountmoney"
-      label="预计到账金额"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="accountbank"
-      label="银行账号"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="bankuser"
-      label="银行名称"
-      width="120" :formatter="formatRole">
-    </el-table-column>
-    <el-table-column
-      prop="subtime"
-      label="提交时间"
-      width="140">
-    </el-table-column>
-    <el-table-column
-      prop="state"
-      label="状态"
-      width="120"  :formatter="formatRoles">
-    </el-table-column>
-    <el-table-column
-      prop="sh"
-      label="审核"
-      <el-button type="primary">审核</el-button>
-    </el-table-column>
-  </el-table>
-  <div class="blocks">
-     <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage"
-      :page-sizes="[5, 10, 20, 40]" 
-      :page-size="pagesize"         
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total">   <!--//这是显示总共有多少数据，-->
-    </el-pagination>
-  </div>
+    <el-row :gutter="8">
+      <el-col :span="3"
+        ><el-input
+          placeholder="搜索用户手机"
+          prefix-icon="el-icon-search"
+          v-model="input1"
+          @change="search1"
+        ></el-input>
+        <div class="grid-content bg-purple"></div
+      ></el-col>
+      <el-col :span="3"
+        ><el-input
+          placeholder="搜索账户名"
+          prefix-icon="el-icon-search"
+          v-model="input2"
+          @change="search1"
+        ></el-input>
+        <div class="grid-content bg-purple"></div
+      ></el-col>
+      <el-col :span="3"
+        ><el-select
+          v-model="value"
+          @keyup.native="formatRole"
+          placeholder="银行名称"
+          @change="search1"
+          ><el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option
+        ></el-select>
+        <div class="grid-content bg-purple"></div
+      ></el-col>
+      <el-col :span="13"
+        ><el-date-picker
+          v-model="value2"
+          type="daterange"
+          align="right"
+          unlink-panels
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          :picker-options="pickerOptions"
+        >
+        </el-date-picker>
+        <div class="grid-content bg-purple"></div
+      ></el-col>
+      <el-col :span="2"
+        ><el-row class="but"><el-button plain>导出</el-button></el-row>
+        <div class="grid-content bg-purple"></div
+      ></el-col>
+    </el-row>
+    <el-table :data="tableData">
+      <el-table-column prop="record" label="提现单号" width="150">
+      </el-table-column>
+      <el-table-column prop="phone" label="用户手机" width="120">
+      </el-table-column>
+      <el-table-column prop="name" label="真实姓名" width="120">
+      </el-table-column>
+      <el-table-column prop="usertype" label="用户类型" width="120">
+      </el-table-column>
+      <el-table-column prop="money" label="提现金额" width="100">
+      </el-table-column>
+      <el-table-column prop="fee" label="提现手续费" width="120">
+      </el-table-column>
+      <el-table-column prop="accountmoney" label="预计到账金额" width="120">
+      </el-table-column>
+      <el-table-column prop="accountbank" label="银行账号" width="120">
+      </el-table-column>
+      <el-table-column
+        prop="bankuser"
+        label="银行名称"
+        width="120"
+        :formatter="formatRole"
+      >
+      </el-table-column>
+      <el-table-column prop="subtime" label="提交时间" width="140">
+      </el-table-column>
+      <el-table-column
+        prop="state"
+        label="状态"
+        width="120"
+        :formatter="formatRoles"
+      >
+      </el-table-column>
+      <el-table-column prop="sh" label="审核">
+        <el-button type="primary">审核</el-button>
+      </el-table-column>
+    </el-table>
+    <div class="blocks">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[5, 10, 20, 40]"
+        :page-size="pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+        <!--//这是显示总共有多少数据，-->
+        background prev-text="上一页" next-text="下一页"
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
@@ -103,8 +117,7 @@ export default {
       .then(req => {
         console.log(req);
         this.tableData = req.data.data;
-        this.total = req.data.count,
-         console.log(this.tableData);
+        (this.total = req.data.count), console.log(this.tableData);
       })
       .catch(req => {
         console.log(req);
@@ -128,7 +141,7 @@ export default {
         })
         .then(req => {
           console.log(req),
-            this.tableData = req.data.data,
+            (this.tableData = req.data.data),
             console.log(req.data.data);
           console.log(this.tableData);
         })

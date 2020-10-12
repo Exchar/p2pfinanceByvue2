@@ -122,6 +122,7 @@
     <!--分页-->
     <div id="page">
       <el-pagination
+        background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -129,6 +130,8 @@
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
+        prev-text="上一页"
+        next-text="下一页"
       >
       </el-pagination>
     </div>

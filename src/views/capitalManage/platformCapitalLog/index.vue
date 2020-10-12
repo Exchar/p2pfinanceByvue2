@@ -1,82 +1,96 @@
-<template lang="yi">
+<template>
   <div>
-  <el-row :gutter="8">
-  <el-col :span="3"><el-input  placeholder="搜索流水号" prefix-icon="el-icon-search" v-model="input1" @change="search1" ></el-input><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="3"><el-select  v-model="value" placeholder="全部类型" @change="search1"><el-option v-for="item in options" :key="item.value" :label="item.label":value="item.value"></el-option></el-select><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="16"><el-select  v-model="value1" placeholder="出入账" @change="search1"><el-option v-for="item in times" :key="item.value1" :label="item.label":value="item.value1"></el-option></el-select><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="2"><el-row class="but"><el-button plain>导出</el-button></el-row><div class="grid-content bg-purple"></div></el-col>
-</el-row>
-  <el-table
-    :data="tableData">
-    <el-table-column
-      prop="serial"
-      label="流水号"
-      width="250">
-    </el-table-column>
-    <el-table-column
-      prop="type"
-      label="类型"
-      width="120"  :formatter="forma">
-    </el-table-column>
-    <el-table-column
-      prop="ioaccount"
-      label="出入账"
-      width="120"  :formatter="formatRole">
-    </el-table-column>
-    <el-table-column
-      prop="operationamount"
-      label="操作资金"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="sc"
-      label="手续费"
-      width="100">
-    </el-table-column>
-    <el-table-column
-      prop="pre"
-      label="操作前金额"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="post"
-      label="操作后金额"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="state"
-      label="状态"
-      width="120" :formatter="state">
-    </el-table-column>
-    <el-table-column
-      prop="remark"
-      label="备注"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="dateline"
-      label="操作时间"
-      width="500" :formatter="DateFormatterState">
-    </el-table-column>
-  </el-table>
-  <div class="blocks">
-    <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[5, 10, 20, 40]" 
-            :page-size="pagesize"         
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="todol">    <!--//这是显示总共有多少数据，-->
-    </el-pagination>
-  </div>
-<div style="height: 100vh; ">
-<el-scrollbar style="height: 100%;">
-<div style="height: 50opx;width: 100%;background: red;"></div>
-<div style="height: 50opx;width: 100%;background: yellowgreen;"></div>
-<div style="height: 50opx;width: 100%; background: blueviolet; "></div>
-</el-scrollbar>
-</div>
+    <el-row :gutter="8">
+      <el-col :span="3"
+        ><el-input
+          placeholder="搜索流水号"
+          prefix-icon="el-icon-search"
+          v-model="input1"
+          @change="search1"
+        ></el-input>
+        <div class="grid-content bg-purple"></div
+      ></el-col>
+      <el-col :span="3"
+        ><el-select v-model="value" placeholder="全部类型" @change="search1"
+          ><el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option
+        ></el-select>
+        <div class="grid-content bg-purple"></div
+      ></el-col>
+      <el-col :span="16"
+        ><el-select v-model="value1" placeholder="出入账" @change="search1"
+          ><el-option
+            v-for="item in times"
+            :key="item.value1"
+            :label="item.label"
+            :value="item.value1"
+          ></el-option
+        ></el-select>
+        <div class="grid-content bg-purple"></div
+      ></el-col>
+      <el-col :span="2"
+        ><el-row class="but"><el-button plain>导出</el-button></el-row>
+        <div class="grid-content bg-purple"></div
+      ></el-col>
+    </el-row>
+    <el-table :data="tableData">
+      <el-table-column prop="serial" label="流水号" width="250">
+      </el-table-column>
+      <el-table-column prop="type" label="类型" width="120" :formatter="forma">
+      </el-table-column>
+      <el-table-column
+        prop="ioaccount"
+        label="出入账"
+        width="120"
+        :formatter="formatRole"
+      >
+      </el-table-column>
+      <el-table-column prop="operationamount" label="操作资金" width="120">
+      </el-table-column>
+      <el-table-column prop="sc" label="手续费" width="100"> </el-table-column>
+      <el-table-column prop="pre" label="操作前金额" width="120">
+      </el-table-column>
+      <el-table-column prop="post" label="操作后金额" width="120">
+      </el-table-column>
+      <el-table-column prop="state" label="状态" width="120" :formatter="state">
+      </el-table-column>
+      <el-table-column prop="remark" label="备注" width="120">
+      </el-table-column>
+      <el-table-column
+        prop="dateline"
+        label="操作时间"
+        width="500"
+        :formatter="DateFormatterState"
+      >
+      </el-table-column>
+    </el-table>
+    <div class="blocks">
+      <el-pagination
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[5, 10, 20, 40]"
+        :page-size="pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        prev-text="上一页"
+        next-text="下一页"
+        :total="todol"
+      >
+        <!--//这是显示总共有多少数据，-->
+      </el-pagination>
+    </div>
+    <div style="height: 100vh; ">
+      <el-scrollbar style="height: 100%;">
+        <div style="height: 50opx;width: 100%;background: red;"></div>
+        <div style="height: 50opx;width: 100%;background: yellowgreen;"></div>
+        <div style="height: 50opx;width: 100%; background: blueviolet; "></div>
+      </el-scrollbar>
+    </div>
   </div>
 </template>
 <script>

@@ -83,6 +83,7 @@
       <!--分页区域-->
       <div class="block">
         <el-pagination
+          background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="queryInfo.pagenum"
@@ -226,7 +227,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 #div1 {

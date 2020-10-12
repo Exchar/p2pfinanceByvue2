@@ -91,6 +91,7 @@
     <!--    分页-->
     <div id="page">
       <el-pagination
+        background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage4"

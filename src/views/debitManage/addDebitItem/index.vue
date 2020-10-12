@@ -2,11 +2,11 @@
   <div>
     <el-row :gutter="20">
       <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="120px"
-          class="demo-ruleForm"
+        :model="ruleForm"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="120px"
+        class="demo-ruleForm"
       >
         <el-col :span="24">
           <p>基本信息</p>
@@ -17,28 +17,30 @@
         <el-col :span="11">
           <el-form-item label="标名" prop="entitle">
             <el-input
-                v-model="ruleForm.entitle"
-                placeholder="请输入名称"
+              v-model="ruleForm.entitle"
+              placeholder="请输入名称"
             ></el-input>
           </el-form-item>
           <el-form-item label="借款方" prop="borrower">
             <el-col :span="19">
               <el-input
-                  v-model="ruleForm.borrower"
-                  placeholder="请点击按钮选择借款账号"
-                  readonly="readonly"
+                v-model="ruleForm.borrower"
+                placeholder="请点击按钮选择借款账号"
+                readonly="readonly"
               ></el-input>
             </el-col>
             <el-col :span="5">
-              <el-button type="primary" @click="getBorrowersList">选择</el-button>
+              <el-button type="primary" @click="getBorrowersList"
+                >选择</el-button
+              >
               <el-dialog title="选择借款人" :visible.sync="dialogTableVisible">
                 <el-col :span="8">
                   <el-input
-                      size="max"
-                      placeholder="搜索借款人姓名"
-                      suffix-icon="el-icon-search"
-                      v-model="borrowers"
-                      @keyup.native="getQueryBorrower"
+                    size="max"
+                    placeholder="搜索借款人姓名"
+                    suffix-icon="el-icon-search"
+                    v-model="borrowers"
+                    @keyup.native="getQueryBorrower"
                   >
                   </el-input>
                 </el-col>
@@ -46,37 +48,41 @@
                   <el-table-column property="username" label="真实姓名">
                   </el-table-column>
                   <el-table-column
-                      property="phone"
-                      label="手机号码/用户名"
-                      width="200"
+                    property="phone"
+                    label="手机号码/用户名"
+                    width="200"
                   >
                   </el-table-column>
                   <el-table-column
-                      property="sock"
-                      label="用户状态"
-                      :formatter="sockState"
+                    property="sock"
+                    label="用户状态"
+                    :formatter="sockState"
                   >
                   </el-table-column>
                   <el-table-column
-                      property="type"
-                      label="身份类型"
-                      :formatter="userState"
+                    property="type"
+                    label="身份类型"
+                    :formatter="userState"
                   >
                   </el-table-column>
                   <el-table-column
-                      property="registration"
-                      label="添加时间"
-                      width="140"
-                      :formatter="timeState"
+                    property="registration"
+                    label="添加时间"
+                    width="140"
+                    :formatter="timeState"
                   >
                   </el-table-column>
-                  <el-table-column property="options" label="操作" width="120px">
+                  <el-table-column
+                    property="options"
+                    label="操作"
+                    width="120px"
+                  >
                     <template scope="scope">
                       <el-link
-                          type="primary"
-                          :underline="false"
-                          @click="chooseBorrower(scope.row)"
-                      >选择借款人</el-link
+                        type="primary"
+                        :underline="false"
+                        @click="chooseBorrower(scope.row)"
+                        >选择借款人</el-link
                       >
                     </template>
                   </el-table-column>
@@ -86,8 +92,8 @@
           </el-form-item>
           <el-form-item label="年利率" prop="annual">
             <el-input
-                v-model="ruleForm.annual"
-                placeholder="请输入1-24之间的数，保留两位小数"
+              v-model="ruleForm.annual"
+              placeholder="请输入1-24之间的数，保留两位小数"
             >
             </el-input>
           </el-form-item>
@@ -104,22 +110,22 @@
           </el-form-item>
           <el-form-item label="逾期罚息率" prop="penalty">
             <el-input
-                v-model="ruleForm.penalty"
-                placeholder="请输入0-24之间的数，保留两位小数"
+              v-model="ruleForm.penalty"
+              placeholder="请输入0-24之间的数，保留两位小数"
             >
             </el-input>
           </el-form-item>
           <el-form-item label="资金用途" prop="purpose">
             <el-select
-                v-model="ruleForm.purpose"
-                placeholder="请选择"
-                style="width: 100%"
+              v-model="ruleForm.purpose"
+              placeholder="请选择"
+              style="width: 100%"
             >
               <el-option
-                  v-for="item in capitalList"
-                  :label="item.pname"
-                  :key="item.id"
-                  :value="item.id"
+                v-for="item in capitalList"
+                :label="item.pname"
+                :key="item.id"
+                :value="item.id"
               >
               </el-option>
             </el-select>
@@ -131,80 +137,84 @@
         <el-col :span="11">
           <el-form-item label="风险等级" prop="grade">
             <el-select
-                v-model="ruleForm.grade"
-                placeholder="请选择"
-                style="width: 100%"
+              v-model="ruleForm.grade"
+              placeholder="请选择"
+              style="width: 100%"
             >
               <el-option
-                  v-for="item in riskList"
-                  :label="item.gradename"
-                  :key="item.id"
-                  :value="item.id"
+                v-for="item in riskList"
+                :label="item.gradename"
+                :key="item.id"
+                :value="item.id"
               >
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="借款总金额" prop="money">
             <el-input
-                v-model="ruleForm.money"
-                placeholder="请输入500-500000的整数"
+              v-model="ruleForm.money"
+              placeholder="请输入500-500000的整数"
             ></el-input>
           </el-form-item>
           <el-form-item label="还款方式" prop="repayment">
             <el-select
-                v-model="ruleForm.repayment"
-                placeholder="请选择"
-                style="width: 100%"
+              v-model="ruleForm.repayment"
+              placeholder="请选择"
+              style="width: 100%"
             >
               <el-option
-                  v-for="item in repaymentList"
-                  :label="item.rname"
-                  :key="item.id"
-                  :value="item.id"
+                v-for="item in repaymentList"
+                :label="item.rname"
+                :key="item.id"
+                :value="item.id"
               >
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="借款期限">
             <el-input
-                v-model="termType"
-                placeholder="请输入0-999的整数"
+              v-model="termType"
+              placeholder="请输入0-999的整数"
             ></el-input>
           </el-form-item>
           <el-form-item label="借款管理费月率" prop="monthly">
             <el-input
-                v-model="ruleForm.monthly"
-                placeholder="请输入0-24之间的数"
+              v-model="ruleForm.monthly"
+              placeholder="请输入0-24之间的数"
             ></el-input>
           </el-form-item>
           <el-form-item label="借款类型" prop="type">
             <el-select
-                v-model="ruleForm.type"
-                placeholder="请选择"
-                style="width: 100%"
+              v-model="ruleForm.type"
+              placeholder="请选择"
+              style="width: 100%"
             >
               <el-option
-                  v-for="item in loanTypeList"
-                  :label="item.tname"
-                  :key="item.id"
-                  :value="item.id"
+                v-for="item in loanTypeList"
+                :label="item.tname"
+                :key="item.id"
+                :value="item.id"
               >
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="还款来源" prop="source">
             <el-input
-                v-model="ruleForm.source"
-                placeholder="请输入借款人还款来源"
+              v-model="ruleForm.source"
+              placeholder="请输入借款人还款来源"
             ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="1"><div class="grid-content bg-purple-dark"></div></el-col>
+        <el-col :span="1"
+          ><div class="grid-content bg-purple-dark"></div
+        ></el-col>
         <!--      担保信息-->
         <el-col :span="24">
           <p>担保信息</p>
         </el-col>
-        <el-col :span="1"><div class="grid-content bg-purple-dark"></div></el-col>
+        <el-col :span="1"
+          ><div class="grid-content bg-purple-dark"></div
+        ></el-col>
         <el-col :span="11">
           <el-form-item label="是否担保">
             <el-radio-group v-model="ruleForm.assure">
@@ -224,26 +234,26 @@
         <el-col :span="11">
           <el-form-item label="担保机构">
             <el-select
-                v-model="ruleForm.guarantee"
-                placeholder="请选择"
-                style="width: 100%"
+              v-model="ruleForm.guarantee"
+              placeholder="请选择"
+              style="width: 100%"
             >
               <el-option
-                  v-for="item in guaranteeList"
-                  :label="item.gname"
-                  :key="item.id"
-                  :value="item.id"
+                v-for="item in guaranteeList"
+                :label="item.gname"
+                :key="item.id"
+                :value="item.id"
               >
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="抵押材料">
             <el-upload
-                action="/markApi/finance/upload"
-                list-type="picture-card"
-                :on-preview="handlePictureCardPreview1"
-                :on-remove="handleRemove1"
-                :on-success="imgSuccess1"
+              action="/markApi/finance/upload"
+              list-type="picture-card"
+              :on-preview="handlePictureCardPreview1"
+              :on-remove="handleRemove1"
+              :on-success="imgSuccess1"
             >
               <i class="el-icon-plus"></i>
             </el-upload>
@@ -252,21 +262,25 @@
             </el-dialog>
           </el-form-item>
         </el-col>
-        <el-col :span="1"><div class="grid-content bg-purple-dark"></div></el-col>
+        <el-col :span="1"
+          ><div class="grid-content bg-purple-dark"></div
+        ></el-col>
         <!--      借款资料-->
         <el-col :span="24">
           <p>借款资料</p>
         </el-col>
-        <el-col :span="1"><div class="grid-content bg-purple-dark"></div></el-col>
+        <el-col :span="1"
+          ><div class="grid-content bg-purple-dark"></div
+        ></el-col>
         <el-col :span="11">
           <el-form-item label="上传借款资料">
             <el-upload
-                action="/markApi/finance/upload"
-                list-type="picture-card"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-                :on-success="imgSuccess"
-                accept="image/png,image/gif,image/jpg,image/jpeg"
+              action="/markApi/finance/upload"
+              list-type="picture-card"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove"
+              :on-success="imgSuccess"
+              accept="image/png,image/gif,image/jpg,image/jpeg"
             >
               <i class="el-icon-plus"></i>
             </el-upload>
@@ -277,11 +291,10 @@
         </el-col>
         <el-divider></el-divider>
       </el-form>
-
     </el-row>
     <div class="subBTn">
       <el-button type="primary" @click="submitForm('ruleForm')"
-      >提交审核</el-button
+        >提交审核</el-button
       >
       <el-button>保存</el-button>
     </div>

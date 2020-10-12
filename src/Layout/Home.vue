@@ -129,7 +129,7 @@ export default {
     );
     mainBody.style.height =
       parseFloat(appView.style.height) -
-      parseFloat(this.$refs.header.$el.style.height)  +
+      parseFloat(this.$refs.header.$el.style.height) +
       "px";
 
     //定义窗口大小改变监听事件
@@ -147,7 +147,7 @@ export default {
   background-color: rgb(240, 240, 242);
   padding: 10px 0;
 }
-.shadow{
+.shadow {
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04) !important;
 }
 .viewMain > div {

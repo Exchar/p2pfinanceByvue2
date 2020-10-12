@@ -313,7 +313,7 @@ export default {
   border-radius: 4px solid;
 }
 .el-pagination {
- margin-top: 20px;
+  margin-top: 20px;
 }
 .searchLan {
   margin-bottom: 10px;
