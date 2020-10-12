@@ -28,18 +28,18 @@
             <div>
               <Bread v-if="breadRefresh"></Bread>
             </div>
-            <div class="viewPort">
+            <div class="viewPort" ref="port">
               <!--            视图窗口-->
-              <el-scrollbar class="viewMain">
+              <el-scrollbar class="viewMain" ref="viewMain">
                 <transition name="viewIn">
                   <router-view></router-view>
                 </transition>
               </el-scrollbar>
               <!--              底部的版权声明-->
-              <p style="text-align: center;margin-top: 8px;font-size:0.8em">
-                &copy;惠众借贷版权所有
-              </p>
             </div>
+            <p style="text-align: center;margin-top: 8px;font-size:0.8em;">
+              &copy;惠众借贷版权所有
+            </p>
           </el-main>
         </el-container>
       </div>
@@ -65,7 +65,8 @@ export default {
   data() {
     return {
       breadRefresh: true,
-      outerHeight: window.outerHeight
+      outerHeight: window.outerHeight,
+      nowPage: this.$route
     };
   },
   methods: {
@@ -81,37 +82,54 @@ export default {
     //监听页面变化
     getNowAct: function() {
       this.breadRefresh = false;
+      let viewPort = this.$refs.port;
+      if (this.getNowAct === "/home") {
+        viewPort.style.height = "91%";
+        viewPort.style.backgroundColor = "rgb(240,240,242)";
+      } else {
+        viewPort.style.height = "86%";
+        viewPort.style.backgroundColor = "#ffffff";
+      }
       this.$nextTick(() => {
         this.breadRefresh = true;
       });
     },
     //监听高度变化
     outerHeight: function() {
-      console.log(this.outerHeight);
       let appView = this.$refs.appView;
       let view = this.$refs.view;
       appView.style.height = window.outerHeight + "px";
       view.style.height = window.outerHeight + "px";
       let mainBody = this.$refs.mainBody.$el;
+      console.log(
+        parseFloat(appView.style.height) -
+          parseFloat(this.$refs.header.$el.style.height)
+      );
       mainBody.style.height =
         parseFloat(appView.style.height) -
-        parseFloat(this.$refs.header.$el.style.height) -
-        100 +
+        parseFloat(window.getComputedStyle(this.$refs.header.$el).height) -
+        22 +
         "px";
     }
   },
   mounted() {
+    console.log(document.body.clientHeight);
     let that = this;
     let appView = this.$refs.appView;
     let view = this.$refs.view;
-    appView.style.height = window.outerHeight + "px";
-    view.style.height = window.outerHeight + "px";
+    appView.style.height = document.documentElement.clientHeight + "px";
+    view.style.height = document.documentElement.clientHeight + "px";
     let mainBody = this.$refs.mainBody.$el;
+    console.log(
+      parseFloat(appView.style.height) -
+        parseFloat(this.$refs.header.$el.style.height)
+    );
     mainBody.style.height =
       parseFloat(appView.style.height) -
       parseFloat(this.$refs.header.$el.style.height) -
-      100 +
+      22 +
       "px";
+
     //定义窗口大小改变监听事件
     window.onresize = () => {
       return (() => {
@@ -123,15 +141,18 @@ export default {
 </script>
 <style scoped>
 .viewMain {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
-  height: 92% !important;
-  background-color: rgb(240, 240, 242);
+  box-shadow:  0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
+  height: 100% !important;
+  background-color: #ffffff;
 }
 .viewMain > div {
   transition: all 10s;
 }
 .viewPort {
-  height: 100%;
+  height: 91%;
+  box-sizing: border-box;
+  padding: 14px;
+  background-color:rgb(240, 240, 242) !important;
 }
 .main {
   background-color: rgb(240, 240, 242);
@@ -145,7 +166,7 @@ body {
 }
 .viewMain.el-scrollbar > div,
 .viewMain.el-scrollbar {
-  height: 740px;
+  height: 100%;
 }
 .main {
   min-width: 1350px;
@@ -206,4 +227,8 @@ body {
 .el-breadcrumb__inner {
   vertical-align: bottom !important;
 }
+.footer {
+  font-size: 2em;
+}
+
 </style>
