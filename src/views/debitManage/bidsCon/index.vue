@@ -246,7 +246,12 @@
                 <el-input v-model="formData.guarantee" readonly="readonly">
                 </el-input>
               </el-form-item>
-              <el-form-item label="抵押材料"> </el-form-item>
+              <el-form-item label="抵押材料">
+                <el-image
+                  :src="'http://39.97.101.196:8080/' + formData.materials"
+                  :lazy="true"
+                ></el-image>
+              </el-form-item>
             </el-col>
             <el-col :span="1"
               ><div class="grid-content bg-purple-dark"></div
@@ -260,7 +265,10 @@
             ></el-col>
             <el-col :span="11">
               <el-form-item label="借款资料">
-                <el-image :src="formData.datum"></el-image>
+                <el-image
+                  :src="'http://39.97.101.196:8080/' + formData.datum"
+                  :lazy="true"
+                ></el-image>
               </el-form-item>
             </el-col>
             <!--        审核-->
@@ -357,7 +365,8 @@ export default {
         deadline: "",
         desc: "",
         num: "",
-        datum: ""
+        datum: "",
+        materials: ""
       },
       dialogFormVisible: false,
       loadings: false
