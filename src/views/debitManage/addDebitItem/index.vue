@@ -56,7 +56,11 @@
                   :formatter="sockState"
                 >
                 </el-table-column>
-                <el-table-column property="type" label="身份类型">
+                <el-table-column
+                  property="type"
+                  label="身份类型"
+                  :formatter="userState"
+                >
                 </el-table-column>
                 <el-table-column
                   property="registration"
@@ -65,7 +69,7 @@
                   :formatter="timeState"
                 >
                 </el-table-column>
-                <el-table-column property="options" label="操作">
+                <el-table-column property="options" label="操作" width="120px">
                   <template scope="scope">
                     <el-link
                       type="primary"
@@ -398,7 +402,15 @@ export default {
     },
     // 用户状态转换
     sockState: function(row) {
-      return row.sock === 1 ? "正常" : row.sock === 0 ? "锁定" : "";
+      return row.sock === 1 ? "正常" : row.sock === 0 ? "锁定" : row.sock;
+    },
+    // 用户身份转换
+    userState: function(row) {
+      return row.type === 0
+        ? "企业用户"
+        : row.type === 1
+        ? "个人用户"
+        : row.type;
     },
     // 风险等级列表获取
     getRiskList: function() {
@@ -568,6 +580,7 @@ export default {
           limit: this.pageSize
         })
         .then(res => {
+          console.log(res);
           if (res.data.code === "200") {
             this.gridData = res.data.data;
             console.log(this.gridData);
@@ -594,7 +607,7 @@ export default {
     },
     imgSuccess(res, file) {
       console.log(res, file);
-      this.dialogImageUrl = res.fileName;
+      this.dialogImageUrl = res.fileNameAddress;
     },
     // 抵押物图片上传
     handleRemove1: function(file, fileList) {
@@ -606,7 +619,7 @@ export default {
     },
     imgSuccess1(res, file) {
       console.log(res, file);
-      this.dialogImageUrl1 = res.fileName;
+      this.dialogImageUrl1 = res.fileNameAddress;
     }
   }
 };
