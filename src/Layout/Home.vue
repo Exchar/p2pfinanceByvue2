@@ -83,12 +83,17 @@ export default {
     getNowAct: function() {
       this.breadRefresh = false;
       let viewPort = this.$refs.port;
+      let viewMain = this.$refs.viewMain.$el;
+      console.log(viewMain.style.boxShadow);
       if (this.getNowAct === "/home") {
         viewPort.style.height = "91%";
-        viewPort.style.backgroundColor = "rgb(240,240,242)";
+        viewMain.style.backgroundColor = "rgb(240,240,242)";
+        viewMain.style.boxShadow = "none !important";
       } else {
         viewPort.style.height = "86%";
-        viewPort.style.backgroundColor = "#ffffff";
+        viewMain.style.backgroundColor = "#ffffff";
+        viewMain.style.boxShadow =
+          " 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04) !important";
       }
       this.$nextTick(() => {
         this.breadRefresh = true;
@@ -141,9 +146,9 @@ export default {
 </script>
 <style scoped>
 .viewMain {
-  box-shadow:  0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
   height: 100% !important;
-  background-color: #ffffff;
+  background-color: rgb(240, 240, 242);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 .viewMain > div {
   transition: all 10s;
@@ -152,7 +157,7 @@ export default {
   height: 91%;
   box-sizing: border-box;
   padding: 14px;
-  background-color:rgb(240, 240, 242) !important;
+  background-color: rgb(240, 240, 242) !important;
 }
 .main {
   background-color: rgb(240, 240, 242);
@@ -230,5 +235,4 @@ body {
 .footer {
   font-size: 2em;
 }
-
 </style>

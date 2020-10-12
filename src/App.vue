@@ -60,8 +60,15 @@ body {
 .el-table {
   min-height: 420px !important;
 }
+.el-table td,.el-table td.is-center{
+  text-align: center !important;
+}
+.el-table th{
+  text-align: center !important;
+}
 .el-pagination{
   text-align: center !important;
+  margin-top: 20px;
 }
 .el-table::before{
   height: 0 !important;
