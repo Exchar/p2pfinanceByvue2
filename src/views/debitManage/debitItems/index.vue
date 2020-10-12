@@ -118,7 +118,7 @@
         </el-table-column>
         <el-table-column label="投资进度" width="180" align="center">
           <template slot-scope="scope">
-            <span>{{ scope.row.speed * 100 + "%" }}</span>
+            <span>{{ scope.row.speed .toFixed(2)* 100 + "%" }}</span>
           </template>
         </el-table-column>
         <el-table-column label="状态" width="180" align="center">
@@ -134,6 +134,9 @@
             </p>
             <p v-if="Number(debitltemsData[scope.$index].state) === 4">
               待上架
+            </p>
+            <p v-if="Number(debitltemsData[scope.$index].state) === 40">
+              已上架
             </p>
             <p v-if="Number(debitltemsData[scope.$index].state) === 50">
               已下架
@@ -223,7 +226,7 @@
                   <span>{{ form.saletime | formatDate }}</span>
                 </el-form-item>
                 <el-form-item label="投资进度：" :label-width="formLabelWidth">
-                  <span>{{ form.speed }}</span>
+                  <span>{{ parseFloat(form.speed).toFixed(2)* 100 + "%" }}</span>
                 </el-form-item>
                 <el-form-item label="状态：" :label-width="formLabelWidth">
                   <span v-if="Number(form.state) === 1">待回款</span>
@@ -580,7 +583,7 @@ export default {
           if (Number(response.data.code) === 200) {
             this.debitltemsData = response.data.data;
             console.log(response.data.data);
-            this.total = response.data.count;
+            this.total = response.data.count; 
             this.loading = false;
           } else {
             this.$message(response.data.msg);
