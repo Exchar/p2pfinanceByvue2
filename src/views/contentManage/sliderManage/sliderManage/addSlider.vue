@@ -11,19 +11,19 @@
         <el-input v-model="ruleForm.title" placeholder="请输入标题"></el-input>
       </el-form-item>
       <!--上传-->
-      <p class="lunbo">轮播图 :</p>
       <el-upload
-        class="upload-demo"
-        drag
-        action="https://jsonplaceholder.typicode.com/posts/"
-        multiple
+        class="lunbo"
+        action="/markApi/finance/upload"
+        list-type="picture-card"
+        :on-preview="handlePictureCardPreview"
+        :on-remove="handleRemove"
+        :on-success="imgSuccess"
       >
-        <i class="el-icon-upload"></i>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        <div class="el-upload__tip" slot="tip">
-          请上传JPG或PNG格式的新闻图片，且不超过500kb
-        </div>
+        <i class="el-icon-plus"></i>
       </el-upload>
+      <el-dialog :visible.sync="dialogVisible">
+        <img width="100%" :src="dialogImageUrl" alt="" />
+      </el-dialog>
       <!--跳转链接-->
       <el-form-item class="art" label="跳转链接 :" prop="link">
         <el-input
@@ -45,6 +45,16 @@
           placeholder="请输入省份区域"
         ></el-input>
       </el-form-item>
+      <!--轮播位置-->
+      <el-form-item class="position" label="轮播位置 :" prop="position">
+        <el-input v-model="ruleForm.position" placeholder="请输入轮播位置">
+        </el-input>
+      </el-form-item>
+      <!--区域-->
+      <el-form-item class="area" label="省份区域 :" prop="province">
+        <el-input v-model="ruleForm.province" placeholder="请输入省份区域">
+        </el-input>
+      </el-form-item>
 
       <h1 class="operate">上架操作</h1>
       <!--选择时间-->
@@ -55,7 +65,8 @@
               placeholder="选择时间"
               v-model="ruleForm.starttime"
               style="width: 100%;"
-            ></el-time-picker>
+            >
+            </el-time-picker>
           </el-form-item>
         </el-col>
         <el-col class="line" :span="2">-</el-col>
@@ -65,7 +76,8 @@
               placeholder="选择时间"
               v-model="ruleForm.finishtime"
               style="width: 100%;"
-            ></el-time-picker>
+            >
+            </el-time-picker>
           </el-form-item>
         </el-col>
       </el-form-item>
@@ -81,7 +93,8 @@
           <el-input
             v-model="ruleForm.number"
             placeholder="请输入正整数,数字越大越靠前"
-          ></el-input>
+          >
+          </el-input>
         </el-form-item>
       </el-form>
       <!--选择状态-->
@@ -94,8 +107,8 @@
       <!--提交或返回操作-->
       <el-form-item class="button">
         <el-button type="primary" @click="submitForm('ruleForm')"
-          >提交</el-button
-        >
+          >提交
+        </el-button>
         <el-button @click="reverseForm('ruleForm')">返回</el-button>
       </el-form-item>
     </el-form>
@@ -106,6 +119,8 @@ export default {
   name: "addSlider",
   data: function() {
     return {
+      dialogImageUrl: "",
+      dialogVisible: false,
       ruleForm: {
         id: "",
         title: "",
@@ -130,31 +145,18 @@ export default {
       }
     };
   },
-  created() {
-    this.getSliderList();
-  },
+  created() {},
   methods: {
-    getSliderList: function() {
-      //向后端服务器去请求数据
-      this.$axios
-        .post("http://172.16.5.177:8080/finance/ad/findByPage", {
-          page: this.page,
-          limit: this.limit,
-          count: this.count
-        })
-        .then(response => {
-          console.log(response);
-          var result = response.data;
-          if (result.code === "200") {
-            this.tableData = response.data.data;
-            console.log(this.tableData);
-          } else {
-            this.$message.error(result.message);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    imgSuccess: function(res) {
+      this.dialogImageUrl = res.fileNameAddress;
+      console.log(res);
     },
     submitForm() {
       //获取数据到服务器，进行添加,接收服务器响应
@@ -167,19 +169,19 @@ export default {
           finishtime: this.ruleForm.finishtime,
           number: this.ruleForm.number,
           state: this.ruleForm.state,
-          province: this.ruleForm.province
+          province: this.ruleForm.province,
+          picture: this.dialogImageUrl
         })
         .then(response => {
           console.log(response);
-          var result = response.data;
-          console.log(result);
-          if (result.code === 200) {
-            this.$message.success(result.message);
-            if (result.msg === "添加成功") {
-              this.getSliderList();
-            }
+          let result = response.data;
+          if (result.code === "200") {
+            console.log(result);
+            this.$message.success(result.msg);
+            this.$router.push("/contentManage/sliderManage/sliderManage");
+            this.getSliderList();
           } else {
-            this.$message.error(result.message);
+            this.$message.error(result.msg);
           }
         })
         .catch(error => {
@@ -188,7 +190,7 @@ export default {
         });
     },
     reverseForm() {
-      this.$router.push("/sliderManage/index");
+      this.$router.push("/contentManage/sliderManage/sliderManage");
     }
   }
 };

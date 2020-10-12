@@ -173,9 +173,10 @@ export default {
     getArticleList: function() {
       //向后端服务器去请求数据
       this.$axios
-        .post("http://172.16.5.177:8080/finance/essay/findByPage", {
-          page: 1,
-          limit: 7
+        .post("/markApi/finance/essay/findByPage", {
+          page: this.page,
+          limit: this.limit,
+          count: this.count
         })
         .then(response => {
           console.log(response);
@@ -208,15 +209,14 @@ export default {
         })
         .then(response => {
           console.log(response);
-          var result = response.data;
-          console.log(result);
-          if (result.code === 200) {
-            this.$message.success(result.message);
-            if (result.msg === "添加成功") {
-              this.getArticleList();
-            }
+          let result = response.data;
+          if (result.code === "200") {
+            console.log(result);
+            this.$message.success(result.msg);
+            this.$router.push("/contentManage/articleManage/articleManage");
+            this.getArticleList();
           } else {
-            this.$message.error(result.message);
+            this.$message.error(result.msg);
           }
         })
         .catch(error => {
@@ -225,7 +225,7 @@ export default {
         });
     },
     reverseForm() {
-      this.$router.push("/articleManage");
+      this.$router.push("/contentManage/articleManage/articleManage");
     }
   }
 };

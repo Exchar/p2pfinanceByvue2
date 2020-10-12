@@ -12,14 +12,14 @@ module.exports = {
         }
       },
       "/markApi": {
-        target: "http://172.16.5.177:8080", //设置你调用的接口域名和端口号 别忘了加http
+        target: "http://39.97.101.196:8080", //设置你调用的接口域名和端口号 别忘了加http
         changeOrigin: true,
         pathRewrite: {
-          ["^" + process.env.VUE_APP_BASE_API]: "" //这里理解成用‘/api'代替target里面的地址，后面组件中我们掉接口时直接用api代替
+          "^/markApi": "" //这里理解成用‘/api'代替target里面的地址，后面组件中我们掉接口时直接用api代替
         }
       },
       "/testApi": {
-        target: "http://localhost:9999", //设置你调用的接口域名和端口号 别忘了加http
+        target: "http://", //设置你调用的接口域名和端口号 别忘了加http
         changeOrigin: true,
         pathRewrite: {
           "^/testApi": "" //这里理解成用‘/api'代替target里面的地址，后面组件中我们掉接口时直接用api代替

@@ -39,46 +39,22 @@ router.beforeEach(async (to, from, next) => {
           let extraRoutes = [
             //在这里写额外的路由
             {
-              path: "/index",
-              component: () =>
-                import("@/views/memberManage/debitUserManage/index"),
-              meta: { title: "工作台" },
-              name: "index"
-            },
-            {
-              path: "/",
-              name: "sliderManage",
-              meta: { title: "轮播管理" },
-              component: () =>
-                import("../views/contentManage/sliderManage/index")
-            },
-            {
-              path: "/",
-              name: "sliderManage",
+              path: "/sliderManage/sliderManage/addSlider",
+              name: "addSlider",
               meta: { title: "新增轮播" },
               component: () =>
-                import("../views/contentManage/sliderManage/addSlider")
+                import(
+                  "../views/contentManage/sliderManage/sliderManage/addSlider"
+                )
             },
             {
-              path: "/",
-              name: "articleManage",
-              meta: { title: "文章管理" },
-              component: () =>
-                import("../views/contentManage/articleManage/articleManage")
-            },
-            {
-              path: "/",
-              name: "articleManage",
+              path: "/articleManage/articleManage/addArticle",
+              name: "addArticle",
               meta: { title: "新增文章" },
               component: () =>
-                import("../views/contentManage/articleManage/addArticle")
-            },
-            {
-              path: "/",
-              name: "feedBack",
-              meta: { title: "意见反馈" },
-              component: () =>
-                import("../views/contentManage/feedBack/feedBack")
+                import(
+                  "../views/contentManage/articleManage/articleManage/addArticle"
+                )
             },
             {
               path: "/debitManage/Maintenance",
