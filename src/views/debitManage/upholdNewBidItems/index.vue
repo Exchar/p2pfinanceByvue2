@@ -135,141 +135,142 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-dialog title="信息查看" :visible.sync="dialogFormVisible">
-        <el-form :model="formData">
-          <el-row :gutter="20">
-            <el-form
-              :model="formData"
-              label-width="120px"
-              class="demo-ruleForm"
-            >
-              <el-col :span="24">
-                <p>基本信息</p>
-              </el-col>
-              <el-col :span="1"
-                ><div class="grid-content bg-purple-dark"></div
-              ></el-col>
-              <el-col :span="11">
-                <el-form-item label="标名">
-                  <el-input v-model="formData.entitle"></el-input>
-                </el-form-item>
-                <el-form-item label="借款方">
-                  <el-input
-                    v-model="formData.borrower"
-                    readonly="readonly"
-                  ></el-input>
-                </el-form-item>
-                <el-form-item label="年利率">
-                  <el-input v-model="formData.annual"> </el-input>
-                </el-form-item>
-                <el-form-item label="借款期限">
-                  <el-input v-model="formData.deadline" readonly="readonly">
-                  </el-input>
-                </el-form-item>
-                <el-form-item label="借款起息方式">
-                  <el-input v-model="formData.way" readonly="readonly">
-                  </el-input>
-                </el-form-item>
-                <el-form-item label="逾期罚息率">
-                  <el-input v-model="formData.penalty"> </el-input>
-                </el-form-item>
-                <el-form-item label="资金用途">
-                  <el-input v-model="formData.purpose" readonly="readonly">
-                  </el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="11">
-                <el-form-item label="风险等级">
-                  <el-input v-model="formData.grade" readonly="readonly">
-                  </el-input>
-                </el-form-item>
-                <el-form-item label="借款总金额">
-                  <el-input v-model="formData.money"></el-input>
-                </el-form-item>
-                <el-form-item label="还款方式">
-                  <el-input v-model="formData.repayment" readonly="readonly">
-                  </el-input>
-                </el-form-item>
-                <el-form-item label="借款管理费月率">
-                  <el-input v-model="formData.monthly"></el-input>
-                </el-form-item>
-                <el-form-item label="借款类型">
-                  <el-input v-model="formData.type" readonly="readonly">
-                  </el-input>
-                </el-form-item>
-                <el-form-item label="还款来源">
-                  <el-input v-model="formData.source"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="1"
-                ><div class="grid-content bg-purple-dark"></div
-              ></el-col>
-              <!--      担保信息-->
-              <el-col :span="24">
-                <p>担保信息</p>
-              </el-col>
-              <el-col :span="1"
-                ><div class="grid-content bg-purple-dark"></div
-              ></el-col>
-              <el-col :span="11">
-                <el-form-item label="是否担保">
-                  <el-input v-model="formData.assure" readonly="readonly">
-                  </el-input>
-                </el-form-item>
-                <el-form-item label="抵押类型">
-                  <el-input v-model="formData.pledge" readonly="readonly">
-                  </el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="11">
-                <el-form-item label="担保机构">
-                  <el-input v-model="formData.guarantee" readonly="readonly">
-                  </el-input>
-                </el-form-item>
-                <el-form-item label="抵押材料">
-                  <el-image
-                    :src="'http://39.97.101.196:8080/' + formData.materials"
-                    :lazy="true"
-                  ></el-image>
-                </el-form-item>
-              </el-col>
-              <el-col :span="1"
-                ><div class="grid-content bg-purple-dark"></div
-              ></el-col>
-              <!--      借款资料-->
-              <el-col :span="24">
-                <p>借款资料</p>
-              </el-col>
-              <el-col :span="1"
-                ><div class="grid-content bg-purple-dark"></div
-              ></el-col>
-              <el-col :span="11">
-                <el-form-item label="借款资料">
-                  <el-image
-                    :src="'http://39.97.101.196:8080/' + formData.datum"
-                    :lazy="true"
-                  ></el-image>
-                </el-form-item>
-              </el-col>
-              <el-col :span="1"
-                ><div class="grid-content bg-purple-dark"></div
-              ></el-col>
-              <el-col :span="24">
-                <el-divider></el-divider>
-                <el-form-item>
-                  <el-button type="primary" @click="modifySubmit"
-                    >修改</el-button
-                  >
-                  <el-button @click="dialogFormVisible = false"
-                    >取 消</el-button
-                  >
-                </el-form-item>
-              </el-col>
-            </el-form>
-          </el-row>
-        </el-form>
-      </el-dialog>
-    </div>
+        <!--         编辑-->
+        <el-dialog title="信息查看" :visible.sync="dialogFormVisible">
+          <el-form :model="formData">
+            <el-row :gutter="20">
+              <el-form
+                :model="formData"
+                label-width="120px"
+                class="demo-ruleForm"
+              >
+                <el-col :span="24">
+                  <p>基本信息</p>
+                </el-col>
+                <el-col :span="1"
+                  ><div class="grid-content bg-purple-dark"></div
+                ></el-col>
+                <el-col :span="11">
+                  <el-form-item label="标名">
+                    <el-input v-model="formData.entitle"></el-input>
+                  </el-form-item>
+                  <el-form-item label="借款方">
+                    <el-input
+                      v-model="formData.borrower"
+                      readonly="readonly"
+                    ></el-input>
+                  </el-form-item>
+                  <el-form-item label="年利率">
+                    <el-input v-model="formData.annual"> </el-input>
+                  </el-form-item>
+                  <el-form-item label="借款期限">
+                    <el-input v-model="formData.deadline" readonly="readonly">
+                    </el-input>
+                  </el-form-item>
+                  <el-form-item label="借款起息方式">
+                    <el-input v-model="formData.way" readonly="readonly">
+                    </el-input>
+                  </el-form-item>
+                  <el-form-item label="逾期罚息率">
+                    <el-input v-model="formData.penalty"> </el-input>
+                  </el-form-item>
+                  <el-form-item label="资金用途">
+                    <el-input v-model="formData.purpose" readonly="readonly">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="11">
+                  <el-form-item label="风险等级">
+                    <el-input v-model="formData.grade" readonly="readonly">
+                    </el-input>
+                  </el-form-item>
+                  <el-form-item label="借款总金额">
+                    <el-input v-model="formData.money"></el-input>
+                  </el-form-item>
+                  <el-form-item label="还款方式">
+                    <el-input v-model="formData.repayment" readonly="readonly">
+                    </el-input>
+                  </el-form-item>
+                  <el-form-item label="借款管理费月率">
+                    <el-input v-model="formData.monthly"></el-input>
+                  </el-form-item>
+                  <el-form-item label="借款类型">
+                    <el-input v-model="formData.type" readonly="readonly">
+                    </el-input>
+                  </el-form-item>
+                  <el-form-item label="还款来源">
+                    <el-input v-model="formData.source"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1"
+                  ><div class="grid-content bg-purple-dark"></div
+                ></el-col>
+                <!--      担保信息-->
+                <el-col :span="24">
+                  <p>担保信息</p>
+                </el-col>
+                <el-col :span="1"
+                  ><div class="grid-content bg-purple-dark"></div
+                ></el-col>
+                <el-col :span="11">
+                  <el-form-item label="是否担保">
+                    <el-input v-model="formData.assure" readonly="readonly">
+                    </el-input>
+                  </el-form-item>
+                  <el-form-item label="抵押类型">
+                    <el-input v-model="formData.pledge" readonly="readonly">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="11">
+                  <el-form-item label="担保机构">
+                    <el-input v-model="formData.guarantee" readonly="readonly">
+                    </el-input>
+                  </el-form-item>
+                  <el-form-item label="抵押材料">
+                    <el-image
+                      :src="'/markApi/' + formData.materials"
+                      :lazy="true"
+                    ></el-image>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1"
+                  ><div class="grid-content bg-purple-dark"></div
+                ></el-col>
+                <!--      借款资料-->
+                <el-col :span="24">
+                  <p>借款资料</p>
+                </el-col>
+                <el-col :span="1"
+                  ><div class="grid-content bg-purple-dark"></div
+                ></el-col>
+                <el-col :span="11">
+                  <el-form-item label="借款资料">
+                    <el-image
+                      :src="'/markApi/' + formData.datum"
+                      :lazy="true"
+                    ></el-image>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1"
+                  ><div class="grid-content bg-purple-dark"></div
+                ></el-col>
+                <el-col :span="24">
+                  <el-divider></el-divider>
+                  <el-form-item>
+                    <el-button type="primary" @click="modifySubmit"
+                      >修改</el-button
+                    >
+                    <el-button @click="dialogFormVisible = false"
+                      >取 消</el-button
+                    >
+                  </el-form-item>
+                </el-col>
+              </el-form>
+            </el-row>
+          </el-form>
+        </el-dialog>
+      </div>
     <el-pagination
       background
       @size-change="handleSizeChange"
