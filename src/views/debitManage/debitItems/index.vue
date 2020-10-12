@@ -118,7 +118,7 @@
         </el-table-column>
         <el-table-column label="投资进度" width="180" align="center">
           <template slot-scope="scope">
-            <span>{{ scope.row.speed .toFixed(2)* 100 + "%" }}</span>
+            <span>{{ scope.row.speed.toFixed(2) * 100 + "%" }}</span>
           </template>
         </el-table-column>
         <el-table-column label="状态" width="180" align="center">
@@ -226,15 +226,19 @@
                   <span>{{ form.saletime | formatDate }}</span>
                 </el-form-item>
                 <el-form-item label="投资进度：" :label-width="formLabelWidth">
-                  <span>{{ parseFloat(form.speed).toFixed(2)* 100 + "%" }}</span>
+                  <span>{{
+                    parseFloat(form.speed).toFixed(2) * 100 + "%"
+                  }}</span>
                 </el-form-item>
                 <el-form-item label="状态：" :label-width="formLabelWidth">
-                  <span v-if="Number(form.state) === 1">待回款</span>
-                  <span v-if="Number(form.state) === 2">已结算</span>
-                  <span v-if="Number(form.state) === 3">撤标</span>
-                  <span v-if="Number(form.state) === 4">流标</span>
-                  <span v-if="Number(form.state) === 5">投资中</span>
-                  <span v-if="Number(form.state) === 6">投资失败</span>
+                  <span v-if="Number(form.state) === 1">进行中</span>
+                  <span v-if="Number(form.state) === 2">满标状态</span>
+                  <span v-if="Number(form.state) === 3">初审未通过</span>
+                  <span v-if="Number(form.state) === 4">待上架</span>
+                  <span v-if="Number(form.state) === 40">已上架</span>
+                  <span v-if="Number(form.state) === 50">已下架</span>
+                  <span v-if="Number(form.state) === 60">新标草稿</span>
+                  <span v-if="Number(form.state) === 100">复审下架</span>
                 </el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer">
@@ -583,7 +587,7 @@ export default {
           if (Number(response.data.code) === 200) {
             this.debitltemsData = response.data.data;
             console.log(response.data.data);
-            this.total = response.data.count; 
+            this.total = response.data.count;
             this.loading = false;
           } else {
             this.$message(response.data.msg);
