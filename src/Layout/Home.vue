@@ -66,7 +66,8 @@ export default {
     return {
       breadRefresh: true,
       outerHeight: window.outerHeight,
-      nowPage: this.$route
+      nowPage: this.$route,
+      bodyHeight:document.documentElement.clientHeight
     };
   },
   methods: {
@@ -99,29 +100,32 @@ export default {
       });
     },
     //监听高度变化
-    outerHeight: function() {
+    bodyHeight: function() {
+      console.log(
+        screen.availHeight,
+        screen.availHeight - (window.outerHeight - window.innerHeight)
+      );
       let appView = this.$refs.appView;
       let view = this.$refs.view;
-      appView.style.height = document.documentElement.clientHeight + "px";
-      view.style.height = document.documentElement.clientHeight + "px";
+      appView.style.height =
+        screen.availHeight - (window.outerHeight - window.innerHeight) + "px";
+      view.style.height =
+        screen.availHeight - (window.outerHeight - window.innerHeight) + "px";
       let mainBody = this.$refs.mainBody.$el;
-      console.log(
-        parseFloat(appView.style.height) -
-          parseFloat(this.$refs.header.$el.style.height)
-      );
       mainBody.style.height =
         parseFloat(appView.style.height) -
         parseFloat(window.getComputedStyle(this.$refs.header.$el).height) +
         "px";
-    }
+    },
   },
   mounted() {
-    console.log(document.body.clientHeight);
     let that = this;
     let appView = this.$refs.appView;
     let view = this.$refs.view;
-    appView.style.height = document.documentElement.clientHeight + "px";
-    view.style.height = document.documentElement.clientHeight + "px";
+    appView.style.height =
+      screen.availHeight - (window.outerHeight - window.innerHeight) + "px";
+    view.style.height =
+      screen.availHeight - (window.outerHeight - window.innerHeight) + "px";
     let mainBody = this.$refs.mainBody.$el;
     console.log(
       parseFloat(appView.style.height) -
@@ -138,6 +142,9 @@ export default {
         that.outerHeight = window.outerHeight;
       })();
     };
+    setInterval(function() {
+      that.bodyHeight = document.documentElement.clientHeight;
+    }, 50);
   }
 };
 </script>
