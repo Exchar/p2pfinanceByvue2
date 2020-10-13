@@ -140,7 +140,7 @@ export default {
   methods: {
     getlist() {
       this.$axios
-        .post("/markApi/finance/invest/bypage", {
+        .post("/markApi/finance/loanUser/select", {
           page: "1",
           limit: "5"
         })
@@ -164,7 +164,7 @@ export default {
     //监听pagesize改变事件
     handleSizeChange(newsize) {
       this.$axios
-        .post("/markApi/finance/invest/bypage", {
+        .post("/markApi/finance/loanUser/select", {
           page: "1",
           limit: "2"
         })
@@ -182,7 +182,7 @@ export default {
     //监听页码值改变的事件
     handleCurrentChange(newPage) {
       this.$axios
-        .post("/markApi/finance/invest/bypage", {
+        .post("/markApi/finance/loanUser/select", {
           page: "1",
           limit: "2"
         })

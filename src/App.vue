@@ -61,8 +61,8 @@ body {
   min-height: 420px !important;
   margin-top: 10px;
 }
-.el-table td,
-.el-table td.is-center {
+div.el-table td,
+div.el-table td.is-center {
   text-align: center !important;
 }
 .el-table th {

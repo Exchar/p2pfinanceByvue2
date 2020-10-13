@@ -45,7 +45,6 @@
         class="debitTable"
         header-row-class-name="dtable"
         v-loading="loading"
-        align="center"
       >
         <el-table-column label="借款ID" width="180" align="center">
           <template slot-scope="scope">

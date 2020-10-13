@@ -18,7 +18,7 @@
       </div>
       <div class="middleBox">
         <el-card class="box-card">
-          <h1>一切都是为了更好的沟通</h1>
+          <h1>客户是我们存在的全部理由</h1>
         </el-card>
       </div>
       <div class="rightCard" id="formArea">
