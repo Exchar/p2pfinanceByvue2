@@ -170,9 +170,7 @@ export default {
       failed: false,
       saveArr: [],
       imgData: [
-        { url: require("../assets/login/loginBackImg.jpg") },
-        { url: require("../assets/login/loginBackImg2.jpg") },
-        { url: require("../assets/login/loginBackImg3.jpg") }
+        { url: require("../assets/login/loginBackImg.jpg") }
       ]
     };
   },
@@ -456,6 +454,9 @@ export default {
         lett.loginReq();
       }
     };
+  },
+  beforeDestroy() {
+    document.onkeydown = null;
   }
 };
 </script>

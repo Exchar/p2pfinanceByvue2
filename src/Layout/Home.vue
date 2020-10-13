@@ -85,7 +85,7 @@ export default {
       this.breadRefresh = false;
       let viewPort = this.$refs.port;
       let viewMain = this.$refs.viewMain.$el;
-      console.log(viewMain.style.boxShadow);
+      // console.log(viewMain.style.boxShadow);
       if (this.getNowAct === "/home") {
         viewPort.style.height = "91%";
         viewMain.style.backgroundColor = "rgb(240,240,242)";
@@ -101,10 +101,10 @@ export default {
     },
     //监听高度变化
     bodyHeight: function() {
-      console.log(
-        screen.availHeight,
-        screen.availHeight - (window.outerHeight - window.innerHeight)
-      );
+      // console.log(
+      //   screen.availHeight,
+      //   screen.availHeight - (window.outerHeight - window.innerHeight)
+      // );
       let appView = this.$refs.appView;
       let view = this.$refs.view;
       appView.style.height =

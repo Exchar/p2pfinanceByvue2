@@ -167,7 +167,7 @@ export default {
   created() {
     this.getRepaymentItems();
     this.getPageCount();
-    console.log(this.totalItems, this.nowPage);
+    // console.log(this.totalItems, this.nowPage);
   },
   methods: {
     getPageCount() {
@@ -177,7 +177,7 @@ export default {
           console.log(res.data);
           if (res.data.code === 200) {
             this.totalItems = res.data.data[0].count;
-            console.log(res.data.data[0].count);
+            // console.log(res.data.data[0].count);
           }
         })
         .catch(err => {
@@ -195,7 +195,7 @@ export default {
           perPage: this.perPage
         })
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           if (res.data.data.code === 200) {
             this.tableData = res.data.data.data;
             this.totalItems = res.data.count;
@@ -216,12 +216,12 @@ export default {
       this.nowPage = 1;
     },
     handleSizeChange(val) {
-      console.log(val);
+      // console.log(val);
       this.perPage = val;
       this.getRepaymentItems();
     },
     handleCurrentChange(val) {
-      console.log(val);
+      // console.log(val);
       this.nowPage = val;
       this.getRepaymentItems();
     }

@@ -152,7 +152,6 @@
             label: 'title'
           }"
           :data="data"
-          @change="transChange"
         >
         </el-transfer>
         <span slot="footer" class="dialog-footer">
@@ -221,12 +220,12 @@ export default {
       return arr[Math.floor(Math.random() * arr.length)];
     },
     linkGo(ment) {
-      console.log(ment);
+      // console.log(ment);
       this.changeNowAct(ment);
       this.$router.push(ment);
       let addItem = true;
       let tabItems = this.getHeaderTabs;
-      console.log(tabItems);
+      // console.log(tabItems);
       tabItems.forEach(v => {
         if (v.path === ment) {
           addItem = false;
@@ -242,12 +241,9 @@ export default {
       "setDefaultChecked",
       "clearShort"
     ]),
-    transChange(v) {
-      console.log(v);
-    },
     subBtnClick() {
       this.centerDialogVisible = false;
-      console.log(this.value);
+      // console.log(this.value);
       //添加快捷方式
       if (this.value.length > 0) {
         this.addshortcut(
