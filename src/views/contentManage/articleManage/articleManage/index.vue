@@ -37,30 +37,28 @@
     </el-select>
     <!--表格-->
     <el-table :data="tableData" stripe border style="width: 100%">
-      <el-table-column prop="title" label="标题" width="260"></el-table-column>
-      <el-table-column prop="type" label="分类" width="200">
+      <el-table-column prop="title" label="标题"></el-table-column>
+      <el-table-column prop="type" label="分类">
         <template slot-scope="scope">
           <span>{{ transType(scope.row.type) }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="time" label="发布时间" width="200">
+      <el-table-column prop="time" label="发布时间" >
         <template slot-scope="scope">
           {{ formatDate(scope.row.time) }}
         </template>
       </el-table-column>
-      <el-table-column prop="number" label="排序" width="200"></el-table-column>
-      <el-table-column prop="state" label="状态" width="200"></el-table-column>
+      <el-table-column prop="number" label="排序" ></el-table-column>
+      <el-table-column prop="state" label="状态"></el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button
-            class="button1"
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
             >编辑</el-button
           >
           <el-button
-            class="button2"
             size="mini"
             type="danger"
             @click="handleDelete(scope.row)"
@@ -290,11 +288,6 @@ export default {
 body {
   position: relative;
 }
-.el-button {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-}
 .demo-input-suffix {
   width: 200px;
   position: absolute;
@@ -314,21 +307,7 @@ body {
   width: 150px;
 }
 .el-table {
-  position: absolute;
-  top: 80px;
-  left: 20px;
   width: 100%;
-}
-.button1 {
-  margin: -10px -10px;
-}
-.button2 {
-  margin: -10px 50px;
-}
-.el-pagination {
-  position: absolute;
-  top: 530px;
-  right: 50px;
 }
 .el-dialog {
   position: relative;

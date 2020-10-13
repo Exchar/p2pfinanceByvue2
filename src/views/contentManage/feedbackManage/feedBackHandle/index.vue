@@ -26,30 +26,26 @@
       <el-table-column
         prop="idea"
         label="意见建议"
-        width="260"
       ></el-table-column>
       <el-table-column
         prop="phone"
         label="反馈者手机"
-        width="130"
       ></el-table-column>
       <el-table-column
         prop="type"
         label="手机型号"
-        width="130"
       ></el-table-column>
-      <el-table-column prop="source" label="来源" width="130"></el-table-column>
-      <el-table-column prop="time" label="提交时间" width="200">
+      <el-table-column prop="source" label="来源"></el-table-column>
+      <el-table-column prop="time" label="提交时间">
         <template slot-scope="scope">
           {{ formatDate(scope.row.time) }}
         </template>
       </el-table-column>
-      <el-table-column prop="reply" label="回复" width="130"></el-table-column>
-      <el-table-column prop="state" label="状态" width="130"></el-table-column>
+      <el-table-column prop="reply" label="回复"></el-table-column>
+      <el-table-column prop="state" label="状态"></el-table-column>
       <el-table-column label="操作" width="180">
         <template slot-scope="scope">
           <el-button
-            class="button1"
             size="mini"
             type="primary"
             @click="handle(scope.$index, scope.row)"
@@ -243,15 +239,7 @@ export default {
   width: 150px;
 }
 .el-table {
-  position: absolute;
-  top: 80px;
-  left: 20px;
   width: 100%;
-}
-.el-pagination {
-  position: absolute;
-  top: 530px;
-  right: 50px;
 }
 .el-dialog {
   position: relative;

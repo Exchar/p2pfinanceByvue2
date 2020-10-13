@@ -55,24 +55,24 @@
           <el-image :src="'/markApi/' + scope.row.picture"></el-image>
         </template>
       </el-table-column>
-      <el-table-column prop="title" label="标题" width="110"></el-table-column>
+      <el-table-column prop="title" label="标题" ></el-table-column>
       <el-table-column prop="position" label="轮播位置" width="140">
       </el-table-column>
-      <el-table-column prop="starttime" label="开始时间" width="140">
+      <el-table-column prop="starttime" label="开始时间">
         <template slot-scope="scope">
           {{ formatDate(scope.row.starttime) }}
         </template>
       </el-table-column>
-      <el-table-column prop="finishtime" label="结束时间" width="140">
+      <el-table-column prop="finishtime" label="结束时间" >
         <template slot-scope="scope">
           {{ formatDate(scope.row.finishtime) }}
         </template>
       </el-table-column>
-      <el-table-column prop="number" label="排序" width="110"></el-table-column>
-      <el-table-column prop="province" label="区域" width="110">
+      <el-table-column prop="number" label="排序" ></el-table-column>
+      <el-table-column prop="province" label="区域" >
       </el-table-column>
-      <el-table-column prop="state" label="状态" width="110"></el-table-column>
-      <el-table-column label="操作" width="140">
+      <el-table-column prop="state" label="状态" ></el-table-column>
+      <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
             class="button1"
@@ -305,11 +305,6 @@ export default {
 body {
   position: relative;
 }
-.el-button {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
 .demo-input-suffix {
   width: 200px;
   position: absolute;
@@ -335,21 +330,7 @@ body {
   width: 150px;
 }
 .el-table {
-  position: absolute;
-  top: 80px;
-  left: 20px;
   width: 100%;
-}
-.button1 {
-  margin: 10px -10px;
-}
-.button2 {
-  margin: 10px 50px;
-}
-.el-pagination {
-  position: absolute;
-  top: 530px;
-  right: 50px;
 }
 .el-dialog {
   position: relative;
