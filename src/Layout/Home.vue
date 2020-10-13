@@ -67,7 +67,7 @@ export default {
       breadRefresh: true,
       outerHeight: window.outerHeight,
       nowPage: this.$route,
-      bodyHeight:document.documentElement.clientHeight
+      bodyHeight: document.documentElement.clientHeight
     };
   },
   methods: {
@@ -116,7 +116,7 @@ export default {
         parseFloat(appView.style.height) -
         parseFloat(window.getComputedStyle(this.$refs.header.$el).height) +
         "px";
-    },
+    }
   },
   mounted() {
     let that = this;

@@ -19,11 +19,11 @@
       @change="getArticleTitleList"
     >
       <el-option label="全部分类" value=""></el-option>
-      <el-option label="注册指南5" value="注册指南5"></el-option>
-      <el-option label="关于我们" value="关于我们"></el-option>
-      <el-option label="注册指南6" value="注册指南6"></el-option>
-      <el-option label="新活动上线" value="新活动上线"></el-option>
-      <el-option label="签到有礼" value="签到有礼"></el-option>
+      <el-option label="新闻公告" value="3"></el-option>
+      <el-option label="行业动态" value="4"></el-option>
+      <el-option label="帮助中心" value="5"></el-option>
+      <el-option label="活动中心" value="6"></el-option>
+      <el-option label="关于我们" value="7"></el-option>
     </el-select>
     <el-select
       class="selected2"
@@ -38,7 +38,11 @@
     <!--表格-->
     <el-table :data="tableData" stripe border style="width: 100%">
       <el-table-column prop="title" label="标题" width="260"></el-table-column>
-      <el-table-column prop="type" label="分类" width="200"></el-table-column>
+      <el-table-column prop="type" label="分类" width="200">
+        <template slot-scope="scope">
+          <span>{{ transType(scope.row.type) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="time" label="发布时间" width="200">
         <template slot-scope="scope">
           {{ formatDate(scope.row.time) }}
@@ -141,6 +145,30 @@ export default {
   methods: {
     formatDate: function(value) {
       return moment(value).format("YYYY-MM-DD");
+    },
+    transType(type) {
+      let typeText = "";
+      switch (type) {
+        case "2":
+          typeText = "请选择：";
+          break;
+        case "3":
+          typeText = "新闻公告";
+          break;
+        case "4":
+          typeText = "行业动态";
+          break;
+        case "5":
+          typeText = "帮助中心";
+          break;
+        case "6":
+          typeText = "活动中心";
+          break;
+        case "7":
+          typeText = "关于我们";
+          break;
+      }
+      return typeText;
     },
     handleSizeChange(val) {
       this.pageSize = val;

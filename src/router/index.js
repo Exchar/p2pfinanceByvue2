@@ -18,7 +18,7 @@ export const constRouters = [
 ];
 const createRouter = () =>
   new Router({
-    // mode: "history",
+    mode: "history",
     routes: constRouters
   });
 

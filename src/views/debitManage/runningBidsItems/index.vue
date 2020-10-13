@@ -28,10 +28,10 @@
           <el-input v-model="form.state"></el-input>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="submit">确定</el-button>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button type="primary" @click="submit">确定</el-button>
         <el-button @click="reBack">返回</el-button>
-      </span>
+      </div>
     </el-dialog>
 
     <div id="nav">

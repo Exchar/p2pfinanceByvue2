@@ -169,9 +169,7 @@ export default {
       defaultState: true,
       failed: false,
       saveArr: [],
-      imgData: [
-        { url: require("../assets/login/loginBackImg.jpg") }
-      ]
+      imgData: [{ url: require("../assets/login/loginBackImg.jpg") }]
     };
   },
   computed: {

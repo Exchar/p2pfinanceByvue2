@@ -411,7 +411,7 @@ export default {
     },
     // 年化利率转换
     annualState: function(row) {
-      return row.annual*100+"%";
+      return row.annual * 100 + "%";
     },
     // 借款管理费月率转换
     monthlyState: function(row) {
@@ -464,7 +464,7 @@ export default {
         ? "一次性还款"
         : row.repayment == "2"
         ? "等额本息"
-        : row.repayment =="3"
+        : row.repayment == "3"
         ? "按月付息到期还本"
         : row.repayment == "4"
         ? "按天还款"

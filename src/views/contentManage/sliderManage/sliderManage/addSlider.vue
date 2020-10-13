@@ -10,7 +10,6 @@
       <el-form-item class="title" label="标题 :" prop="title">
         <el-input v-model="ruleForm.title" placeholder="请输入标题"></el-input>
       </el-form-item>
-      <!--上传-->
       <el-upload
         class="lunbo"
         action="/markApi/finance/upload"
@@ -21,6 +20,7 @@
       >
         <i class="el-icon-plus"></i>
       </el-upload>
+      <!--上传-->
       <el-dialog :visible.sync="dialogVisible">
         <img width="100%" :src="dialogImageUrl" alt="" />
       </el-dialog>
@@ -207,7 +207,7 @@ body {
 .lunbo {
   position: absolute;
   top: 20px;
-  left: 600px;
+  left: 700px;
   font-size: 14px;
 }
 .upload-demo {

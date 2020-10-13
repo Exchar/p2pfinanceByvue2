@@ -30,7 +30,12 @@
               ></el-input>
             </el-col>
             <el-col :span="5">
-              <el-button type="primary" @click="getBorrowersList"
+              <el-button
+                type="primary"
+                @click="
+                  dialogTableVisible = true;
+                  getQueryBorrower();
+                "
                 >选择</el-button
               >
               <el-dialog title="选择借款人" :visible.sync="dialogTableVisible">
@@ -40,7 +45,7 @@
                     placeholder="搜索借款人姓名"
                     suffix-icon="el-icon-search"
                     v-model="borrowers"
-                    @keyup.native="getQueryBorrower"
+                    @change="getQueryBorrower"
                   >
                   </el-input>
                 </el-col>
@@ -578,33 +583,35 @@ export default {
         .then(res => {
           // 请求返回的数据
           // 赋值
+          this.loading = false;
           this.gridData = res.data.data;
-          console.log(this.gridData);
+          console.log("这里", this.gridData);
         })
         .catch(error => {
           console.log(error);
         });
     },
     // 获取借款人列表
-    getBorrowersList: function() {
-      this.dialogTableVisible = true;
-      this.$axios
-        .post("/markApi/finance/loanUser/select", {
-          page: this.currentPage,
-          limit: this.pageSize
-        })
-        .then(res => {
-          console.log(res);
-          if (res.data.code === "200") {
-            this.gridData = res.data.data;
-            console.log(this.gridData);
-            this.loading = false;
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
+    // getBorrowersList: function() {
+    //   this.dialogTableVisible = true;
+    //   // this.getQueryBorrower();
+    //   this.$axios
+    //     .post("/markApi/finance/loanUser/select", {
+    //       page: this.currentPage,
+    //       limit: this.pageSize
+    //     })
+    //     .then(res => {
+    //       console.log(res);
+    //       if (res.data.code === "200") {
+    //         this.gridData = res.data.data;
+    //         console.log(this.gridData);
+    //         this.loading = false;
+    //       }
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // },
     // 选择借款人
     chooseBorrower: function(row) {
       this.ruleForm.borrower = row.username;

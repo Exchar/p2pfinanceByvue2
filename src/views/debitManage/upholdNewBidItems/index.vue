@@ -435,7 +435,11 @@ export default {
     },
     // 借款标状态转换
     loanState: function(row) {
-      return row.state == "1" ? "新标待审核" : row.state == "60" ? "新标草稿" : "";
+      return row.state == "1"
+        ? "新标待审核"
+        : row.state == "60"
+        ? "新标草稿"
+        : "";
     },
     // 还款方式转换
     repaymentState: function(row) {

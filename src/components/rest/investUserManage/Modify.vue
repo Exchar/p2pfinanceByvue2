@@ -51,7 +51,9 @@
         <el-col :span="24">
           <el-form-item>
             <el-button type="primary" @click="onSubmit">保存修改</el-button>
-            <el-button>返回</el-button>
+            <el-button @click="$router.push('/memberManage/debitUserManage')"
+              >返回</el-button
+            >
           </el-form-item>
         </el-col>
       </el-col>
